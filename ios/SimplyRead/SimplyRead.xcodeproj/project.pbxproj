@@ -1,0 +1,616 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		7A73F617BB5D2E9443594947 /* Pods_SimplyRead.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BA3A84D978CBFDD31FF3E61 /* Pods_SimplyRead.framework */; };
+		BA0376D51F6CDCDE00FEDC46 /* BookCart.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA0376D41F6CDCDD00FEDC46 /* BookCart.swift */; };
+		BA0376D71F6CDDA800FEDC46 /* BuyBookCartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA0376D61F6CDDA800FEDC46 /* BuyBookCartViewController.swift */; };
+		BA1C41A61F52922500A3A6E2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1C41A51F52922500A3A6E2 /* AppDelegate.swift */; };
+		BA1C41A81F52922500A3A6E2 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1C41A71F52922500A3A6E2 /* ViewController.swift */; };
+		BA1C41AB1F52922500A3A6E2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BA1C41A91F52922500A3A6E2 /* Main.storyboard */; };
+		BA1C41AD1F52922500A3A6E2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BA1C41AC1F52922500A3A6E2 /* Assets.xcassets */; };
+		BA1C41B01F52922500A3A6E2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BA1C41AE1F52922500A3A6E2 /* LaunchScreen.storyboard */; };
+		BA1C41BB1F52922500A3A6E2 /* SimplyReadTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1C41BA1F52922500A3A6E2 /* SimplyReadTests.swift */; };
+		BA2762221F581FDE00F02966 /* Query.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA2762211F581FDE00F02966 /* Query.swift */; };
+		BA2762251F599A8000F02966 /* OrderDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA2762241F599A8000F02966 /* OrderDetailsViewController.swift */; };
+		BA415A171F54F9A3005B0A26 /* SingleBookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA415A161F54F9A3005B0A26 /* SingleBookViewController.swift */; };
+		BA415A191F54FC89005B0A26 /* BookTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA415A181F54FC89005B0A26 /* BookTableViewController.swift */; };
+		BA415A1B1F54FCA1005B0A26 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA415A1A1F54FCA1005B0A26 /* LoginViewController.swift */; };
+		BA415A1D1F54FF2D005B0A26 /* Book.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA415A1C1F54FF2D005B0A26 /* Book.swift */; };
+		BA415A1F1F5503D4005B0A26 /* BookTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA415A1E1F5503D4005B0A26 /* BookTableViewCell.swift */; };
+		BA59741B1F5C2A7C00185278 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA59741A1F5C2A7C00185278 /* User.swift */; };
+		BAA5A65A1F60EDF80090A5E2 /* SRTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAA5A6591F60EDF80090A5E2 /* SRTabBarController.swift */; };
+		BAAF535D1F619E53000743CF /* MyAccountTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAAF535C1F619E53000743CF /* MyAccountTableViewController.swift */; };
+		BAAF535F1F61A1DB000743CF /* MyAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAAF535E1F61A1DB000743CF /* MyAccountViewController.swift */; };
+		BAD250ED1F62D2B4007BEB1F /* DonateBookVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAD250EC1F62D2B4007BEB1F /* DonateBookVC.swift */; };
+		BAD250EF1F66534C007BEB1F /* DonateBookFoundViewControllor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAD250EE1F66534C007BEB1F /* DonateBookFoundViewControllor.swift */; };
+		BAD250F11F67A346007BEB1F /* DonateSingleBookNotFoundViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAD250F01F67A346007BEB1F /* DonateSingleBookNotFoundViewController.swift */; };
+		BAD250F31F695D24007BEB1F /* Global.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAD250F21F695D24007BEB1F /* Global.swift */; };
+		BAD250F51F6969DF007BEB1F /* DonateBookCartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAD250F41F6969DF007BEB1F /* DonateBookCartViewController.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		BA1C41B71F52922500A3A6E2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BA1C419A1F52922400A3A6E2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BA1C41A11F52922400A3A6E2;
+			remoteInfo = SimplyRead;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		02EADD9038DB1A72BFB5C1A7 /* Pods-SimplyRead.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SimplyRead.release.xcconfig"; path = "Pods/Target Support Files/Pods-SimplyRead/Pods-SimplyRead.release.xcconfig"; sourceTree = "<group>"; };
+		3BA3A84D978CBFDD31FF3E61 /* Pods_SimplyRead.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SimplyRead.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		57E66032DBE5608286FFB949 /* Pods-SimplyRead.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SimplyRead.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SimplyRead/Pods-SimplyRead.debug.xcconfig"; sourceTree = "<group>"; };
+		BA0376D41F6CDCDD00FEDC46 /* BookCart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookCart.swift; sourceTree = "<group>"; };
+		BA0376D61F6CDDA800FEDC46 /* BuyBookCartViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BuyBookCartViewController.swift; sourceTree = "<group>"; };
+		BA1C41A21F52922500A3A6E2 /* SimplyRead.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SimplyRead.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		BA1C41A51F52922500A3A6E2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		BA1C41A71F52922500A3A6E2 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		BA1C41AA1F52922500A3A6E2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		BA1C41AC1F52922500A3A6E2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		BA1C41AF1F52922500A3A6E2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		BA1C41B11F52922500A3A6E2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BA1C41B61F52922500A3A6E2 /* SimplyReadTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SimplyReadTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		BA1C41BA1F52922500A3A6E2 /* SimplyReadTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimplyReadTests.swift; sourceTree = "<group>"; };
+		BA1C41BC1F52922500A3A6E2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BA2762211F581FDE00F02966 /* Query.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Query.swift; path = "data-service/Query.swift"; sourceTree = "<group>"; };
+		BA2762241F599A8000F02966 /* OrderDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrderDetailsViewController.swift; sourceTree = "<group>"; };
+		BA415A161F54F9A3005B0A26 /* SingleBookViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SingleBookViewController.swift; sourceTree = "<group>"; };
+		BA415A181F54FC89005B0A26 /* BookTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookTableViewController.swift; sourceTree = "<group>"; };
+		BA415A1A1F54FCA1005B0A26 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		BA415A1C1F54FF2D005B0A26 /* Book.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Book.swift; sourceTree = "<group>"; };
+		BA415A1E1F5503D4005B0A26 /* BookTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookTableViewCell.swift; sourceTree = "<group>"; };
+		BA59741A1F5C2A7C00185278 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = User.swift; path = "data-service/User.swift"; sourceTree = "<group>"; };
+		BAA5A6591F60EDF80090A5E2 /* SRTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SRTabBarController.swift; sourceTree = "<group>"; };
+		BAAF535C1F619E53000743CF /* MyAccountTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyAccountTableViewController.swift; sourceTree = "<group>"; };
+		BAAF535E1F61A1DB000743CF /* MyAccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyAccountViewController.swift; sourceTree = "<group>"; };
+		BAD250EC1F62D2B4007BEB1F /* DonateBookVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DonateBookVC.swift; sourceTree = "<group>"; };
+		BAD250EE1F66534C007BEB1F /* DonateBookFoundViewControllor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DonateBookFoundViewControllor.swift; sourceTree = "<group>"; };
+		BAD250F01F67A346007BEB1F /* DonateSingleBookNotFoundViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DonateSingleBookNotFoundViewController.swift; sourceTree = "<group>"; };
+		BAD250F21F695D24007BEB1F /* Global.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Global.swift; sourceTree = "<group>"; };
+		BAD250F41F6969DF007BEB1F /* DonateBookCartViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DonateBookCartViewController.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		BA1C419F1F52922400A3A6E2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7A73F617BB5D2E9443594947 /* Pods_SimplyRead.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BA1C41B31F52922500A3A6E2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		10CC4E2D37CED58F1BA37AC0 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				57E66032DBE5608286FFB949 /* Pods-SimplyRead.debug.xcconfig */,
+				02EADD9038DB1A72BFB5C1A7 /* Pods-SimplyRead.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		1BA8B3E303182B5BBC575C18 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				3BA3A84D978CBFDD31FF3E61 /* Pods_SimplyRead.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		BA1C41991F52922400A3A6E2 = {
+			isa = PBXGroup;
+			children = (
+				BA1C41A41F52922500A3A6E2 /* SimplyRead */,
+				BA1C41B91F52922500A3A6E2 /* SimplyReadTests */,
+				BA1C41A31F52922500A3A6E2 /* Products */,
+				10CC4E2D37CED58F1BA37AC0 /* Pods */,
+				1BA8B3E303182B5BBC575C18 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		BA1C41A31F52922500A3A6E2 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				BA1C41A21F52922500A3A6E2 /* SimplyRead.app */,
+				BA1C41B61F52922500A3A6E2 /* SimplyReadTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		BA1C41A41F52922500A3A6E2 /* SimplyRead */ = {
+			isa = PBXGroup;
+			children = (
+				BAD250F71F6ABF3C007BEB1F /* read */,
+				BAD250F61F6ABEFC007BEB1F /* donate */,
+				BAD250F81F6ABF57007BEB1F /* me */,
+				BA2762231F58200100F02966 /* common */,
+				BA1C41A91F52922500A3A6E2 /* Main.storyboard */,
+				BA1C41AC1F52922500A3A6E2 /* Assets.xcassets */,
+				BA1C41AE1F52922500A3A6E2 /* LaunchScreen.storyboard */,
+				BA1C41B11F52922500A3A6E2 /* Info.plist */,
+			);
+			path = SimplyRead;
+			sourceTree = "<group>";
+		};
+		BA1C41B91F52922500A3A6E2 /* SimplyReadTests */ = {
+			isa = PBXGroup;
+			children = (
+				BA1C41BA1F52922500A3A6E2 /* SimplyReadTests.swift */,
+				BA1C41BC1F52922500A3A6E2 /* Info.plist */,
+			);
+			path = SimplyReadTests;
+			sourceTree = "<group>";
+		};
+		BA2762231F58200100F02966 /* common */ = {
+			isa = PBXGroup;
+			children = (
+				BAD250F21F695D24007BEB1F /* Global.swift */,
+				BA0376D41F6CDCDD00FEDC46 /* BookCart.swift */,
+				BA1C41A51F52922500A3A6E2 /* AppDelegate.swift */,
+				BA1C41A71F52922500A3A6E2 /* ViewController.swift */,
+				BA415A1C1F54FF2D005B0A26 /* Book.swift */,
+				BA2762211F581FDE00F02966 /* Query.swift */,
+				BA59741A1F5C2A7C00185278 /* User.swift */,
+				BAA5A6591F60EDF80090A5E2 /* SRTabBarController.swift */,
+				BA415A1A1F54FCA1005B0A26 /* LoginViewController.swift */,
+			);
+			name = common;
+			sourceTree = "<group>";
+		};
+		BAD250F61F6ABEFC007BEB1F /* donate */ = {
+			isa = PBXGroup;
+			children = (
+				BAD250EC1F62D2B4007BEB1F /* DonateBookVC.swift */,
+				BAD250EE1F66534C007BEB1F /* DonateBookFoundViewControllor.swift */,
+				BAD250F01F67A346007BEB1F /* DonateSingleBookNotFoundViewController.swift */,
+				BAD250F41F6969DF007BEB1F /* DonateBookCartViewController.swift */,
+			);
+			name = donate;
+			sourceTree = "<group>";
+		};
+		BAD250F71F6ABF3C007BEB1F /* read */ = {
+			isa = PBXGroup;
+			children = (
+				BA415A181F54FC89005B0A26 /* BookTableViewController.swift */,
+				BA415A1E1F5503D4005B0A26 /* BookTableViewCell.swift */,
+				BA415A161F54F9A3005B0A26 /* SingleBookViewController.swift */,
+				BA0376D61F6CDDA800FEDC46 /* BuyBookCartViewController.swift */,
+				BA2762241F599A8000F02966 /* OrderDetailsViewController.swift */,
+			);
+			name = read;
+			sourceTree = "<group>";
+		};
+		BAD250F81F6ABF57007BEB1F /* me */ = {
+			isa = PBXGroup;
+			children = (
+				BAAF535C1F619E53000743CF /* MyAccountTableViewController.swift */,
+				BAAF535E1F61A1DB000743CF /* MyAccountViewController.swift */,
+			);
+			name = me;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		BA1C41A11F52922400A3A6E2 /* SimplyRead */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BA1C41BF1F52922500A3A6E2 /* Build configuration list for PBXNativeTarget "SimplyRead" */;
+			buildPhases = (
+				416CF2A35974AB990F821DF9 /* [CP] Check Pods Manifest.lock */,
+				BA1C419E1F52922400A3A6E2 /* Sources */,
+				BA1C419F1F52922400A3A6E2 /* Frameworks */,
+				BA1C41A01F52922400A3A6E2 /* Resources */,
+				102D488A57AE3C1F36F3ECA2 /* [CP] Embed Pods Frameworks */,
+				2145505BF9A85DEF4E99A222 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SimplyRead;
+			productName = SimplyRead;
+			productReference = BA1C41A21F52922500A3A6E2 /* SimplyRead.app */;
+			productType = "com.apple.product-type.application";
+		};
+		BA1C41B51F52922500A3A6E2 /* SimplyReadTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BA1C41C21F52922500A3A6E2 /* Build configuration list for PBXNativeTarget "SimplyReadTests" */;
+			buildPhases = (
+				BA1C41B21F52922500A3A6E2 /* Sources */,
+				BA1C41B31F52922500A3A6E2 /* Frameworks */,
+				BA1C41B41F52922500A3A6E2 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				BA1C41B81F52922500A3A6E2 /* PBXTargetDependency */,
+			);
+			name = SimplyReadTests;
+			productName = SimplyReadTests;
+			productReference = BA1C41B61F52922500A3A6E2 /* SimplyReadTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		BA1C419A1F52922400A3A6E2 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0800;
+				LastUpgradeCheck = 0830;
+				TargetAttributes = {
+					BA1C41A11F52922400A3A6E2 = {
+						CreatedOnToolsVersion = 8.0;
+						DevelopmentTeam = 745SMA85GR;
+						ProvisioningStyle = Automatic;
+					};
+					BA1C41B51F52922500A3A6E2 = {
+						CreatedOnToolsVersion = 8.0;
+						ProvisioningStyle = Automatic;
+						TestTargetID = BA1C41A11F52922400A3A6E2;
+					};
+				};
+			};
+			buildConfigurationList = BA1C419D1F52922400A3A6E2 /* Build configuration list for PBXProject "SimplyRead" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = BA1C41991F52922400A3A6E2;
+			productRefGroup = BA1C41A31F52922500A3A6E2 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				BA1C41A11F52922400A3A6E2 /* SimplyRead */,
+				BA1C41B51F52922500A3A6E2 /* SimplyReadTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		BA1C41A01F52922400A3A6E2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BA1C41B01F52922500A3A6E2 /* LaunchScreen.storyboard in Resources */,
+				BA1C41AD1F52922500A3A6E2 /* Assets.xcassets in Resources */,
+				BA1C41AB1F52922500A3A6E2 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BA1C41B41F52922500A3A6E2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		102D488A57AE3C1F36F3ECA2 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-SimplyRead/Pods-SimplyRead-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/BarcodeScanner/BarcodeScanner.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BarcodeScanner.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SimplyRead/Pods-SimplyRead-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		2145505BF9A85DEF4E99A222 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SimplyRead/Pods-SimplyRead-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		416CF2A35974AB990F821DF9 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-SimplyRead-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		BA1C419E1F52922400A3A6E2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BAD250EF1F66534C007BEB1F /* DonateBookFoundViewControllor.swift in Sources */,
+				BA415A171F54F9A3005B0A26 /* SingleBookViewController.swift in Sources */,
+				BA415A191F54FC89005B0A26 /* BookTableViewController.swift in Sources */,
+				BA2762251F599A8000F02966 /* OrderDetailsViewController.swift in Sources */,
+				BAAF535F1F61A1DB000743CF /* MyAccountViewController.swift in Sources */,
+				BAD250ED1F62D2B4007BEB1F /* DonateBookVC.swift in Sources */,
+				BA415A1D1F54FF2D005B0A26 /* Book.swift in Sources */,
+				BA415A1F1F5503D4005B0A26 /* BookTableViewCell.swift in Sources */,
+				BAD250F31F695D24007BEB1F /* Global.swift in Sources */,
+				BA2762221F581FDE00F02966 /* Query.swift in Sources */,
+				BAA5A65A1F60EDF80090A5E2 /* SRTabBarController.swift in Sources */,
+				BA1C41A81F52922500A3A6E2 /* ViewController.swift in Sources */,
+				BAD250F11F67A346007BEB1F /* DonateSingleBookNotFoundViewController.swift in Sources */,
+				BA0376D51F6CDCDE00FEDC46 /* BookCart.swift in Sources */,
+				BA415A1B1F54FCA1005B0A26 /* LoginViewController.swift in Sources */,
+				BA59741B1F5C2A7C00185278 /* User.swift in Sources */,
+				BA1C41A61F52922500A3A6E2 /* AppDelegate.swift in Sources */,
+				BAD250F51F6969DF007BEB1F /* DonateBookCartViewController.swift in Sources */,
+				BA0376D71F6CDDA800FEDC46 /* BuyBookCartViewController.swift in Sources */,
+				BAAF535D1F619E53000743CF /* MyAccountTableViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BA1C41B21F52922500A3A6E2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BA1C41BB1F52922500A3A6E2 /* SimplyReadTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		BA1C41B81F52922500A3A6E2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BA1C41A11F52922400A3A6E2 /* SimplyRead */;
+			targetProxy = BA1C41B71F52922500A3A6E2 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		BA1C41A91F52922500A3A6E2 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BA1C41AA1F52922500A3A6E2 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		BA1C41AE1F52922500A3A6E2 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BA1C41AF1F52922500A3A6E2 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		BA1C41BD1F52922500A3A6E2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		BA1C41BE1F52922500A3A6E2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		BA1C41C01F52922500A3A6E2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 57E66032DBE5608286FFB949 /* Pods-SimplyRead.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 745SMA85GR;
+				INFOPLIST_FILE = SimplyRead/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.simplyread;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		BA1C41C11F52922500A3A6E2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 02EADD9038DB1A72BFB5C1A7 /* Pods-SimplyRead.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 745SMA85GR;
+				INFOPLIST_FILE = SimplyRead/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.simplyread;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
+		BA1C41C31F52922500A3A6E2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = SimplyReadTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.simplyread.SimplyReadTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SimplyRead.app/SimplyRead";
+			};
+			name = Debug;
+		};
+		BA1C41C41F52922500A3A6E2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = SimplyReadTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.simplyread.SimplyReadTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SimplyRead.app/SimplyRead";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		BA1C419D1F52922400A3A6E2 /* Build configuration list for PBXProject "SimplyRead" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BA1C41BD1F52922500A3A6E2 /* Debug */,
+				BA1C41BE1F52922500A3A6E2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BA1C41BF1F52922500A3A6E2 /* Build configuration list for PBXNativeTarget "SimplyRead" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BA1C41C01F52922500A3A6E2 /* Debug */,
+				BA1C41C11F52922500A3A6E2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BA1C41C21F52922500A3A6E2 /* Build configuration list for PBXNativeTarget "SimplyReadTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BA1C41C31F52922500A3A6E2 /* Debug */,
+				BA1C41C41F52922500A3A6E2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = BA1C419A1F52922400A3A6E2 /* Project object */;
+}

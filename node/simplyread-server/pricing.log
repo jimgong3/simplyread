@@ -1,0 +1,57 @@
+{"level":"info","message":"get deposit: ","timestamp":"2017-09-13T00:24:15.414Z"}
+{"level":"info","message":"get deposit: 85HKD","timestamp":"2017-09-13T00:25:35.074Z"}
+{"level":"info","message":"get deposit: 85HKD","timestamp":"2017-09-13T00:32:59.002Z"}
+{"level":"info","message":"pricing>> get deposit, original price: 85HKD","timestamp":"2017-09-13T00:34:44.020Z"}
+{"level":"info","message":"get deposit: 85HKD","timestamp":"2017-09-13T00:34:44.021Z"}
+{"level":"info","message":"pricing>> get deposit, original price: 85HKD","timestamp":"2017-09-13T00:36:53.963Z"}
+{"level":"info","message":"get deposit: 85","timestamp":"2017-09-13T00:36:53.964Z"}
+{"level":"info","message":"pricing>> get deposit, original price: ","timestamp":"2017-09-13T00:48:45.508Z"}
+{"level":"info","message":"get deposit: ","timestamp":"2017-09-13T00:48:45.508Z"}
+{"level":"info","message":"pricing>> get deposit, original price: 45元","timestamp":"2017-09-13T00:49:33.169Z"}
+{"level":"info","message":"pricing>>  original ccy: CNY","timestamp":"2017-09-13T00:49:33.178Z"}
+{"level":"info","message":"get deposit: 49.50000000000001","timestamp":"2017-09-13T00:49:33.179Z"}
+{"level":"info","message":"pricing>> get deposit, original price: 45元","timestamp":"2017-09-13T00:51:55.240Z"}
+{"level":"info","message":"pricing>>  original ccy: CNY","timestamp":"2017-09-13T00:51:55.240Z"}
+{"level":"info","message":"get deposit: 49","timestamp":"2017-09-13T00:51:55.241Z"}
+{"level":"info","message":"pricing>> get deposit, original price: HK$98.00","timestamp":"2017-09-13T00:52:40.051Z"}
+{"level":"info","message":"get deposit: 98.00","timestamp":"2017-09-13T00:52:40.052Z"}
+{"level":"info","message":"pricing>> get deposit, original price: HK$98.00","timestamp":"2017-09-13T00:56:09.660Z"}
+{"level":"info","message":"get deposit: 98","timestamp":"2017-09-13T00:56:09.660Z"}
+{"level":"info","message":"pricing>> get deposit, original price: NT$240","timestamp":"2017-09-13T00:57:02.012Z"}
+{"level":"info","message":"pricing>>  original ccy: NT","timestamp":"2017-09-13T00:57:02.012Z"}
+{"level":"info","message":"get deposit: 60","timestamp":"2017-09-13T00:57:02.014Z"}
+{"level":"info","message":"pricing>> get deposit, original price: NT$240","timestamp":"2017-09-13T00:58:15.062Z"}
+{"level":"info","message":"pricing>>  original ccy: NT","timestamp":"2017-09-13T00:58:15.062Z"}
+{"level":"info","message":"get deposit: 60","timestamp":"2017-09-13T00:58:15.063Z"}
+{"level":"info","message":"pricing>> get deposit, original price: NT$240","timestamp":"2017-09-13T00:58:54.433Z"}
+{"level":"info","message":"pricing>>  original ccy: NT","timestamp":"2017-09-13T00:58:54.434Z"}
+{"level":"info","message":"get deposit: 120","timestamp":"2017-09-13T00:58:54.434Z"}
+{"level":"info","message":"pricing>> get deposit, original price: 39.00元","timestamp":"2017-09-13T00:59:22.792Z"}
+{"level":"info","message":"pricing>>  original ccy: CNY","timestamp":"2017-09-13T00:59:22.792Z"}
+{"level":"info","message":"get deposit: 58","timestamp":"2017-09-13T00:59:22.793Z"}
+{"level":"info","message":"pricing>> get deposit, original price: 88.00","timestamp":"2017-09-13T00:59:54.317Z"}
+{"level":"info","message":"get deposit: 88","timestamp":"2017-09-13T00:59:54.317Z"}
+{"level":"info","message":"pricing>> get deposit, original price: 32.00元","timestamp":"2017-09-13T01:00:12.166Z"}
+{"level":"info","message":"pricing>>  original ccy: CNY","timestamp":"2017-09-13T01:00:12.166Z"}
+{"level":"info","message":"get deposit: 48","timestamp":"2017-09-13T01:00:12.176Z"}
+{"level":"info","message":"pricing>> get deposit, original price: 46.00元","timestamp":"2017-09-13T01:00:33.963Z"}
+{"level":"info","message":"pricing>>  original ccy: CNY","timestamp":"2017-09-13T01:00:33.964Z"}
+{"level":"info","message":"get deposit: 69","timestamp":"2017-09-13T01:00:33.964Z"}
+{"level":"info","message":"pricing>> get deposit, original price: 45元","timestamp":"2017-09-14T15:18:14.621Z"}
+{"level":"info","message":"pricing>>  original ccy: CNY","timestamp":"2017-09-14T15:18:14.621Z"}
+{"level":"info","message":"get deposit: 67","timestamp":"2017-09-14T15:18:14.622Z"}
+{"level":"info","message":"pricing>> get deposit, original price: 45元","timestamp":"2017-09-14T15:27:49.471Z"}
+{"level":"info","message":"pricing>>  original ccy: CNY","timestamp":"2017-09-14T15:27:49.472Z"}
+{"level":"info","message":"get deposit: 67","timestamp":"2017-09-14T15:27:49.473Z"}
+{"level":"info","message":"pricing>> get deposit, original price: 45元","timestamp":"2017-09-14T15:29:14.692Z"}
+{"level":"info","message":"pricing>>  original ccy: CNY","timestamp":"2017-09-14T15:29:14.693Z"}
+{"level":"info","message":"get deposit: 67","timestamp":"2017-09-14T15:29:14.694Z"}
+{"level":"info","message":"pricing>> get deposit, original price: 62","timestamp":"2017-09-14T15:29:54.226Z"}
+{"level":"info","message":"get deposit: 62","timestamp":"2017-09-14T15:29:54.227Z"}
+{"level":"info","message":"pricing>> get deposit, original price: 25.0","timestamp":"2017-09-14T15:30:12.331Z"}
+{"level":"info","message":"get deposit: 25","timestamp":"2017-09-14T15:30:12.332Z"}
+{"level":"info","message":"pricing>> get deposit, original price: HK$98.00","timestamp":"2017-09-14T15:30:30.679Z"}
+{"level":"info","message":"get deposit: 98","timestamp":"2017-09-14T15:30:30.680Z"}
+{"level":"info","message":"pricing>> get deposit, original price: NT$240","timestamp":"2017-09-14T15:30:46.412Z"}
+{"level":"info","message":"pricing>>  original ccy: NT","timestamp":"2017-09-14T15:30:46.412Z"}
+{"level":"info","message":"get deposit: 120","timestamp":"2017-09-14T15:30:46.412Z"}
