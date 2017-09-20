@@ -1,4 +1,6 @@
 var app = require('express')();
+app.set('view engine', 'pug')
+
 var pretty = require('express-prettify');
 var assert = require('assert');
 var mongoQuery = require('./mongoQuery');
@@ -8,12 +10,13 @@ var multiparty = require('multiparty');
 // var multipartMiddleware = multiparty();
 var util = require('util')
 var fs = require('fs')
+var web = require('./web');
 
 var winston = require('winston')
 var logger = new (winston.Logger)({
   transports: [
     new (winston.transports.Console)(),
-    new (winston.transports.File)({ filename: 'app.log' })
+    new (winston.transports.File)({ filename: './logs/app.log' })
   ]
 });
 
@@ -195,7 +198,7 @@ app.get('/addNewBook', function (req, res) {
 });
 
 app.post('/upload', function(req, res) {
-	  logger.info("app>> upload");
+	logger.info("app>> upload");
   	logger.info("app>> req body: ")
   	logger.info(req.body);
   	logger.info("app>> req files: ")
@@ -218,6 +221,10 @@ app.post('/upload', function(req, res) {
       res.end(util.inspect({fields: fields, files: files}));
     });
 
+});
+
+app.get('/web/pug', function (req, res) {
+  res.render('index', {title: 'hey', message: 'hello there from pug'});
 });
 
 app.listen(port, function () {
