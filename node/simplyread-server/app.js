@@ -34,6 +34,11 @@ mongoUtil.connectToServer( function(err){
 
 app.use(pretty({ query: 'pretty' }));
 
+app.listen(port, function () {
+  console.log('app>> server listening on port ' + port);
+  logger.info('app>> server listening on port ' + port);
+});
+
 app.get('/', function (req, res) {
 	logger.info('app>> get /');
   	res.json({ hello: 'world', body: 'This is pretty printed json' });
@@ -226,7 +231,35 @@ app.get('/web/pug', function (req, res) {
   res.render('index', {title: 'hey', message: 'hello there from pug'});
 });
 
-app.listen(port, function () {
-  console.log('app>> server listening on port ' + port);
-  logger.info('app>> server listening on port ' + port);
-});
+app.get('/tags', function (req, res) {
+	logger.info("app>> get /tags");
+
+	const {headers, method, url} = req;
+	logger.info("app>> method: " + method);
+	logger.info("app>> url: " + url);
+
+	mongoQuery.queryTags(db, function(docs) {
+		logger.info("app>> callback from queryTags");
+		logger.info(docs);
+		res.json(docs)
+		logger.info("app>> tags done");
+	});
+})
+
+app.get('/collectTags', function (req, res) {
+	logger.info("app>> get /collectTags");
+
+	const {headers, method, url} = req;
+	logger.info("app>> method: " + method);
+	logger.info("app>> url: " + url);
+
+	mongoQuery.collectTags(db, function(docs) {
+		logger.info("app>> callback from collectTags");
+		logger.info(docs);
+		res.json(docs)
+		logger.info("app>> collect tags done");
+	});
+})
+
+
+
