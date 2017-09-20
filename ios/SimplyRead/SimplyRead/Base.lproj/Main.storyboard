@@ -958,7 +958,7 @@
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DNl-mR-bM8">
                                 <rect key="frame" x="262" y="566" width="73" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="下單"/>
+                                <state key="normal" title="結帳"/>
                                 <connections>
                                     <segue destination="NJy-WP-npx" kind="show" id="WBc-vR-8wP"/>
                                 </connections>
