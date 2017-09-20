@@ -1,4 +1,6 @@
 var app = require('express')();
+app.set('view engine', 'pug')
+
 var pretty = require('express-prettify');
 var assert = require('assert');
 var mongoQuery = require('./mongoQuery');
@@ -13,7 +15,7 @@ var winston = require('winston')
 var logger = new (winston.Logger)({
   transports: [
     new (winston.transports.Console)(),
-    new (winston.transports.File)({ filename: 'app.log' })
+    new (winston.transports.File)({ filename: './logs/app.log' })
   ]
 });
 
@@ -176,8 +178,8 @@ app.get('/addNewBook', function (req, res) {
 	authors.push(author);
 	bookJson["author"] = authors;
 	bookJson["isbn"] = isbn;
-  var imageUrl = "http://"+host+":"+httpPort+"/images/"+isbn+".jpeg";
-  bookJson["image"] = imageUrl;
+	var imageUrl = "http://"+host+":"+httpPort+"/images/"+isbn+".jpeg";
+	bookJson["image"] = imageUrl;
 
 	var datetime = new Date()
 	bookJson["add_date"] = datetime;
@@ -195,7 +197,7 @@ app.get('/addNewBook', function (req, res) {
 });
 
 app.post('/upload', function(req, res) {
-	  logger.info("app>> upload");
+	logger.info("app>> upload");
   	logger.info("app>> req body: ")
   	logger.info(req.body);
   	logger.info("app>> req files: ")
@@ -218,6 +220,10 @@ app.post('/upload', function(req, res) {
       res.end(util.inspect({fields: fields, files: files}));
     });
 
+});
+
+app.get('/web/pug', function (req, res) {
+  res.render('index', {title: 'hey', message: 'hello there from pug'});
 });
 
 app.listen(port, function () {
