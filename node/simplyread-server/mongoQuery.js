@@ -4,7 +4,7 @@ var winston = require('winston')
 var logger = new (winston.Logger)({
   transports: [
     new (winston.transports.Console)(),
-    new (winston.transports.File)({ filename: 'mongoQuery.log' })
+    new (winston.transports.File)({ filename: './logs/mongoQuery.log' })
   ]
 });
 
