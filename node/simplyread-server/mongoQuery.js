@@ -160,6 +160,31 @@ function buildTags(colTags, map){
   logger.info("function buildTags complete");
 }
 
+function buildTags2(colTags, map){
+  logger.info("buildTags2 start");
+  map.forEach(function(value, key){
+    logger.info("processing tag: " + key);
+    var query = {name: key};
+    colTags.deleteOne(query, function(err, obj){
+      if (err) throw err;
+      logger.info(obj.result.n + " documents deleted for tag: " + key);
+
+      logger.info("rebuild documents for tag: " + key)
+      var tagJson = {};
+      tagJson["name"] = key;
+      tagJson["num_books"] = value.length;
+      tagJson["book_ids"] = value;
+
+      logger.info("insert document to tags collection: " + JSON.stringify(tagJson));
+      colTags.insertOne(tagJson, function(err, res){
+        if (err) throw err;
+        logger.info("1 document inserted for tag: " + key);
+      })
+    });
+  });
+  logger.info("function buildTags2 complete");
+}
+
 exports.collectTags = function(db, callback){
   logger.info("mongoQuery>> collect tags");
 
@@ -175,12 +200,15 @@ exports.collectTags = function(db, callback){
       map.forEach(function(value, key){
         logger.info(key + " : " + value);
       })
+
+      logger.info("rebuild tags collection");
+      var colTags = db.collection('tags');
+      buildTags2(colTags, map);
+
+      logger.info("mongoQuery>> collectTags complete")
+      callback("result:done");
     }
   });
 
-  var colTags = db.collection('tags');
-  buildTags(colTags, map);
 
-  logger.info("mongoQuery>> collectTags complete")
-  callback("result:done");
 }
