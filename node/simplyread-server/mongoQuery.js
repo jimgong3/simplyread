@@ -50,7 +50,7 @@ exports.queryBooks = function(db, callback){
 }
 
 exports.queryBook = function(db, isbn, callback){
-  console.log("mongoQuery>> query book by isbn");
+  logger.info("mongoQuery>> query book by isbn");
 
   var collection = db.collection('books');
   var query = {
@@ -70,8 +70,34 @@ exports.queryBook = function(db, isbn, callback){
   });
 }
 
+exports.queryBookByTag = function(db, tag, callback){
+  logger.info("mongoQuery>> query book by tag: " + tag);
+
+  var colTags = db.collection('tags');
+  var queryTag = {name: tag};
+  colTags.find(queryTag).toArray(function(err, docs) {
+    assert.equal(err, null);
+    logger.info("mongoQuery>> find tag result: ");
+    logger.info(docs);
+	
+	if (docs.length == 0){
+		logger.info("Oops, tag not found")
+	} else {
+		var book_ids = docs[0].books;
+		
+		var colBooks = db.collection('books');
+		var queryBooks = {_id: {$in: book_ids}};
+		colBooks.find(queryBooks).toArray(function(err, docs){
+			logger.info("mongoQuery>> find books by tag result: ")
+			logger.info(docs);
+			callback(docs);
+		});
+	}
+  });
+}
+
 exports.insertBook = function(db, bookJson, callback){
-  console.log("mongoQuery>> insert book by json");
+  logger.info("mongoQuery>> insert book by json");
 
   var collection = db.collection('books');
 
