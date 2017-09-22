@@ -6,10 +6,6 @@
 //
 //
 
-//let SERVER_IP = "localhost"       //local
-let SERVER_IP = "52.221.212.21"     //AWS
-let PORT = "3001"
-
 import Foundation
 import Alamofire
 
@@ -56,22 +52,9 @@ func login(username: String, password: String, completion: @escaping (_ user: Us
 func loadBooks(completion: @escaping (_ books: [Book]) -> ()){
     
     let url = URL(string: "http://" + SERVER_IP + ":" + PORT + "/books")
-
-//    print("Query>> login username: " + "jim" + ", password: " + "123456")
-//    let queryStr = "?username="+"jim"+"&password="+"123456"
-//    print("Query>> query string: " + queryStr)
-//    let url = URL(string: "http://" + SERVER_IP + ":" + PORT + "/books" + queryStr)
-
-    print("Query:>> url: ")
+    print("Query>> load books url: ")
     print(url)
     
-//    var request = URLRequest(url: url!)
-//    request.httpMethod = "GET"
-//    request.httpBody = queryStr.data(using: .utf8)
-
-//    request.timeoutInterval = 200.0  // this is somehow magic!
-    
-    //test Alamofire
     Alamofire.request(url!).responseJSON { response in
 //        print("Request: \(String(describing: response.request))")   // original url request
 //        print("Response: \(String(describing: response.response))") // http url response
@@ -110,33 +93,6 @@ func loadBooks(completion: @escaping (_ books: [Book]) -> ()){
 //        }
     }
     //end
-
-//    let task = URLSession.shared.dataTask(with: request) {(data, response, error) in
-//        print("Query>> response from loadBooks")
-////      print(NSString(data: data!, encoding: String.Encoding.utf8.rawValue))
-//        //parse data
-//        if let data = data,
-//            let json = try? JSONSerialization.jsonObject(with: data, options: [])  {
-//            var books = [Book]()
-//            if let array = json as? [Any] {
-//                for i in 0...array.count-1 {
-//                    var bookJson = array[i] as? [String: Any]
-//                    var title = bookJson?["title"]
-////                    print ("Query>> receive book json:\n " + "\(bookJson)")
-////                    guard let b = Book(title:title as! String) else {
-////                        fatalError("unable to initiate book")
-////                    }
-//                    let b = Book(json: bookJson!)
-//                    books.append(b!)
-////                    print ("book loaded:\n " + "\(b?.title)")
-//                }
-//            }
-//            //now all books loaded
-//            print ("Query>> \(books.count)" + " books loaded, callback completion")
-//            completion(books)
-//        }
-//    }
-//    task.resume()
 }
 
 
@@ -225,6 +181,43 @@ func getDataFromUrl(url: URL, completion: @escaping (_ data: Data?, _  response:
         (data, response, error) in
         completion(data, response, error)
         }.resume()
+}
+
+
+func queryHotTags(n: Int, completion: @escaping (_ tags: [Tag]) -> ()){
+    
+    var urlStr: String?
+    urlStr = "http://" + SERVER_IP + ":" + PORT + "/hotTags?n=" + String(n)
+    let url = URL(string: urlStr!)
+    print("Query>> query hot tag url: ")
+    print(url)
+    
+    Alamofire.request(url!).responseJSON { response in
+        print("Request: \(String(describing: response.request))")   // original url request
+        print("Response: \(String(describing: response.response))") // http url response
+        print("Result: \(response.result)")                         // response serialization result
+        
+        if let json = response.result.value {
+            print("JSON: \(json)") // serialized json response
+            
+            var tags = [Tag]()
+            if let array = json as? [Any] {
+                if array.count>0 {
+                    for i in 0...array.count-1 {
+                        var tagJson = array[i] as? [String: Any]
+                        let t = Tag(json: tagJson!)
+                        tags.append(t!)
+                    }
+                }
+                else{
+                    print("Query>> oops, no tag is found")
+                }
+            }
+            //now all books loaded
+            print ("Query>> \(tags.count)" + " tags loaded, callback completion")
+            completion(tags)
+        }
+    }
 }
 
 
