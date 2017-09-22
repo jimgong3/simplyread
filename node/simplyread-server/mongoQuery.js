@@ -96,6 +96,95 @@ exports.queryTags = function(db, callback){
   });
 }
 
+function collectTagFromBook(map, book){
+    logger.info("mongoQuery>> collectTagFromBook: " + book.title);
+    logger.info("book id: " + book._id);
+    logger.info("book tags: " + book.tags);
+
+    var bookId = book._id;
+    var tags = book.tags;
+    if(tags != null){
+      logger.info("tags found for this book");
+      tags.forEach(function(tag){
+        var name = tag.name;
+        logger.info("tag name: " + name);
+        var curBooks = map.get(name);
+        if (curBooks == null){
+          logger.info("new tag: " + name + ", add book id: " + bookId);
+          var books = [];
+          books.push(bookId);
+          map.set(name, books);
+        } else {
+          logger.info("existing tag, find book id: " + bookId)
+          var found = false;
+          for (var i=0; i<curBooks.length; i++){
+            if(curBooks[i] == bookId){
+              found = true;
+              break;
+            }
+          }
+          if(!found){
+            logger.info("bookid not found, add book id: " + bookId)
+            curBooks.push(bookId);
+            map.set(name, curBooks);
+          } else {
+            logger.info("boodis found, do nothing: " + bookId)
+          }
+        }
+      })
+    } else {
+      logger.info("this book has no tag");
+    }
+}
+
+function buildTags(colTags, map){
+  var query = {}
+  colTags.deleteMany(query, function(err, obj){
+    if (err) throw err;
+    logger.info(obj.result.n + " documents from tags deleted.")
+
+    map.forEach(function(value, key){
+      logger.info("adding tag and books: " + key)
+      var tagJson = {};
+      tagJson["name"] = key;
+      tagJson["num_books"] = value.length;
+      tagJson["book_ids"] = value;
+
+      logger.info("insert document to tags collection: " + tagJson);
+      colTags.insertOne(tagJson, function(err, res){
+        if (err) throw err;
+        logger.info("1 document inserted.")
+      })
+    })
+  });
+  logger.info("function buildTags complete");
+}
+
+function buildTags2(colTags, map){
+  logger.info("buildTags2 start");
+  map.forEach(function(value, key){
+    logger.info("processing tag: " + key);
+    var query = {name: key};
+    colTags.deleteOne(query, function(err, obj){
+      if (err) throw err;
+      logger.info(obj.result.n + " documents deleted for tag: " + key);
+
+      logger.info("rebuild documents for tag: " + key)
+      var tagJson = {};
+      tagJson["name"] = key;
+      tagJson["num_books"] = value.length;
+      tagJson["book_ids"] = value;
+
+      logger.info("insert document to tags collection: " + JSON.stringify(tagJson));
+      colTags.insertOne(tagJson, function(err, res){
+        if (err) throw err;
+        logger.info("1 document inserted for tag: " + key);
+      })
+    });
+  });
+  logger.info("function buildTags2 complete");
+}
+
 exports.collectTags = function(db, callback){
   logger.info("mongoQuery>> collect tags");
 
@@ -105,44 +194,21 @@ exports.collectTags = function(db, callback){
   var curBooks = colBooks.find()
   curBooks.each(function(err, item){
 	  if(item != null){
-		  logger.info("mongoQuery>> get book: " + item.title);
-		  logger.info("book id: " + item._id);
-		  logger.info("book tags: " + item.tags);
-
-      var bookId = item._id;
-      var tags = item.tags;
-      tags.forEach(function(tag){
-        var name = tag.name;
-        logger.info("tag name: " + name);
-        var curBooks = map.get(name);
-        if (curBooks == null){  //new tag
-          var books = [];
-          books.push(bookId);
-          map.set(tag, books);
-        }
-        else {  //tag found
-          var found = false;
-          for (var i=0; i<curBooks.length; i++){
-            if(curBooks[i] == bookId){
-              found = true;
-              break;
-            }
-          }
-          if(!found){
-            curBooks.push(bookId);
-            map.set(tag, curBooks);
-          }
-        }
+		  collectTagFromBook(map, item);
+	  } else {
+      logger.info("all books have been processed.")
+      map.forEach(function(value, key){
+        logger.info(key + " : " + value);
       })
-	  }
+
+      logger.info("rebuild tags collection");
+      var colTags = db.collection('tags');
+      buildTags2(colTags, map);
+
+      logger.info("mongoQuery>> collectTags complete")
+      callback("result:done");
+    }
   });
 
-  //testing
-  map.forEach(function(value, key){
-    logger.info(key + " : " + value);
-  })
-
-  var colTags = db.collection('tags');
-  //...
 
 }

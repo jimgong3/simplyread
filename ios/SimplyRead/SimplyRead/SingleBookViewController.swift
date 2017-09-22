@@ -35,8 +35,15 @@ class SingleBookViewController: UIViewController {
             authorsLabel.text = book.authorsText
             
             // show images
-            if (book.image_url != nil) {
-                var url = URL(string: book.image_url!)
+            var image_url: String?
+            if (book.image_large_url != nil) {
+                image_url = book.image_large_url
+            } else if (book.image_url != nil) {
+                image_url = book.image_url
+            }
+            
+            if (image_url != nil) {
+                var url = URL(string: image_url!)
                 getDataFromUrl(url: url!) { (data, response, error) in
                     guard let data = data, error == nil else { return }
                     print(response?.suggestedFilename ?? url?.lastPathComponent)

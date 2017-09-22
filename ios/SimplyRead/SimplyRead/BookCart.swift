@@ -24,10 +24,10 @@ class BuyBookCart {
         
         numBooks += 1
         totalPrice += Int(book.our_price_hkd!)!
-        if book.deposit != nil {
+        if book.deposit != nil && book.deposit != "NaN"{
             totalDeposit += Int(book.deposit!)!
         }
-        if book.shipping_fee != nil {
+        if book.shipping_fee != nil && book.shipping_fee != "NaN"{
             totalShippingFee += Int(book.shipping_fee!)!
         }
     }
