@@ -96,6 +96,20 @@ exports.queryTags = function(db, callback){
   });
 }
 
+exports.hotTags = function(db, n, callback){
+  logger.info("mongoQuery>> query the hottest " + n + " tags");
+
+  var collection = db.collection('tags');
+  var nInt = parseInt(n, 10);
+
+  collection.find().sort({num_books: -1}).limit(nInt).toArray(function(err, docs) {
+    assert.equal(err, null);
+    logger.info("mongoQuery>> result: ");
+    logger.info(docs);
+    callback(docs);
+  });
+}
+
 function collectTagFromBook(map, book){
     logger.info("mongoQuery>> collectTagFromBook: " + book.title);
     logger.info("book id: " + book._id);
