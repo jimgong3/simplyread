@@ -261,5 +261,20 @@ app.get('/collectTags', function (req, res) {
 	});
 })
 
+app.get('/hotTags', function (req, res) {
+	logger.info("app>> get /hotTags");
 
+	const {headers, method, url} = req;
+	logger.info("app>> method: " + method);
+	logger.info("app>> url: " + url);
 
+  var n = req.query.n;
+  logger.info("num of tags to query: " + n);
+
+	mongoQuery.hotTags(db, n, function(docs) {
+		logger.info("app>> callback from hotTags");
+		logger.info(docs);
+		res.json(docs)
+		logger.info("app>> hot tags done");
+	});
+})
