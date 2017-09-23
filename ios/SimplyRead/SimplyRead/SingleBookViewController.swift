@@ -30,10 +30,8 @@ class SingleBookViewController: UIViewController {
         if let book = book {
             // show title
             titleLabel.text = book.title
-            
             // show authors
             authorsLabel.text = book.authorsText
-            
             // show images
             var image_url: String?
             if (book.image_large_url != nil) {
@@ -41,7 +39,6 @@ class SingleBookViewController: UIViewController {
             } else if (book.image_url != nil) {
                 image_url = book.image_url
             }
-            
             if (image_url != nil) {
                 var url = URL(string: image_url!)
                 getDataFromUrl(url: url!) { (data, response, error) in
@@ -53,14 +50,11 @@ class SingleBookViewController: UIViewController {
                     }
                 }
             }
-            
             // show publisher
             publisherLabel.text = book.publisher
-            
             // show prices
             priceLabel.text = book.price
             ourPriceLabel.text = book.our_price_hkd?.description
-            
             // show summary
             summaryText.text = book.summary
         }

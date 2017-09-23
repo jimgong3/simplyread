@@ -79,12 +79,12 @@ exports.queryBookByTag = function(db, tag, callback){
     assert.equal(err, null);
     logger.info("mongoQuery>> find tag result: ");
     logger.info(docs);
-	
+
 	if (docs.length == 0){
 		logger.info("Oops, tag not found")
 	} else {
-		var book_ids = docs[0].books;
-		
+		var book_ids = docs[0].book_ids;
+
 		var colBooks = db.collection('books');
 		var queryBooks = {_id: {$in: book_ids}};
 		colBooks.find(queryBooks).toArray(function(err, docs){
@@ -114,7 +114,7 @@ exports.queryTags = function(db, callback){
 
   var collection = db.collection('tags');
 
-  collection.find().toArray(function(err, docs) {
+  collection.find().sort({num_books: -1}).toArray(function(err, docs) {
     assert.equal(err, null);
     logger.info("mongoQuery>> result: ");
     logger.info(docs);
