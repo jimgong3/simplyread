@@ -9,7 +9,8 @@
 import UIKit
 import BarcodeScanner
 
-class DonateSingleBookNotFoundViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class DonateSingleBookNotFoundViewController: UIViewController,
+        UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
 
     var book: Book?
     var user: User?
@@ -28,6 +29,10 @@ class DonateSingleBookNotFoundViewController: UIViewController, UIImagePickerCon
         let tapgesture = UITapGestureRecognizer(target: self, action: Selector("selectImage2"))
         photoImageView.isUserInteractionEnabled = true
         photoImageView.addGestureRecognizer(tapgesture)
+        
+        titleText.delegate = self
+        authorText.delegate = self
+        isbnText.delegate = self
     }
 
     override func didReceiveMemoryWarning() {
@@ -130,7 +135,12 @@ class DonateSingleBookNotFoundViewController: UIViewController, UIImagePickerCon
         self.performSegue(withIdentifier: "donateSelectComplete2", sender: self)
     }
     
-
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        titleText.resignFirstResponder()
+        authorText.resignFirstResponder()
+        isbnText.resignFirstResponder()
+        return true
+    }
 
 }
 

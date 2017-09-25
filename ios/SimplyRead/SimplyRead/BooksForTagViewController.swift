@@ -87,15 +87,27 @@ class BooksForTagViewController: UIViewController, UITableViewDataSource, UITabl
         // Dispose of any resources that can be recreated.
     }
     
-
-    /*
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        guard let singleBookViewController = segue.destination as? SingleBookViewController else {
+            fatalError("unexpected destination: \(segue.destination)")
+        }
+        
+        guard let selectedBookCell = sender as? BookTableViewCell else {
+            fatalError("unexpected sender: \(sender)")
+        }
+        
+        guard let indexPath = tableView.indexPath(for: selectedBookCell) else {
+            fatalError("The selected cell is not being displayed by the table")
+        }
+        
+        let selectedBook = books[indexPath.row]
+        singleBookViewController.book = selectedBook
     }
-    */
+    
 
 }
