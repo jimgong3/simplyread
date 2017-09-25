@@ -253,7 +253,7 @@ exports.collectTags = function(db, callback){
 
 
 exports.assignBookCategory = function(db, isbn, category, callback){
-  logger.info("mongoQuery>> assign book category");
+  logger.info("mongoQuery>> assign book category, isbn: " + isbn + ", category: " + category);
 
   var collection = db.collection('books');
 
@@ -262,7 +262,7 @@ exports.assignBookCategory = function(db, isbn, category, callback){
   logger.info(query);
 
   //update database record...
-  collection.find(query).toArray(function(err, docs) {
+  collection.update(query, {$set: {category: category}}, function(err, docs) {
     assert.equal(err, null);
     logger.info("mongoQuery>> result: ");
     logger.info(docs);

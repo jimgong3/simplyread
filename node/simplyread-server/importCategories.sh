@@ -2,7 +2,6 @@
 
 echo "import categories  start ..."
 
-declare -a arrayBookCategory
 n=0
 while IFS=, read -r isbn title category col4 col5 col6
 do
@@ -11,22 +10,14 @@ do
 	then
 		echo "skip the first line"
 	else
-		# echo "process new book: $n"
-    declare "map_$isbn=$category"
-    arrayBookCategory[$n]="$isbn:$category"
+		#url="http://localhost:3001/assignBookCategory?isbn=$isbn&category=$category"
+		url2="http://localhost:3001/assignBookCategory"
+		echo "url: $url"
+		curl --request POST $url2 --data-urlencode "isbn=$isbn"	--data-urlencode "category=$category"
+		#curl -X POST -H "Content-Type: text/html; charset=UTF-8" --data-ascii "isbn=$isbn&category=$category" $url2
+		echo
 	fi
 	let n++
 done < "$1"
-
-# echo ${arrayBookCategory[*]}
-
-echo "review imported book categories ..."
-for item in "${arrayBookCategory[@]}" ; do
-  isbn="${item%%:*}"
-  category="${item##*:}"
-  printf "%s has category %s.\n" "$isbn" "$category"
-done
-
-echo "update database book categories records ..."
 
 echo "import categories done"

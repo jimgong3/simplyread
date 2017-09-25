@@ -33,6 +33,7 @@ mongoUtil.connectToServer( function(err){
 })
 
 app.use(pretty({ query: 'pretty' }));
+app.use(express.bodyParser());
 
 app.listen(port, function () {
   console.log('app>> server listening on port ' + port);
@@ -298,15 +299,20 @@ app.get('/hotTags', function (req, res) {
 	});
 })
 
-app.get('/assignBookCategory', function (req, res) {
+app.post('/assignBookCategory', function (req, res) {
 	logger.info("app>> assign book category");
 
 	const {headers, method, url} = req;
 	logger.info("app>> method: " + method);
 	logger.info("app>> url: " + url);
 
-	var isbn = req.query.isbn;
-  var category = req.query.category;
+//	var isbn = req.query.isbn;
+//	var category = req.query.category;
+	var isbn = req.body.isbn;
+	var category = req.body.category;
+
+	//	String cat2 = Request.QueryString["category"];
+//	logger.info("app>>cat2: " + cat2);
 	logger.info("app>> isbn: " + isbn + ", category: " + category);
 
 	mongoQuery.assignBookCategory(db, isbn, category, function(docs){
