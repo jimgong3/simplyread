@@ -297,3 +297,24 @@ app.get('/hotTags', function (req, res) {
 		logger.info("app>> hot tags done");
 	});
 })
+
+app.get('/assignBookCategory', function (req, res) {
+	logger.info("app>> assign book category");
+
+	const {headers, method, url} = req;
+	logger.info("app>> method: " + method);
+	logger.info("app>> url: " + url);
+
+	var isbn = req.query.isbn;
+  var category = req.query.category;
+	logger.info("app>> isbn: " + isbn + ", category: " + category);
+
+	mongoQuery.assignBookCategory(db, isbn, category, function(docs){
+		logger.info("app>> book category assigned, return book details in array")
+		var result = [];
+		result.push(docs);
+		res.json(result);
+		logger.info("app>> return result: " + result);
+		logger.info("app>> assign book category done");
+	});
+});

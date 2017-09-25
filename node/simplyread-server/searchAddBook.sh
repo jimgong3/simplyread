@@ -1,15 +1,14 @@
 #!/bin/bash
 
 echo 'add book start'
-
 n=0
-while IFS=, read -r col1 col2 col3 
+while IFS=, read -r col1 col2 col3
 do
     echo "read from file: $col1, $col2, $col3"
-	if [ $n == 0 ] 
-	then 
+	if [ $n == 0 ]
+	then
 		echo "skip the first line"
-	else 
+	else
 		echo "add new book: $n"
 		url="http://localhost:3001/searchAddBook?isbn=$col1"
 		echo "url: $url"
@@ -18,5 +17,12 @@ do
 	fi
 	let n++
 done < "$1"
+echo "search add book complete."
+
+echo 're-build tags start'
+url="http://localhost:3001/collectTags?pretty"
+echo "url: $url"
+curl $url
+echo
 
 echo "search add book complete."

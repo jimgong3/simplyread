@@ -249,6 +249,23 @@ exports.collectTags = function(db, callback){
       callback("result:done");
     }
   });
+}
 
 
+exports.assignBookCategory = function(db, isbn, category, callback){
+  logger.info("mongoQuery>> assign book category");
+
+  var collection = db.collection('books');
+
+  var query = {$or: [{isbn10: isbn}, {isbn13: isbn}]};
+  logger.info("mongoQuery>> query: ");
+  logger.info(query);
+
+  //update database record...
+  collection.find(query).toArray(function(err, docs) {
+    assert.equal(err, null);
+    logger.info("mongoQuery>> result: ");
+    logger.info(docs);
+    callback(docs);
+  });
 }
