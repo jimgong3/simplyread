@@ -302,20 +302,17 @@ app.get('/hotTags', function (req, res) {
 	});
 })
 
-app.post('/assignBookCategory', function (req, res) {
+app.get('/assignBookCategory', function (req, res) {
 	logger.info("app>> assign book category");
 
 	const {headers, method, url} = req;
 	logger.info("app>> method: " + method);
 	logger.info("app>> url: " + url);
 
-//	var isbn = req.query.isbn;
-//	var category = req.query.category;
-	var isbn = req.body.isbn;
-	var category = req.body.category;
-
-	//	String cat2 = Request.QueryString["category"];
-//	logger.info("app>>cat2: " + cat2);
+	// var isbn = req.query.isbn;
+  // var category = req.query.category;
+  var isbn = req.body.isbn;
+  var category = req.body.category;
 	logger.info("app>> isbn: " + isbn + ", category: " + category);
 
 	mongoQuery.assignBookCategory(db, isbn, category, function(docs){
@@ -327,3 +324,33 @@ app.post('/assignBookCategory', function (req, res) {
 		logger.info("app>> assign book category done");
 	});
 });
+
+app.get('/buildCategories', function (req, res) {
+	logger.info("app>> get /buildCategories");
+
+	const {headers, method, url} = req;
+	logger.info("app>> method: " + method);
+	logger.info("app>> url: " + url);
+
+	mongoQuery.buildCategories(db, function(docs) {
+		logger.info("app>> callback from buildCategories");
+		logger.info(docs);
+		res.json(docs)
+		logger.info("app>> buildCategories done");
+	});
+})
+
+app.get('/categories', function (req, res) {
+	logger.info("app>> get /categories");
+
+	const {headers, method, url} = req;
+	logger.info("app>> method: " + method);
+	logger.info("app>> url: " + url);
+
+	mongoQuery.queryCategories(db, function(docs) {
+		logger.info("app>> callback from queryCategories");
+		logger.info(docs);
+		res.json(docs)
+		logger.info("app>> categories done");
+	});
+})

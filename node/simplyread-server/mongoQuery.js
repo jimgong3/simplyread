@@ -251,7 +251,6 @@ exports.collectTags = function(db, callback){
   });
 }
 
-
 exports.assignBookCategory = function(db, isbn, category, callback){
   logger.info("mongoQuery>> assign book category, isbn: " + isbn + ", category: " + category);
 
@@ -261,8 +260,89 @@ exports.assignBookCategory = function(db, isbn, category, callback){
   logger.info("mongoQuery>> query: ");
   logger.info(query);
 
-  //update database record...
   collection.update(query, {$set: {category: category}}, function(err, docs) {
+    assert.equal(err, null);
+    logger.info("mongoQuery>> result: ");
+    logger.info(docs);
+    callback(docs);
+  });
+}
+
+
+
+function addBookToCategory(map, book){
+    logger.info("mongoQuery>> addBookToCategory: " + book.title);
+    logger.info("book id: " + book._id);
+    logger.info("book category: " + book.category);
+
+    var bookId = book._id;
+    var category = book.category;
+
+    if(category != null){
+      logger.info("category found for this book: " + category);
+      var curBooks = map.get(category);
+      if (curBooks == null)
+        curBooks = [];
+      curBooks.push(bookId);
+      map.set(category, curBooks);
+    } else {
+      logger.info("this book has no category info");
+    }
+}
+
+function updateCategories(colCategories, map){
+  logger.info("updateCategories start");
+  colCategories.deleteMany({}, function(err, obj){
+    logger.info("all existing categories data deleted.")
+    map.forEach(function(value, key){
+      logger.info("processing category: " + key);
+      var catJson = {};
+      catJson["name"] = key;
+      catJson["num_books"] = value.length;
+      catJson["book_ids"] = value;
+
+      logger.info("insert document to categories collection: " + JSON.stringify(catJson));
+      colCategories.insertOne(catJson, function(err, res){
+        if (err) throw err;
+        logger.info("1 document inserted for category: " + key);
+      })
+    });
+    logger.info("function updateCategories complete");
+  });
+}
+
+exports.buildCategories = function(db, callback){
+  logger.info("mongoQuery>> build categories");
+
+  var map = new HashMap();
+
+  var colBooks = db.collection('books');
+  var curBooks = colBooks.find()
+  curBooks.each(function(err, book){
+	  if(book != null){
+		  addBookToCategory(map, book);
+	  } else {
+      logger.info("all books have been processed, review categories data:")
+      map.forEach(function(value, key){
+        logger.info(key + " : " + value);
+      })
+
+      logger.info("rebuild tags collection");
+      var colCategories = db.collection('categories');
+      updateCategories(colCategories, map);
+
+      logger.info("mongoQuery>> buildCategories complete")
+      callback("result:done");
+    }
+  });
+}
+
+exports.queryCategories = function(db, callback){
+  logger.info("mongoQuery>> query all categories");
+
+  var collection = db.collection('categories');
+
+  collection.find().sort({num_books: -1}).toArray(function(err, docs) {
     assert.equal(err, null);
     logger.info("mongoQuery>> result: ");
     logger.info(docs);
