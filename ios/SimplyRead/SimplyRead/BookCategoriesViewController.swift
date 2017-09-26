@@ -8,12 +8,17 @@
 
 import UIKit
 
-class BookCategoriesViewController: UIViewController {
+class BookCategoriesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     @IBOutlet weak var tagsView1: UIStackView!
     @IBOutlet weak var tagsView2: UIStackView!
     
     var tagClicked: String?
+    
+    var categories = [Category]()
+    @IBOutlet var tableView: UITableView!
+    let cellReuseIdentifier = "cell"
+    let cellIdentifier = "CategoryTableViewCell"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,8 +34,6 @@ class BookCategoriesViewController: UIViewController {
                 button.setTitleColor(.blue, for: .normal)
                 button.titleLabel?.font = UIFont.systemFont(ofSize:13)
                 button.addTarget(self, action: #selector(self.clickTag), for: .touchUpInside)
-
-//                label.addTarget(self, action: #selector(BookCategoriesViewController.pressed(_:)), forControlEvents: .TouchUpInside)
                 
                 if count<5 {
                     self.tagsView1.addArrangedSubview(button)
@@ -40,6 +43,45 @@ class BookCategoriesViewController: UIViewController {
                 count += 1
             }
         })
+        
+        // Register the table view cell class and its reuse id
+        self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellReuseIdentifier)
+        
+        // This view controller itself will provide the delegate methods and row data for the table view.
+        tableView.delegate = self
+        tableView.dataSource = self
+
+        print("BookCategoriesViewControler>> start query categories")
+        queryCategories(completion: {(categories: [Category]) -> () in
+            print("BookCategoriesViewControler>> callback")
+            self.categories = categories
+            DispatchQueue.main.async{
+                self.tableView.reloadData()
+            }
+        })
+
+    }
+    
+    
+    // number of rows in table view
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return self.categories.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? CategoryTableViewCell else {
+            fatalError("the dequeued cell is not an instance of CategoryTableViewCell")
+        }
+        
+        let category = categories[indexPath.row]
+        
+        // set name
+        var textStr = String()
+        textStr = category.name + " (" + (category.num_books?.description)! + ")"
+        cell.nameLabel.text = textStr
+        
+        return cell
     }
     
     func clickTag(sender: UIButton!) {
@@ -69,6 +111,14 @@ class BookCategoriesViewController: UIViewController {
         if let booksForTagViewController = segue.destination as? BooksForTagViewController {
             print("BookCategoriesVC>> dest: books for tag")
             booksForTagViewController.tag = tagClicked
+        }
+
+        if let booksForCategoryViewController = segue.destination as? BooksForCategoryViewController {
+            print("BookCategoriesVC>> dest: books for category")
+            let selectedCategoryCell = sender as? CategoryTableViewCell
+            let indexPath = tableView.indexPath(for: selectedCategoryCell!)
+            let selectedCategory = categories[(indexPath?.row)!]
+            booksForCategoryViewController.category = selectedCategory.name
         }
     }
     

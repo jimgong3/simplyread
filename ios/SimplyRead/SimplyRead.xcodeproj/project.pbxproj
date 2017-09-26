@@ -16,6 +16,13 @@
 		BA1C41AD1F52922500A3A6E2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BA1C41AC1F52922500A3A6E2 /* Assets.xcassets */; };
 		BA1C41B01F52922500A3A6E2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BA1C41AE1F52922500A3A6E2 /* LaunchScreen.storyboard */; };
 		BA1C41BB1F52922500A3A6E2 /* SimplyReadTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1C41BA1F52922500A3A6E2 /* SimplyReadTests.swift */; };
+		BA1FC19A1F7957BC0015DE9B /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1FC1991F7957BC0015DE9B /* Category.swift */; };
+		BA1FC19C1F795BD70015DE9B /* CategoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1FC19B1F795BD70015DE9B /* CategoryTableViewCell.swift */; };
+		BA1FC19E1F79D30C0015DE9B /* BooksForCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1FC19D1F79D30C0015DE9B /* BooksForCategoryViewController.swift */; };
+		BA220E8C1F7495F100EA1D6B /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA220E8B1F7495F100EA1D6B /* Tag.swift */; };
+		BA220E8F1F7499F500EA1D6B /* BookCategoriesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA220E8E1F7499F400EA1D6B /* BookCategoriesViewController.swift */; };
+		BA220E911F7546F500EA1D6B /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA220E901F7546F500EA1D6B /* Config.swift */; };
+		BA220E931F75652200EA1D6B /* BooksForTagViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA220E921F75652200EA1D6B /* BooksForTagViewController.swift */; };
 		BA2762221F581FDE00F02966 /* Query.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA2762211F581FDE00F02966 /* Query.swift */; };
 		BA2762251F599A8000F02966 /* OrderDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA2762241F599A8000F02966 /* OrderDetailsViewController.swift */; };
 		BA415A171F54F9A3005B0A26 /* SingleBookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA415A161F54F9A3005B0A26 /* SingleBookViewController.swift */; };
@@ -60,6 +67,13 @@
 		BA1C41B61F52922500A3A6E2 /* SimplyReadTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SimplyReadTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BA1C41BA1F52922500A3A6E2 /* SimplyReadTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimplyReadTests.swift; sourceTree = "<group>"; };
 		BA1C41BC1F52922500A3A6E2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BA1FC1991F7957BC0015DE9B /* Category.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
+		BA1FC19B1F795BD70015DE9B /* CategoryTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryTableViewCell.swift; sourceTree = "<group>"; };
+		BA1FC19D1F79D30C0015DE9B /* BooksForCategoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BooksForCategoryViewController.swift; sourceTree = "<group>"; };
+		BA220E8B1F7495F100EA1D6B /* Tag.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
+		BA220E8E1F7499F400EA1D6B /* BookCategoriesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookCategoriesViewController.swift; sourceTree = "<group>"; };
+		BA220E901F7546F500EA1D6B /* Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
+		BA220E921F75652200EA1D6B /* BooksForTagViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BooksForTagViewController.swift; sourceTree = "<group>"; };
 		BA2762211F581FDE00F02966 /* Query.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Query.swift; path = "data-service/Query.swift"; sourceTree = "<group>"; };
 		BA2762241F599A8000F02966 /* OrderDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrderDetailsViewController.swift; sourceTree = "<group>"; };
 		BA415A161F54F9A3005B0A26 /* SingleBookViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SingleBookViewController.swift; sourceTree = "<group>"; };
@@ -138,6 +152,7 @@
 			isa = PBXGroup;
 			children = (
 				BAD250F71F6ABF3C007BEB1F /* read */,
+				BA220E8D1F7499C900EA1D6B /* categories */,
 				BAD250F61F6ABEFC007BEB1F /* donate */,
 				BAD250F81F6ABF57007BEB1F /* me */,
 				BA2762231F58200100F02966 /* common */,
@@ -158,6 +173,17 @@
 			path = SimplyReadTests;
 			sourceTree = "<group>";
 		};
+		BA220E8D1F7499C900EA1D6B /* categories */ = {
+			isa = PBXGroup;
+			children = (
+				BA220E8E1F7499F400EA1D6B /* BookCategoriesViewController.swift */,
+				BA220E921F75652200EA1D6B /* BooksForTagViewController.swift */,
+				BA1FC19B1F795BD70015DE9B /* CategoryTableViewCell.swift */,
+				BA1FC19D1F79D30C0015DE9B /* BooksForCategoryViewController.swift */,
+			);
+			name = categories;
+			sourceTree = "<group>";
+		};
 		BA2762231F58200100F02966 /* common */ = {
 			isa = PBXGroup;
 			children = (
@@ -170,6 +196,9 @@
 				BA59741A1F5C2A7C00185278 /* User.swift */,
 				BAA5A6591F60EDF80090A5E2 /* SRTabBarController.swift */,
 				BA415A1A1F54FCA1005B0A26 /* LoginViewController.swift */,
+				BA220E8B1F7495F100EA1D6B /* Tag.swift */,
+				BA220E901F7546F500EA1D6B /* Config.swift */,
+				BA1FC1991F7957BC0015DE9B /* Category.swift */,
 			);
 			name = common;
 			sourceTree = "<group>";
@@ -370,24 +399,31 @@
 			files = (
 				BAD250EF1F66534C007BEB1F /* DonateBookFoundViewControllor.swift in Sources */,
 				BA415A171F54F9A3005B0A26 /* SingleBookViewController.swift in Sources */,
+				BA220E931F75652200EA1D6B /* BooksForTagViewController.swift in Sources */,
 				BA415A191F54FC89005B0A26 /* BookTableViewController.swift in Sources */,
+				BA220E8C1F7495F100EA1D6B /* Tag.swift in Sources */,
 				BA2762251F599A8000F02966 /* OrderDetailsViewController.swift in Sources */,
 				BAAF535F1F61A1DB000743CF /* MyAccountViewController.swift in Sources */,
 				BAD250ED1F62D2B4007BEB1F /* DonateBookVC.swift in Sources */,
 				BA415A1D1F54FF2D005B0A26 /* Book.swift in Sources */,
 				BA415A1F1F5503D4005B0A26 /* BookTableViewCell.swift in Sources */,
+				BA1FC19E1F79D30C0015DE9B /* BooksForCategoryViewController.swift in Sources */,
 				BAD250F31F695D24007BEB1F /* Global.swift in Sources */,
+				BA1FC19C1F795BD70015DE9B /* CategoryTableViewCell.swift in Sources */,
 				BA2762221F581FDE00F02966 /* Query.swift in Sources */,
 				BAA5A65A1F60EDF80090A5E2 /* SRTabBarController.swift in Sources */,
 				BA1C41A81F52922500A3A6E2 /* ViewController.swift in Sources */,
 				BAD250F11F67A346007BEB1F /* DonateSingleBookNotFoundViewController.swift in Sources */,
 				BA0376D51F6CDCDE00FEDC46 /* BookCart.swift in Sources */,
+				BA1FC19A1F7957BC0015DE9B /* Category.swift in Sources */,
 				BA415A1B1F54FCA1005B0A26 /* LoginViewController.swift in Sources */,
 				BA59741B1F5C2A7C00185278 /* User.swift in Sources */,
 				BA1C41A61F52922500A3A6E2 /* AppDelegate.swift in Sources */,
+				BA220E911F7546F500EA1D6B /* Config.swift in Sources */,
 				BAD250F51F6969DF007BEB1F /* DonateBookCartViewController.swift in Sources */,
 				BA0376D71F6CDDA800FEDC46 /* BuyBookCartViewController.swift in Sources */,
 				BAAF535D1F619E53000743CF /* MyAccountTableViewController.swift in Sources */,
+				BA220E8F1F7499F500EA1D6B /* BookCategoriesViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -532,7 +568,7 @@
 				DEVELOPMENT_TEAM = 745SMA85GR;
 				INFOPLIST_FILE = SimplyRead/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.simplyread;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jimgong.simplyread;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
@@ -546,7 +582,7 @@
 				DEVELOPMENT_TEAM = 745SMA85GR;
 				INFOPLIST_FILE = SimplyRead/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.simplyread;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jimgong.simplyread;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};

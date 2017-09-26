@@ -135,6 +135,45 @@ func loadBooksForTag(tag: String, completion: @escaping (_ books: [Book]) -> ())
     }
 }
 
+func loadBooksForCategory(category: String, completion: @escaping (_ books: [Book]) -> ()){
+    
+    var urlStr: String?
+    urlStr = "http://" + SERVER_IP + ":" + PORT + "/queryBookByCategory?category=" + category
+    
+    var url: URL?   //handle possible special charctor in tag
+    if let encoded = urlStr?.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed), let url = URL(string: encoded) {
+        print("Query>> load books by category url: ")
+        print(url)
+        
+        Alamofire.request(url).responseJSON { response in
+            print("Request: \(String(describing: response.request))")   // original url request
+            print("Response: \(String(describing: response.response))") // http url response
+            print("Result: \(response.result)")                         // response serialization result
+            
+            if let json = response.result.value {
+                print("JSON: \(json)") // serialized json response
+                
+                var books = [Book]()
+                if let array = json as? [Any] {
+                    if array.count>0 {
+                        for i in 0...array.count-1 {
+                            var bookJson = array[i] as? [String: Any]
+                            let b = Book(json: bookJson!)
+                            books.append(b!)
+                        }
+                    }
+                    else{
+                        print("Query>> oops, no book is found")
+                    }
+                }
+                //now all books loaded
+                print ("Query>> \(books.count)" + " books loaded, callback completion")
+                completion(books)
+            }
+        }
+    }
+}
+
 
 func searchAddBook(isbn: String, completion: @escaping (_ book: Book) -> ()){
     
@@ -256,6 +295,42 @@ func queryHotTags(n: Int, completion: @escaping (_ tags: [Tag]) -> ()){
             //now all books loaded
             print ("Query>> \(tags.count)" + " tags loaded, callback completion")
             completion(tags)
+        }
+    }
+}
+
+func queryCategories(completion: @escaping (_ categories: [Category]) -> ()){
+    
+    var urlStr: String?
+    urlStr = "http://" + SERVER_IP + ":" + PORT + "/categories"
+    let url = URL(string: urlStr!)
+    print("Query>> url: ")
+    print(url)
+    
+    Alamofire.request(url!).responseJSON { response in
+        print("Request: \(String(describing: response.request))")   // original url request
+        print("Response: \(String(describing: response.response))") // http url response
+        print("Result: \(response.result)")                         // response serialization result
+        
+        if let json = response.result.value {
+            print("JSON: \(json)") // serialized json response
+            
+            var categories = [Category]()
+            if let array = json as? [Any] {
+                if array.count>0 {
+                    for i in 0...array.count-1 {
+                        var catJson = array[i] as? [String: Any]
+                        let c = Category(json: catJson!)
+                        categories.append(c!)
+                    }
+                }
+                else{
+                    print("Query>> oops, no category is found")
+                }
+            }
+            //now everything loaded
+            print ("Query>> \(categories.count)" + " categories loaded, callback completion")
+            completion(categories)
         }
     }
 }
