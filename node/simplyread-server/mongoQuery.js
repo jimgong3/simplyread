@@ -96,6 +96,32 @@ exports.queryBookByTag = function(db, tag, callback){
   });
 }
 
+exports.queryBookByCategory = function(db, category, callback){
+  logger.info("mongoQuery>> query book by category: " + category);
+
+  var colCategories = db.collection('categories');
+  var queryCat = {name: category};
+  colCategories.find(queryCat).toArray(function(err, docs) {
+    assert.equal(err, null);
+    logger.info("mongoQuery>> find category result: ");
+    logger.info(docs);
+
+	if (docs.length == 0){
+		logger.info("Oops, category not found")
+	} else {
+		var book_ids = docs[0].book_ids;
+
+		var colBooks = db.collection('books');
+		var queryBooks = {_id: {$in: book_ids}};
+		colBooks.find(queryBooks).toArray(function(err, docs){
+			logger.info("mongoQuery>> find books by category result: ")
+			logger.info(docs);
+			callback(docs);
+		});
+	}
+  });
+}
+
 exports.insertBook = function(db, bookJson, callback){
   logger.info("mongoQuery>> insert book by json");
 
@@ -268,8 +294,6 @@ exports.assignBookCategory = function(db, isbn, category, callback){
   });
 }
 
-
-
 function addBookToCategory(map, book){
     logger.info("mongoQuery>> addBookToCategory: " + book.title);
     logger.info("book id: " + book._id);
@@ -342,7 +366,7 @@ exports.queryCategories = function(db, callback){
 
   var collection = db.collection('categories');
 
-  collection.find().sort({num_books: -1}).toArray(function(err, docs) {
+  collection.find().toArray(function(err, docs) {
     assert.equal(err, null);
     logger.info("mongoQuery>> result: ");
     logger.info(docs);
