@@ -20,4 +20,10 @@ do
 	let n++
 done < "$1"
 
-echo "import categories done"
+echo "import categories done, re-build categories..."
+url2="http://localhost:3001/buildCategories"
+echo "url2: $url2"
+curl $url2
+echo
+
+echo "re-build categories done."

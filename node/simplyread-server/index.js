@@ -319,7 +319,7 @@ app.get('/hotTags', function (req, res) {
 	});
 })
 
-app.get('/assignBookCategory', function (req, res) {
+app.post('/assignBookCategory', function (req, res) {
 	logger.info("app>> assign book category");
 
 	const {headers, method, url} = req;
