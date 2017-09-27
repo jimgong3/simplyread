@@ -238,8 +238,46 @@ app.get('/addNewBook', function (req, res) {
 		logger.info("app>> return result: " + result);
 		logger.info("app>> add new book done");
 	});
-
 });
+
+
+app.post('/addNewBook', function (req, res) {
+	logger.info("app>> add new book");
+
+	const {headers, method, url} = req;
+	logger.info("app>> method: " + method);
+	logger.info("app>> url: " + url);
+
+	var title = req.body.title;
+	var author = req.body.author;
+	var isbn = req.body.isbn;
+	logger.info("app>> title: " + title + ", author: " + author + ", isbn: " + isbn);
+
+	var bookJson = {};
+
+	//add customized fields
+	bookJson["title"] = title;
+	var authors = [];
+	authors.push(author);
+	bookJson["author"] = authors;
+	bookJson["isbn"] = isbn;
+	var imageUrl = "http://"+host+":"+httpPort+"/images/"+isbn+".jpeg";
+	bookJson["image"] = imageUrl;
+
+	var datetime = new Date()
+	bookJson["add_date"] = datetime;
+
+	//add book into bookbase
+	mongoQuery.insertBook(db, bookJson, function(docs){
+		logger.info("app>> book added into database, return book details in array")
+		var result = [];
+		result.push(bookJson);
+		res.json(result);
+		logger.info("app>> return result: " + result);
+		logger.info("app>> add new book done");
+	});
+});
+
 
 app.post('/upload', function(req, res) {
 	logger.info("app>> upload");
