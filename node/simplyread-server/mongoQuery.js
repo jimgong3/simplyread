@@ -366,10 +366,50 @@ exports.queryCategories = function(db, callback){
 
   var collection = db.collection('categories');
 
-  collection.find().toArray(function(err, docs) {
+  var order = {ref: 1};
+  logger.info("mongoQuer>> order");
+  logger.info(order);
+
+  collection.find().sort(order).toArray(function(err, docs) {
     assert.equal(err, null);
     logger.info("mongoQuery>> result: ");
     logger.info(docs);
     callback(docs);
   });
 }
+
+exports.assignBookCategory = function(db, isbn, category, callback){
+  logger.info("mongoQuery>> assign book category, isbn: " + isbn + ", category: " + category);
+
+  var collection = db.collection('books');
+
+  var query = {$or: [{isbn10: isbn}, {isbn13: isbn}]};
+  logger.info("mongoQuery>> query: ");
+  logger.info(query);
+
+  collection.update(query, {$set: {category: category}}, function(err, docs) {
+    assert.equal(err, null);
+    logger.info("mongoQuery>> result: ");
+    logger.info(docs);
+    callback(docs);
+  });
+}
+
+
+exports.assignCategoryOrder = function(db, ref, category, callback){
+  logger.info("mongoQuery>> assign category order, ref: " + ref + ", category: " + category);
+
+  var collection = db.collection('categories');
+
+  var query = {name: category};
+  logger.info("mongoQuery>> query: ");
+  logger.info(query);
+
+  collection.update(query, {$set: {ref: ref}}, function(err, docs) {
+    assert.equal(err, null);
+    logger.info("mongoQuery>> result: ");
+    logger.info(docs);
+    callback(docs);
+  });
+}
+

@@ -371,3 +371,24 @@ app.get('/categories', function (req, res) {
 		logger.info("app>> categories done");
 	});
 })
+
+app.post('/importBookCategoryOrder', function (req, res) {
+	logger.info("app>> assign book category");
+
+	const {headers, method, url} = req;
+	logger.info("app>> method: " + method);
+	logger.info("app>> url: " + url);
+
+	var ref = req.body.ref;
+	var category = req.body.category;
+	logger.info("app>> ref: " + ref + ", category: " + category);
+
+	mongoQuery.assignCategoryOrder(db, ref, category, function(docs){
+		logger.info("app>> book category order assigned")
+		var result = [];
+		result.push(docs);
+		res.json(result);
+		logger.info("app>> return result: " + result);
+		logger.info("app>> assign category order done");
+	});
+});
