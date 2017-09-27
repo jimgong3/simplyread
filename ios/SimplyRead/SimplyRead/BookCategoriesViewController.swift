@@ -26,7 +26,7 @@ class BookCategoriesViewController: UIViewController, UITableViewDataSource, UIT
         // Do any additional setup after loading the view.
         print("BookCategoriesViewControler>> start query hot tags")
         queryHotTags(n: NUM_HOT_TAGS, completion: {(tags: [Tag]) -> () in
-            print("BookCategoriesViewControler>> callback")
+            print("BookCategoriesViewControler>> callback from tags")
             var count = 0;
             for tag in tags {
                 let button = UIButton(frame: CGRect(x: 0, y: 0, width: 100, height: 21))
@@ -53,7 +53,7 @@ class BookCategoriesViewController: UIViewController, UITableViewDataSource, UIT
 
         print("BookCategoriesViewControler>> start query categories")
         queryCategories(completion: {(categories: [Category]) -> () in
-            print("BookCategoriesViewControler>> callback")
+            print("BookCategoriesViewControler>> callback from categories")
             self.categories = categories
             DispatchQueue.main.async{
                 self.tableView.reloadData()

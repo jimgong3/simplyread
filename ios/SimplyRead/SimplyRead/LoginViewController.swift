@@ -58,7 +58,7 @@ class LoginViewController: UIViewController {
     @IBAction func startLogin(_ sender: Any) {
         var username = usernameText.text
         var password = passwordText.text
-        login(username: username!, password: password!, completion: {(user: User) -> () in
+        login2(username: username!, password: password!, completion: {(user: User) -> () in
             print("LoginViewController>> callback, user: ")
             self.user = user
             print(user.username)

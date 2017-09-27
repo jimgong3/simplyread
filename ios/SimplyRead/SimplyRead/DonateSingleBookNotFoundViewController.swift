@@ -119,8 +119,8 @@ class DonateSingleBookNotFoundViewController: UIViewController,
         self.present(alert, animated: true, completion: nil)
         
         //send requet to server: add new book
-        addNewBook(title: (book?.title)!, author: (book?.authorsText)!, isbn: (book?.isbn)!, completion: {(book: Book) -> () in
-            print("addNewBook>> callback")
+        addNewBook2(title: (book?.title)!, author: (book?.authorsText)!, isbn: (book?.isbn)!, completion: {(book: Book) -> () in
+            print("addNewBook2>> callback")
             //anything else
         })
         addNewBookImage(isbn: (book?.isbn)!, image: (book?.photo)!, completion: {(book: Book) -> () in

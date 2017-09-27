@@ -22,7 +22,7 @@ func login(username: String, password: String, completion: @escaping (_ user: Us
     request.httpMethod = "GET"
     request.httpBody = queryStr.data(using: .utf8)
     
-    request.timeoutInterval = 10.0  // this is somehow magic!
+//    request.timeoutInterval = 10.0  // this is somehow magic!
     
     let task = URLSession.shared.dataTask(with: request) {(data, response, error) in
         print("Query>> login response:")
@@ -46,6 +46,37 @@ func login(username: String, password: String, completion: @escaping (_ user: Us
         }
     }
     task.resume()
+}
+
+
+func login2(username: String, password: String, completion: @escaping (_ user: User) -> ()){
+    
+    var urlStr: String?
+    urlStr = "http://" + SERVER_IP + ":" + PORT + "/user?username=" + username + "&password=" + password
+    let url = URL(string: urlStr!)
+    print("Query>> url: ")
+    print(url)
+    
+    Alamofire.request(url!).responseJSON { response in
+        print("Request: \(String(describing: response.request))")   // original url request
+        print("Response: \(String(describing: response.response))") // http url response
+        print("Result: \(response.result)")                         // response serialization result
+        
+        if let json = response.result.value {
+            print("JSON: \(json)") // serialized json response
+            
+            if let array = json as? [Any] {
+                if array.count>0 {
+                    var userJson = array[0] as? [String: Any]
+                    let u = User(json: userJson!)
+                    completion(u!)
+                }
+                else{
+                    print("Query>> oops, no user is found")
+                }
+            }
+        }
+    }
 }
 
 
@@ -177,7 +208,9 @@ func loadBooksForCategory(category: String, completion: @escaping (_ books: [Boo
 
 func searchAddBook(isbn: String, completion: @escaping (_ book: Book) -> ()){
     
-    let url = URL(string: "http://" + SERVER_IP + ":" + PORT + "/searchAddbook?isbn=" + isbn)
+    var urlStr: String?
+    urlStr = "http://" + SERVER_IP + ":" + PORT + "/searchAddbook?isbn=" + isbn
+    let url = URL(string: urlStr!)
     print("Query>> load book, url")
     print(url)
     
@@ -211,11 +244,41 @@ func searchAddBook(isbn: String, completion: @escaping (_ book: Book) -> ()){
 
 func addNewBook(title: String, author: String, isbn: String, completion: @escaping (_ book: Book) -> ()){
     
-    let url = URL(string: "http://" + SERVER_IP + ":" + PORT + "/addNewbook?title=" + title + "&author=" + author + "&isbn=" + isbn)
+    print("add new book, title: " + title + ", author: " + author + ", isbn: " + isbn)
+    var urlStr: String?
+    urlStr = "http://" + SERVER_IP + ":" + PORT + "/addNewbook?title=" + title + "&author=" + author + "&isbn=" + isbn
+    let url = URL(string: urlStr!)
     print("Query>> add new book, url")
     print(url)
     
     Alamofire.request(url!).responseJSON { response in
+        print("Query>> Request: \(String(describing: response.request))")   // original url request
+        print("Query>> Response: \(String(describing: response.response))") // http url response
+        print("Query>> Result: \(response.result)")                         // response serialization result
+        
+        if let json = response.result.value {
+            print("JSON: \(json)") // serialized json response
+            //anything else
+        }
+    }
+}
+
+func addNewBook2(title: String, author: String, isbn: String, completion: @escaping (_ book: Book) -> ()){
+    
+    print("add new book, title: " + title + ", author: " + author + ", isbn: " + isbn)
+    var urlStr: String?
+    urlStr = "http://" + SERVER_IP + ":" + PORT + "/addNewbook"
+    let url = URL(string: urlStr!)
+    print("Query>> add new book, url (POST)")
+    print(url)
+    
+    let parameters: Parameters = [
+        "title": title,
+        "author": author,
+        "isbn": isbn
+    ]
+    
+    Alamofire.request(url!, method: .post, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
         print("Query>> Request: \(String(describing: response.request))")   // original url request
         print("Query>> Response: \(String(describing: response.response))") // http url response
         print("Query>> Result: \(response.result)")                         // response serialization result

@@ -40,7 +40,9 @@ class OrderDetailsViewController: UIViewController {
         totalPriceLabel.text = totalPrice.description
         let totalDeposit = BuyBookCart.sharedInstance.totalDeposit
         depositLabel.text = totalDeposit.description
-        let totalShippingFee = BuyBookCart.sharedInstance.totalShippingFee
+        
+//        let totalShippingFee = BuyBookCart.sharedInstance.totalShippingFee
+        let totalShippingFee = 18   //hardcode for testing
         shippingFee1Label.text = totalShippingFee.description
         shippingFeeLabel.text = totalShippingFee.description
         
