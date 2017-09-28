@@ -20,6 +20,7 @@ class Book {
     var image_medium_url: String?
     var image_large_url: String?
     var publisher: String?
+    var lang: String?
     var price: String?
     var summary: String?
     var pages: String?
@@ -79,6 +80,10 @@ class Book {
         // get publisher
         let publisher = json["publisher"] as? String
         self.publisher = publisher
+        
+        // get language
+        let lang = json["lang"] as? String
+        self.lang = lang
         
         // get summary
         let summary = json["summary"] as? String

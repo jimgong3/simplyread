@@ -20,13 +20,17 @@ class SingleBookViewController: UIViewController {
     @IBOutlet weak var publisherLabel: UILabel!
     @IBOutlet weak var priceLabel: UILabel!
     @IBOutlet weak var ourPriceLabel: UILabel!
+//    @IBOutlet weak var summaryText: UITextView!
+//    @IBOutlet weak var summaryText: UILabel!
     @IBOutlet weak var summaryText: UITextView!
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+//        summaryText.lineBreakMode = .byWordWrapping
+//        summaryText.numberOfLines = 0
+        
         if let book = book {
             // show title
             titleLabel.text = book.title
@@ -51,7 +55,13 @@ class SingleBookViewController: UIViewController {
                 }
             }
             // show publisher
-            publisherLabel.text = book.publisher
+            var publisherStr: String?
+            publisherStr = book.publisher
+            if book.lang != nil &&  book.lang == "zh-cn" {
+                publisherStr = publisherStr! + "  (簡體字)"
+            }
+            publisherLabel.text = publisherStr
+            
             // show prices
             priceLabel.text = book.price
             ourPriceLabel.text = book.our_price_hkd?.description

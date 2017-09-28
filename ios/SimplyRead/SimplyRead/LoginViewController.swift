@@ -8,7 +8,7 @@
 
 import UIKit
 
-class LoginViewController: UIViewController {
+class LoginViewController: UIViewController, UITextFieldDelegate {
     
     var user: User?
     @IBOutlet weak var usernameText: UITextField!
@@ -18,6 +18,8 @@ class LoginViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        usernameText.delegate = self
+        passwordText.delegate = self
     }
 
     override func didReceiveMemoryWarning() {
@@ -25,6 +27,11 @@ class LoginViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        usernameText.resignFirstResponder()
+        passwordText.resignFirstResponder()
+        return true
+    }
 
     
     // MARK: - Navigation

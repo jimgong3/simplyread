@@ -484,3 +484,33 @@ app.post('/translate', function (req, res) {
 	logger.info("app>> translate done: " + after);
 })
 
+app.get('/updateBookLang', function (req, res) {
+	logger.info("app>> get /updateBookLang");
+
+	const {headers, method, url} = req;
+	logger.info("app>> method: " + method);
+	logger.info("app>> url: " + url);
+
+	mongoQuery.updateBookLang(db, function(docs) {
+		logger.info("app>> callback from updateBookLang");
+		logger.info(docs);
+		res.json(docs)
+		logger.info("app>> updateBookLang done.");
+	});
+})
+
+
+app.get('/translateBooks', function (req, res) {
+	logger.info("app>> get /translateBooks");
+
+	const {headers, method, url} = req;
+	logger.info("app>> method: " + method);
+	logger.info("app>> url: " + url);
+
+	mongoQuery.translateBooks(db, function(docs) {
+		logger.info("app>> callback");
+		logger.info(docs);
+		res.json(docs)
+		logger.info("app>> done.");
+	});
+})

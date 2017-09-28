@@ -27,8 +27,17 @@ class BuyBookCart {
         if book.deposit != nil && book.deposit != "NaN"{
             totalDeposit += Int(book.deposit!)!
         }
-        if book.shipping_fee != nil && book.shipping_fee != "NaN"{
-            totalShippingFee += Int(book.shipping_fee!)!
+        
+//        if book.shipping_fee != nil && book.shipping_fee != "NaN"{
+//            totalShippingFee += Int(book.shipping_fee!)!
+//        }
+        //calculate shipping fee
+        //first two books: $18
+        //each book after: $7
+        if numBooks <= 2 {
+            totalShippingFee = 18
+        } else {
+            totalShippingFee = 18 + 7 * (numBooks-2)
         }
     }
 }

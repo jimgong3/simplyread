@@ -1,6 +1,8 @@
 var assert = require('assert');
 var HashMap = require('hashmap')
 
+var translator = require('./translator');
+
 var winston = require('winston')
 var logger = new (winston.Logger)({
   transports: [
@@ -427,9 +429,9 @@ exports.addPublisher = function(db, publisher, lang, callback){
   logger.info("mongoQuery>> query: ");
   logger.info(query);
 
-  collection.update(query, 
-	{$set: {name: publisher, lang: lang}}, 
-	{upsert: true}, 
+  collection.update(query,
+	{$set: {name: publisher, lang: lang}},
+	{upsert: true},
 	function(err, docs) {
 		assert.equal(err, null);
 		logger.info("mongoQuery>> result: ");
@@ -453,4 +455,59 @@ exports.queryPublishers = function(db, callback){
     logger.info(docs);
     callback(docs);
   });
+}
+
+
+exports.updateBookLang = function(db, callback){
+  logger.info("mongoQuery>> updateBookLang");
+
+  var map = new HashMap();
+  var colPublishers = db.collection('publishers');
+  var cursorPublishers = colPublishers.find();
+  cursorPublishers.each(function(err, publisher){
+    if(publisher != null){
+      logger.info("add publisher into map: " + publisher.name + " : " + publisher.lang);
+      map.set(publisher.name, publisher.lang);
+    } else {
+      logger.info("all publishers have been read, now process books...")
+
+      var colBooks = db.collection('books');
+      var cursorBooks = colBooks.find();
+      cursorBooks.each(function(err, book){
+        if(book != null){
+          var lang = map.get(book.publisher);
+          logger.info("book " + book.title + " published by " + book.publisher + " in language " + lang);
+          book.lang = lang;
+          colBooks.save(book);
+          logger.info("book lang saved into database.")
+        }
+        else{
+          logger.info("all books processed, return.")
+          callback("result:done");
+        }
+      })
+    }
+  });
+}
+
+exports.translateBooks = function(db, callback){
+  logger.info("mongoQuery>> translateBooks");
+
+  var colBooks = db.collection('books');
+  var cursorBooks = colBooks.find();
+  cursorBooks.each(function(err, book){
+    if(book != null){
+      var title2 = translator.translate2(book.title);
+      book.title = title2;
+      var summary2 = translator.translate2(book.summary);
+      book.summary = summary2;
+      colBooks.save(book);
+      logger.info("book translated and saved into database.")
+    }
+    else{
+      logger.info("all books processed, return.")
+      callback("result:done");
+    }
+  })
+
 }
