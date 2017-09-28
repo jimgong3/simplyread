@@ -5,6 +5,7 @@ var pretty = require('express-prettify');
 var assert = require('assert');
 var mongoQuery = require('./mongoQuery');
 var pricing = require('./pricing');
+var translator = require('./translator');
 var multiparty = require('multiparty');
 // var multiparty = require('connect-multiparty')
 // var multipartMiddleware = multiparty();
@@ -467,3 +468,19 @@ app.get('/publishers', function (req, res) {
 		logger.info("app>> publishers done");
 	});
 })
+
+app.post('/translate', function (req, res) {
+	logger.info("app>> post /translate");
+
+	const {headers, method, url} = req;
+	logger.info("app>> method: " + method);
+	logger.info("app>> url: " + url);
+
+	var text = req.body.text;
+	logger.info("app>> original text: " + text);
+
+	var after = translator.translate2(text);
+	res.json(after);
+	logger.info("app>> translate done: " + after);
+})
+
