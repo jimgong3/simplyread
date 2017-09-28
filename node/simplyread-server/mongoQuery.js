@@ -228,27 +228,31 @@ function buildTags(colTags, map){
 
 function buildTags2(colTags, map){
   logger.info("buildTags2 start");
-  map.forEach(function(value, key){
-    logger.info("processing tag: " + key);
-    var query = {name: key};
-    colTags.deleteOne(query, function(err, obj){
-      if (err) throw err;
-      logger.info(obj.result.n + " documents deleted for tag: " + key);
+  colTags.deleteMany({}, function(err, obj){
+    logger.info("all existing tags deleted.");
 
-      logger.info("rebuild documents for tag: " + key)
-      var tagJson = {};
-      tagJson["name"] = key;
-      tagJson["num_books"] = value.length;
-      tagJson["book_ids"] = value;
-
-      logger.info("insert document to tags collection: " + JSON.stringify(tagJson));
-      colTags.insertOne(tagJson, function(err, res){
+    map.forEach(function(value, key){
+      logger.info("processing tag: " + key);
+      var query = {name: key};
+      colTags.deleteOne(query, function(err, obj){
         if (err) throw err;
-        logger.info("1 document inserted for tag: " + key);
-      })
+        logger.info(obj.result.n + " documents deleted for tag: " + key);
+
+        logger.info("rebuild documents for tag: " + key)
+        var tagJson = {};
+        tagJson["name"] = key;
+        tagJson["num_books"] = value.length;
+        tagJson["book_ids"] = value;
+
+        logger.info("insert document to tags collection: " + JSON.stringify(tagJson));
+        colTags.insertOne(tagJson, function(err, res){
+          if (err) throw err;
+          logger.info("1 document inserted for tag: " + key);
+        })
+      });
     });
-  });
-  logger.info("function buildTags2 complete");
+    logger.info("function buildTags2 complete");
+});
 }
 
 exports.collectTags = function(db, callback){
@@ -412,4 +416,3 @@ exports.assignCategoryOrder = function(db, ref, category, callback){
     callback(docs);
   });
 }
-
