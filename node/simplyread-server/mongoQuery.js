@@ -416,3 +416,41 @@ exports.assignCategoryOrder = function(db, ref, category, callback){
     callback(docs);
   });
 }
+
+
+exports.addPublisher = function(db, publisher, lang, callback){
+
+  logger.info("mongoQuery>> add publisher, publisher: " + publisher + ", lang: " + lang);
+  var collection = db.collection('publishers');
+
+  var query = {name: publisher};
+  logger.info("mongoQuery>> query: ");
+  logger.info(query);
+
+  collection.update(query, 
+	{$set: {name: publisher, lang: lang}}, 
+	{upsert: true}, 
+	function(err, docs) {
+		assert.equal(err, null);
+		logger.info("mongoQuery>> result: ");
+		logger.info(docs);
+		callback(docs);
+  });
+}
+
+exports.queryPublishers = function(db, callback){
+  logger.info("mongoQuery>> query all publishers");
+
+  var collection = db.collection('publishers');
+
+  var order = {lang: 1};
+  logger.info("mongoQuer>> order");
+  logger.info(order);
+
+  collection.find().sort(order).toArray(function(err, docs) {
+    assert.equal(err, null);
+    logger.info("mongoQuery>> result: ");
+    logger.info(docs);
+    callback(docs);
+  });
+}

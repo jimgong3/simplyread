@@ -430,3 +430,40 @@ app.post('/importBookCategoryOrder', function (req, res) {
 		logger.info("app>> assign category order done");
 	});
 });
+
+
+app.post('/importPublisher', function (req, res) {
+	logger.info("app>> import publisher");
+
+	const {headers, method, url} = req;
+	logger.info("app>> method: " + method);
+	logger.info("app>> url: " + url);
+
+	var publisher = req.body.publisher;
+	var lang = req.body.lang;
+	logger.info("app>> publisher: " + publisher + ", lang: " + lang);
+
+	mongoQuery.addPublisher(db, publisher, lang, function(docs){
+		logger.info("app>> publisher added")
+		var result = [];
+		result.push(docs);
+		res.json(result);
+		logger.info("app>> return result: " + result);
+		logger.info("app>> add publisher done");
+	});
+});
+
+app.get('/publishers', function (req, res) {
+	logger.info("app>> get /publishers");
+
+	const {headers, method, url} = req;
+	logger.info("app>> method: " + method);
+	logger.info("app>> url: " + url);
+
+	mongoQuery.queryPublishers(db, function(docs) {
+		logger.info("app>> callback from queryPublishers");
+		logger.info(docs);
+		res.json(docs)
+		logger.info("app>> publishers done");
+	});
+})
