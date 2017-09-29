@@ -70,7 +70,6 @@ app.get('/user', function (req, res) {
 })
 
 app.post('/login', function (req, res) {
-	var date = new Date()
 	logger.info("app>> get /user");
 
 	const {headers, method, url} = req;
@@ -82,10 +81,10 @@ app.post('/login', function (req, res) {
 	logger.info("app>> username: " + username + ", password: " + password);
 
 	mongoQuery.queryUser(db, username, password, function(docs) {
-		logger.info("app>> callback from queryUser");
+		logger.info("app>> callback from login");
 		logger.info(docs);
 		res.json(docs)
-		logger.info("app>> user done");
+		logger.info("app>> login done");
 	});
 })
 

@@ -8,6 +8,7 @@
 
 import Foundation
 import Alamofire
+import Crypto
 
 func login(username: String, password: String, completion: @escaping (_ user: User) -> ()){
     print("Query>> login username: " + username + ", password: " + password)
@@ -62,6 +63,43 @@ func login2(username: String, password: String, completion: @escaping (_ user: U
         print("Response: \(String(describing: response.response))") // http url response
         print("Result: \(response.result)")                         // response serialization result
         
+        if let json = response.result.value {
+            print("JSON: \(json)") // serialized json response
+            
+            if let array = json as? [Any] {
+                if array.count>0 {
+                    var userJson = array[0] as? [String: Any]
+                    let u = User(json: userJson!)
+                    completion(u!)
+                }
+                else{
+                    print("Query>> oops, no user is found")
+                }
+            }
+        }
+    }
+}
+
+func login3(username: String, password: String, completion: @escaping (_ user: User) -> ()){
+    
+    var urlStr: String?
+    urlStr = "http://" + SERVER_IP + ":" + PORT + "/login"
+    let url = URL(string: urlStr!)
+    print("Query>> url: ")
+    print(url)
+    
+    var password2 = password.sha1
+    print("original password: " + password + ", encrypted password: " + password2!)
+    let parameters: Parameters = [
+        "username": username,
+        "password": password2!
+    ]
+    
+    Alamofire.request(url!, method: .post, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+        print("Query>> Request: \(String(describing: response.request))")   // original url request
+        print("Query>> Response: \(String(describing: response.response))") // http url response
+        print("Query>> Result: \(response.result)")                         // response serialization result
+
         if let json = response.result.value {
             print("JSON: \(json)") // serialized json response
             

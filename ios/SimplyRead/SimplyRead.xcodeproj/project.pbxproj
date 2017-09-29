@@ -19,6 +19,10 @@
 		BA1FC19A1F7957BC0015DE9B /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1FC1991F7957BC0015DE9B /* Category.swift */; };
 		BA1FC19C1F795BD70015DE9B /* CategoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1FC19B1F795BD70015DE9B /* CategoryTableViewCell.swift */; };
 		BA1FC19E1F79D30C0015DE9B /* BooksForCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1FC19D1F79D30C0015DE9B /* BooksForCategoryViewController.swift */; };
+		BA1FC1A31F7E9C800015DE9B /* CommonCrypto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BA1FC1A11F7E9C800015DE9B /* CommonCrypto.framework */; };
+		BA1FC1A41F7E9C800015DE9B /* CommonCrypto.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BA1FC1A11F7E9C800015DE9B /* CommonCrypto.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		BA1FC1A51F7E9C800015DE9B /* Crypto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BA1FC1A21F7E9C800015DE9B /* Crypto.framework */; };
+		BA1FC1A61F7E9C800015DE9B /* Crypto.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BA1FC1A21F7E9C800015DE9B /* Crypto.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		BA220E8C1F7495F100EA1D6B /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA220E8B1F7495F100EA1D6B /* Tag.swift */; };
 		BA220E8F1F7499F500EA1D6B /* BookCategoriesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA220E8E1F7499F400EA1D6B /* BookCategoriesViewController.swift */; };
 		BA220E911F7546F500EA1D6B /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA220E901F7546F500EA1D6B /* Config.swift */; };
@@ -51,6 +55,21 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		BA1FC1A71F7E9C800015DE9B /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				BA1FC1A41F7E9C800015DE9B /* CommonCrypto.framework in Embed Frameworks */,
+				BA1FC1A61F7E9C800015DE9B /* Crypto.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		02EADD9038DB1A72BFB5C1A7 /* Pods-SimplyRead.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SimplyRead.release.xcconfig"; path = "Pods/Target Support Files/Pods-SimplyRead/Pods-SimplyRead.release.xcconfig"; sourceTree = "<group>"; };
 		3BA3A84D978CBFDD31FF3E61 /* Pods_SimplyRead.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SimplyRead.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -70,6 +89,9 @@
 		BA1FC1991F7957BC0015DE9B /* Category.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		BA1FC19B1F795BD70015DE9B /* CategoryTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryTableViewCell.swift; sourceTree = "<group>"; };
 		BA1FC19D1F79D30C0015DE9B /* BooksForCategoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BooksForCategoryViewController.swift; sourceTree = "<group>"; };
+		BA1FC1A01F7E95EE0015DE9B /* SimplyRead-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SimplyRead-Bridging-Header.h"; sourceTree = "<group>"; };
+		BA1FC1A11F7E9C800015DE9B /* CommonCrypto.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CommonCrypto.framework; path = Carthage/Build/iOS/CommonCrypto.framework; sourceTree = "<group>"; };
+		BA1FC1A21F7E9C800015DE9B /* Crypto.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Crypto.framework; path = Carthage/Build/iOS/Crypto.framework; sourceTree = "<group>"; };
 		BA220E8B1F7495F100EA1D6B /* Tag.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
 		BA220E8E1F7499F400EA1D6B /* BookCategoriesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookCategoriesViewController.swift; sourceTree = "<group>"; };
 		BA220E901F7546F500EA1D6B /* Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
@@ -97,6 +119,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BA1FC1A51F7E9C800015DE9B /* Crypto.framework in Frameworks */,
+				BA1FC1A31F7E9C800015DE9B /* CommonCrypto.framework in Frameworks */,
 				7A73F617BB5D2E9443594947 /* Pods_SimplyRead.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -131,6 +155,8 @@
 		BA1C41991F52922400A3A6E2 = {
 			isa = PBXGroup;
 			children = (
+				BA1FC1A11F7E9C800015DE9B /* CommonCrypto.framework */,
+				BA1FC1A21F7E9C800015DE9B /* Crypto.framework */,
 				BA1C41A41F52922500A3A6E2 /* SimplyRead */,
 				BA1C41B91F52922500A3A6E2 /* SimplyReadTests */,
 				BA1C41A31F52922500A3A6E2 /* Products */,
@@ -187,6 +213,7 @@
 		BA2762231F58200100F02966 /* common */ = {
 			isa = PBXGroup;
 			children = (
+				BA1FC1A01F7E95EE0015DE9B /* SimplyRead-Bridging-Header.h */,
 				BAD250F21F695D24007BEB1F /* Global.swift */,
 				BA0376D41F6CDCDD00FEDC46 /* BookCart.swift */,
 				BA1C41A51F52922500A3A6E2 /* AppDelegate.swift */,
@@ -248,6 +275,7 @@
 				BA1C41A01F52922400A3A6E2 /* Resources */,
 				102D488A57AE3C1F36F3ECA2 /* [CP] Embed Pods Frameworks */,
 				2145505BF9A85DEF4E99A222 /* [CP] Copy Pods Resources */,
+				BA1FC1A71F7E9C800015DE9B /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -566,6 +594,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 745SMA85GR;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = SimplyRead/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.jimgong.simplyread;
@@ -580,6 +612,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 745SMA85GR;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = SimplyRead/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.jimgong.simplyread;

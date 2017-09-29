@@ -12,20 +12,20 @@ var logger = new (winston.Logger)({
 });
 
 exports.queryUser = function(db, username, password, callback){
-  console.log("mongoQuery>> query user: " + username);
+  logger.info("mongoQuery>> query user: " + username);
 
   var collection = db.collection('users');
   var query = {
                 username: username,
                 password: password
               };
-  console.log("mongoQuery>> query: ");
-  console.log(query);
+  logger.info("mongoQuery>> query: ");
+  logger.info(query);
 
   collection.find(query).toArray(function(err, docs) {
     assert.equal(err, null);
-    console.log("mongoQuery>> result: ");
-    console.log(docs);
+    logger.info("mongoQuery>> result: ");
+    logger.info(docs);
     callback(docs);
   });
 }
