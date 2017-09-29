@@ -69,6 +69,26 @@ app.get('/user', function (req, res) {
 	});
 })
 
+app.post('/login', function (req, res) {
+	var date = new Date()
+	logger.info("app>> get /user");
+
+	const {headers, method, url} = req;
+	logger.info("app>> method: " + method);
+	logger.info("app>> url: " + url);
+
+	var username = req.body.username;
+	var password = req.body.password;
+	logger.info("app>> username: " + username + ", password: " + password);
+
+	mongoQuery.queryUser(db, username, password, function(docs) {
+		logger.info("app>> callback from queryUser");
+		logger.info(docs);
+		res.json(docs)
+		logger.info("app>> user done");
+	});
+})
+
 
 app.get('/books', function (req, res) {
 	logger.info("app>> get /books");
