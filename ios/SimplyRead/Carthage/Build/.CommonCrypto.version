@@ -1,0 +1,27 @@
+{
+  "iOS" : [
+    {
+      "hash" : "462592c3972739f8e937a42d6ca88e048dd1328337c1bc5fbc93471f932ffcfb",
+      "name" : "CommonCrypto"
+    }
+  ],
+  "commitish" : "v1.1.0",
+  "watchOS" : [
+    {
+      "hash" : "3283d412efa9ed572be7dffdf18d5d24573ed31f171cd1b479a0a910d7812e70",
+      "name" : "CommonCrypto"
+    }
+  ],
+  "tvOS" : [
+    {
+      "hash" : "6a00b302879a00d8f886c18d04b8d70243671bad0fe0c1a28918401fb02ece52",
+      "name" : "CommonCrypto"
+    }
+  ],
+  "Mac" : [
+    {
+      "hash" : "d65f1dbaa5ee31f11a452dcc94e4145481a24147ca8735c814a56430dee4c1ba",
+      "name" : "CommonCrypto"
+    }
+  ]
+}
