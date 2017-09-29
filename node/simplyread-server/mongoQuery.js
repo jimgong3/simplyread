@@ -17,7 +17,7 @@ exports.queryUser = function(db, username, password, callback){
   var collection = db.collection('users');
   var query = {
                 username: username,
-                password: password
+                $or: [{password: password}, {password2: password}]
               };
   logger.info("mongoQuery>> query: ");
   logger.info(query);
