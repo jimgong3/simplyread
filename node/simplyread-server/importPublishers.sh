@@ -15,7 +15,7 @@ do
 	else
 		url="http://localhost:3001/importPublisher"
 		echo "url: $url"
-		curl --request POST $url --data-urlencode "publisher=$publisher"	--data-urlencode "lang=$lang"
+		curl --request POST $url --data-urlencode "publisher=$publisher" --data-urlencode "lang=$lang"
 		echo
 	fi
 	let n++

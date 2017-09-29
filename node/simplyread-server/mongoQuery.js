@@ -457,7 +457,6 @@ exports.queryPublishers = function(db, callback){
   });
 }
 
-
 exports.updateBookLang = function(db, callback){
   logger.info("mongoQuery>> updateBookLang");
 
@@ -466,8 +465,9 @@ exports.updateBookLang = function(db, callback){
   var cursorPublishers = colPublishers.find();
   cursorPublishers.each(function(err, publisher){
     if(publisher != null){
-      logger.info("add publisher into map: " + publisher.name + " : " + publisher.lang);
-      map.set(publisher.name, publisher.lang);
+	  var pub2 = translator.translate2(publisher.name);
+      logger.info("add publisher into map: " + pub2 + " : " + publisher.lang);
+      map.set(pub2, publisher.lang);
     } else {
       logger.info("all publishers have been read, now process books...")
 
@@ -475,7 +475,8 @@ exports.updateBookLang = function(db, callback){
       var cursorBooks = colBooks.find();
       cursorBooks.each(function(err, book){
         if(book != null){
-          var lang = map.get(book.publisher);
+		  var pub2 = translator.translate2(book.publisher);
+          var lang = map.get(pub2);
           logger.info("book " + book.title + " published by " + book.publisher + " in language " + lang);
           book.lang = lang;
           colBooks.save(book);
