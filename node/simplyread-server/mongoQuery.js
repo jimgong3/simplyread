@@ -512,5 +512,4 @@ exports.translateBooks = function(db, callback){
       callback("result:done");
     }
   })
-
 }

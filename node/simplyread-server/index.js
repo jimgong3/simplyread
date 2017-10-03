@@ -4,6 +4,7 @@ app.set('view engine', 'pug')
 var pretty = require('express-prettify');
 var assert = require('assert');
 var mongoQuery = require('./mongoQuery');
+var mongoOrders = require('./mongoOrders');
 var pricing = require('./pricing');
 var translator = require('./translator');
 var multiparty = require('multiparty');
@@ -531,5 +532,44 @@ app.get('/translateBooks', function (req, res) {
 		logger.info(docs);
 		res.json(docs)
 		logger.info("app>> done.");
+	});
+})
+
+app.get('/orders', function (req, res) {
+	logger.info("app>> GET /orders");
+	mongoOrders.queryOrders(db, function(docs) {
+		logger.info("app>> callback from mongoOrders");
+		logger.info(docs);
+		res.json(docs)
+		logger.info("app>> orders done");
+	});
+})
+
+
+app.get('/ordersByUser', function (req, res) {
+	logger.info("app>> GET /ordersByUser");
+
+	var username = req.query.username;
+	logger.info("app>> username: " + username);
+
+	mongoOrders.queryOrdersByUser(db, username, function(docs) {
+		logger.info("app>> callback from mongoOrders");
+		logger.info(docs);
+		res.json(docs)
+		logger.info("app>> ordersByUser done");
+	});
+})
+
+app.post('/addOrder', function (req, res) {
+	logger.info("app>> POST /addOrder");
+
+  var details = req.body.details;
+	logger.info("app>> orderDetails: " + details);
+
+	mongoOrders.addOrder(db, details, function(docs) {
+		logger.info("app>> callback from mongoOrders");
+		logger.info(docs);
+		res.json(docs)
+		logger.info("app>> addOrder done");
 	});
 })
