@@ -504,6 +504,11 @@ exports.translateBooks = function(db, callback){
       book.summary = summary2;
       var publisher2 = translator.translate2(book.publisher);
       book.publisher = publisher2;
+      for (var i=0; i<book.tags.length; i++) {
+        var tag = book.tags[i].name;
+        var tag2 = translator.translate2(tag);
+        book.tags[i].name = tag2;
+      }
       colBooks.save(book);
       logger.info("book translated and saved into database.")
     }
