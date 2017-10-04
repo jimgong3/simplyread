@@ -5,6 +5,7 @@ var pretty = require('express-prettify');
 var assert = require('assert');
 var mongoQuery = require('./mongoQuery');
 var mongoOrders = require('./mongoOrders');
+var loginUtil = require('./loginUtil');
 var pricing = require('./pricing');
 var translator = require('./translator');
 var multiparty = require('multiparty');
@@ -89,6 +90,15 @@ app.post('/login', function (req, res) {
 	});
 })
 
+app.post('/register', function (req, res) {
+	logger.info("app>> POST /register");
+	loginUtil.register(req, db, function(docs) {
+		logger.info("app>> callback from register");
+		logger.info(docs);
+		res.json(docs)
+		logger.info("app>> register done");
+	});
+})
 
 app.get('/books', function (req, res) {
 	logger.info("app>> get /books");
