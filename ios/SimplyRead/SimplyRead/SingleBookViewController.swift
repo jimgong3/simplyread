@@ -14,6 +14,8 @@ class SingleBookViewController: UIViewController {
     var book: Book?
     var user: User?
     
+    @IBOutlet weak var scrollView: UIScrollView!
+    
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var authorsLabel: UILabel!
     @IBOutlet weak var photoImageView: UIImageView!
@@ -28,6 +30,7 @@ class SingleBookViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        
 //        summaryText.lineBreakMode = .byWordWrapping
 //        summaryText.numberOfLines = 0
         
@@ -65,8 +68,24 @@ class SingleBookViewController: UIViewController {
             // show prices
             priceLabel.text = book.price
             ourPriceLabel.text = book.our_price_hkd?.description
+            
             // show summary
             summaryText.text = book.summary
+//          // auto adjust textview size to show all contents
+            let fixedWidth = summaryText.frame.size.width
+            summaryText.sizeThatFits(CGSize(width: fixedWidth, height: CGFloat.greatestFiniteMagnitude))
+            let newSize = summaryText.sizeThatFits(CGSize(width: fixedWidth, height: CGFloat.greatestFiniteMagnitude))
+            var newFrame = summaryText.frame
+            newFrame.size = CGSize(width: max(newSize.width, fixedWidth), height: newSize.height)
+            summaryText.frame = newFrame
+            
+            // set scrollview size to include all contents
+            var  contentRect = CGRect.zero
+            for view in self.scrollView.subviews {
+                contentRect = contentRect.union(view.frame)
+            }
+            self.scrollView.contentSize = contentRect.size;
+
         }
     }
 
