@@ -12,15 +12,15 @@ var logger = new (winston.Logger)({
 });
 
 exports.translate = function(before, callback){
-  logger.info("translator>> translate: " + before);
+  // logger.info("translator>> translate: " + before);
   var after = chineseConv.tify(before);
-  logger.info("converted: " + after);
+  // logger.info("converted: " + after);
   callback(after);
 }
 
 exports.translate2 = function(before){
-  logger.info("translator>> translate: " + before);
+  // logger.info("translator>> translate: " + before);
   var after = chineseConv.tify(before);
-  logger.info("converted: " + after);
+  // logger.info("converted: " + after);
   return after;
 }

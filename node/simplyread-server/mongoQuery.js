@@ -31,7 +31,7 @@ exports.queryUser = function(db, username, password, callback){
 }
 
 exports.queryBooks = function(db, callback){
-  logger.info("mongoQuery>> query all books");
+  logger.info("mongoQuery>> queryBooks");
 
   var collection = db.collection('books');
 
@@ -45,14 +45,14 @@ exports.queryBooks = function(db, callback){
 
   collection.find(query).sort(order).toArray(function(err, docs) {
     assert.equal(err, null);
-    logger.info("mongoQuery>> result: ");
-    logger.info(docs);
+    logger.info("mongoQuery>> # of result: " + docs.length);
+    // logger.info(docs);
     callback(docs);
   });
 }
 
 exports.queryBook = function(db, isbn, callback){
-  logger.info("mongoQuery>> query book by isbn");
+  logger.info("mongoQuery>> queryBook");
 
   var collection = db.collection('books');
   var query = {
@@ -61,13 +61,13 @@ exports.queryBook = function(db, isbn, callback){
                   {isbn13: isbn}
                 ]
               };
-  logger.info("mongoQuery>> query: ");
-  logger.info(query);
+  logger.info("mongoQuery>> query: " + query);
+  // logger.info(query);
 
   collection.find(query).toArray(function(err, docs) {
     assert.equal(err, null);
-    logger.info("mongoQuery>> result: ");
-    logger.info(docs);
+    logger.info("mongoQuery>> # of result: " + docs.length);
+    // logger.info(docs.length);
     callback(docs);
   });
 }
@@ -166,8 +166,8 @@ exports.hotTags = function(db, n, callback){
 
 function collectTagFromBook(map, book){
     logger.info("mongoQuery>> collectTagFromBook: " + book.title);
-    logger.info("book id: " + book._id);
-    logger.info("book tags: " + book.tags);
+    // logger.info("book id: " + book._id);
+    // logger.info("book tags: " + book.tags);
 
     var bookId = book._id;
     var tags = book.tags;
@@ -175,15 +175,15 @@ function collectTagFromBook(map, book){
       logger.info("tags found for this book");
       tags.forEach(function(tag){
         var name = tag.name;
-        logger.info("tag name: " + name);
+        // logger.info("tag name: " + name);
         var curBooks = map.get(name);
         if (curBooks == null){
-          logger.info("new tag: " + name + ", add book id: " + bookId);
+          // logger.info("mongoQuery>> new tag: " + name + ", add book id: " + bookId);
           var books = [];
           books.push(bookId);
           map.set(name, books);
         } else {
-          logger.info("existing tag, find book id: " + bookId)
+          // logger.info("mongoQuery>> existing tag, find book id: " + bookId)
           var found = false;
           for (var i=0; i<curBooks.length; i++){
             if(curBooks[i] == bookId){
@@ -231,25 +231,25 @@ function buildTags(colTags, map){
 function buildTags2(colTags, map){
   logger.info("buildTags2 start");
   colTags.deleteMany({}, function(err, obj){
-    logger.info("all existing tags deleted.");
+    logger.info("mongoQuery>> all existing tags deleted.");
 
     map.forEach(function(value, key){
-      logger.info("processing tag: " + key);
+      logger.info("mongoQuery>> processing tag: " + key);
       var query = {name: key};
       colTags.deleteOne(query, function(err, obj){
         if (err) throw err;
-        logger.info(obj.result.n + " documents deleted for tag: " + key);
+        // logger.info(obj.result.n + " documents deleted for tag: " + key);
 
-        logger.info("rebuild documents for tag: " + key)
+        // logger.info("rebuild documents for tag: " + key)
         var tagJson = {};
         tagJson["name"] = key;
         tagJson["num_books"] = value.length;
         tagJson["book_ids"] = value;
 
-        logger.info("insert document to tags collection: " + JSON.stringify(tagJson));
+        // logger.info("insert document to tags collection: " + JSON.stringify(tagJson));
         colTags.insertOne(tagJson, function(err, res){
           if (err) throw err;
-          logger.info("1 document inserted for tag: " + key);
+          // logger.info("1 document inserted for tag: " + key);
         })
       });
     });
@@ -258,7 +258,7 @@ function buildTags2(colTags, map){
 }
 
 exports.collectTags = function(db, callback){
-  logger.info("mongoQuery>> collect tags");
+  logger.info("mongoQuery>> collectTags");
 
   var map = new HashMap();
 
@@ -268,10 +268,10 @@ exports.collectTags = function(db, callback){
 	  if(item != null){
 		  collectTagFromBook(map, item);
 	  } else {
-      logger.info("all books have been processed.")
-      map.forEach(function(value, key){
-        logger.info(key + " : " + value);
-      })
+      logger.info("mongoQuery>> all books have been processed, total # of tags:" + map.size)
+      // map.forEach(function(value, key){
+      //   logger.info(key + " : " + value);
+      // })
 
       logger.info("rebuild tags collection");
       var colTags = db.collection('tags');
@@ -323,7 +323,7 @@ function addBookToCategory(map, book){
 function updateCategories(colCategories, map){
   logger.info("updateCategories start");
   colCategories.deleteMany({}, function(err, obj){
-    logger.info("all existing categories data deleted.")
+    logger.info("mongoQuery>> all existing categories data deleted.")
     map.forEach(function(value, key){
       logger.info("processing category: " + key);
       var catJson = {};
@@ -334,7 +334,7 @@ function updateCategories(colCategories, map){
       logger.info("insert document to categories collection: " + JSON.stringify(catJson));
       colCategories.insertOne(catJson, function(err, res){
         if (err) throw err;
-        logger.info("1 document inserted for category: " + key);
+        // logger.info("1 document inserted for category: " + key);
       })
     });
     logger.info("function updateCategories complete");
@@ -352,12 +352,12 @@ exports.buildCategories = function(db, callback){
 	  if(book != null){
 		  addBookToCategory(map, book);
 	  } else {
-      logger.info("all books have been processed, review categories data:")
+      logger.info("mongoQuery>> all books have been processed, review categories data:")
       map.forEach(function(value, key){
         logger.info(key + " : " + value);
       })
 
-      logger.info("rebuild tags collection");
+      logger.info("mongoQuery>> rebuild categories");
       var colCategories = db.collection('categories');
       updateCategories(colCategories, map);
 

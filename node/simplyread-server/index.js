@@ -234,10 +234,10 @@ app.get('/searchAddBook', function (req, res) {
 });
 
 app.post('/addBook', function (req, res) {
-	logger.info("app>> POST /addBook");
+	logger.info("index>> POST /addBook");
 	booksUtil.addBook(req, db, function(docs) {
-		logger.info("app>> callback from addBooks");
-		logger.info(docs);
+		logger.info("index>> callback from addBook...");
+		// logger.info(docs);
 		res.json(docs)
 		logger.info("app>> addBooks done");
 	});
