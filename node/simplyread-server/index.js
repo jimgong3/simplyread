@@ -6,6 +6,7 @@ var assert = require('assert');
 var mongoQuery = require('./mongoQuery');
 var mongoOrders = require('./mongoOrders');
 var loginUtil = require('./loginUtil');
+var booksUtil = require('./booksUtil');
 var pricing = require('./pricing');
 var translator = require('./translator');
 var multiparty = require('multiparty');
@@ -232,6 +233,15 @@ app.get('/searchAddBook', function (req, res) {
 	});
 });
 
+app.post('/addBook', function (req, res) {
+	logger.info("app>> POST /addBook");
+	booksUtil.addBook(req, db, function(docs) {
+		logger.info("app>> callback from addBooks");
+		logger.info(docs);
+		res.json(docs)
+		logger.info("app>> addBooks done");
+	});
+})
 
 app.get('/addNewBook', function (req, res) {
 	logger.info("app>> add new book");

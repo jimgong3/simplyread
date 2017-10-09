@@ -36,7 +36,7 @@ exports.getDeposit = function(originalPrice, callback){
   if (originalCcy == "HKD")
     deposit = originalAmt;
   else if (originalCcy == "NT")
-    deposit = Math.trunc(originalAmt / 2);
+    deposit = Math.trunc(originalAmt / 3);
   else if (originalCcy == "CNY")
     deposit = Math.trunc(originalAmt * 1.5);
 
