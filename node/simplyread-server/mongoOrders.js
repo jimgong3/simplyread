@@ -56,9 +56,11 @@ function sendEmail(email, order){
   text += "\n\nSubmitted by: " + order.username;
   text += "\n\nEmail: " + order.email;
   text += "\n\nBooks: ";
-  for(var book of order.books){
-    text += "\n\t";
-    text += book.title;
+  if (order.books != null){
+    for(var book of order.books){
+      text += "\n\t";
+      text += book.title;
+    }
   }
   text += "\n\nTotal number of books: " + order.num_books;
   text += "\n\nTotal price: " + order.total_price;
@@ -89,7 +91,7 @@ function nextOrderId(db){
 	collection.find().sort({_id: -1}).limit(1).toArray(function(err, docs){
 		if(docs.length == 0){
 			logger.info("mongoOrders>> no order yet, next order id is 1")
-			return 1;	
+			return 1;
 		}else{
 			var lastOrder = docs[0];
 			var lastOrderId = lastOrder.orderId;
@@ -110,21 +112,11 @@ exports.addOrder = function(db, details, callback){
   order["date"] = datetime;
 
   order["status"] = "submitted";  //inital order status
-  
+
   var collection = db.collection('orders');
-  collection.find().sort({_id: -1}).limit(1).toArray(function(err, docs){
-	var orderId;
-	if(docs.length == 0){
-		logger.info("mongoOrders>> no order yet, next order id is 1")
-		orderId = 1;	
-	}else{
-		var lastOrder = docs[0];
-		var lastOrderId = lastOrder.orderId;
-		orderId = lastOrderId + 1;
-		logger.info("mongoOrders>> next order id: " + nextOrderId);
-	}
+  var orderId = nextOrderId(db);
 	order["orderId"] = orderId;
-	
+
 	collection.insertOne(order, function(err, docs) {
 		assert.equal(err, null);
 		logger.info("mongoOrders>> order insert complete");
@@ -135,5 +127,4 @@ exports.addOrder = function(db, details, callback){
 		}
 		callback(order);
 	});
-  });
 }
