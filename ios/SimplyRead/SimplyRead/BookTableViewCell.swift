@@ -17,6 +17,7 @@ class BookTableViewCell: UITableViewCell {
     @IBOutlet weak var summaryLabel: UILabel!
     @IBOutlet weak var ourPriceLabel: UILabel!
     @IBOutlet weak var depositLabel: UILabel!
+    @IBOutlet weak var holderLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()

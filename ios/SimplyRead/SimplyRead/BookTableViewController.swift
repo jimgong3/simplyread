@@ -81,7 +81,11 @@ class BookTableViewController: UIViewController, UITableViewDataSource, UITableV
         // set summary
         cell.summaryLabel.text = book.summary
         // set our price
-        cell.ourPriceLabel.text = book.our_price_hkd
+//        cell.ourPriceLabel.text = book.our_price_hkd
+        cell.ourPriceLabel.text = book.currentCopy?.price   //price of each copy
+        
+        //set holder
+        cell.holderLabel.text = (book.currentCopy?.hold_by)!
         
         return cell
     }

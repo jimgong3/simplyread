@@ -67,7 +67,8 @@ class SingleBookViewController: UIViewController {
             
             // show prices
             priceLabel.text = book.price
-            ourPriceLabel.text = book.our_price_hkd?.description
+//            ourPriceLabel.text = book.our_price_hkd?.description
+            ourPriceLabel.text = book.currentCopy?.price
             
             // show summary
             summaryText.text = book.summary
@@ -124,6 +125,11 @@ class SingleBookViewController: UIViewController {
     @IBAction func complete(_ sender: Any) {
         print("SingleBookViewController>> choose complete ")
         self.performSegue(withIdentifier: "selectBookComplete", sender: self)
+    }
+
+    @IBAction func bookshelf(_ sender: Any) {
+        print("SingleBookViewController>> choose bookshelf ")
+        //...
     }
 
 }

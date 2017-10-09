@@ -8,6 +8,24 @@
 
 import UIKit
 
+class BookCopy {
+    var owner: String
+    var price: String?
+    var hold_by: String?
+    var status: String?
+    
+    init?(owner: String){
+        self.owner = owner
+    }
+    
+    init?(json: [String: Any]){
+        self.owner = (json["owner"] as? String)!
+        self.price = json["price"] as? String
+        self.hold_by = json["hold_by"] as? String
+        self.status = json["status"] as? String
+    }
+}
+
 class Book {
     
     //MARK: Properties
@@ -32,6 +50,11 @@ class Book {
     var num_onshelf: String?
     
     var isbn: String?   //used when donate book
+    
+    var num_copies: Int?
+    var bookCopies: [BookCopy]?
+    var holder: String?     //the user who currently holds this book
+    var currentCopy: BookCopy?
 
     init?(title: String){
         self.title = title
@@ -109,6 +132,19 @@ class Book {
         self.num_onshelf = json["num_onshelf"] as? String
 
 //        print ("Book>> parse book complete for " + "(\title)")
+        
+        // get number of copies
+        self.num_copies = json["num_copies"] as? Int
+        var bookCopies = json["book_copies"] as? [Any]
+        var copies = [BookCopy]()
+        if (bookCopies?.count)!>0 {
+            for i in 0...(bookCopies?.count)!-1 {
+                var copyJson = bookCopies?[i] as? [String: Any]
+                var bookCopy = BookCopy(json: copyJson!)
+                copies.append(bookCopy!)
+            }
+        }
+        self.bookCopies = copies
     }
 
     
@@ -139,5 +175,6 @@ class Book {
 //        self.title = title
 //        self.authors = authors
 //    }
+    
     
 }

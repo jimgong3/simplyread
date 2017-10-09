@@ -117,6 +117,23 @@ func login3(username: String, password: String, completion: @escaping (_ user: U
     }
 }
 
+//func generateBookCopies(books: [Book]) -> [Book] {
+//    print("Query>> generate book copies")
+//    
+//    var books2 = [Book]()
+//    var count = books.count
+//    for i in 0...count-1 {
+//        var book = books[i]
+//        for j in 0...book.num_copies!-1 {
+//            var b = book
+//            b.currentCopy = book.bookCopies?[j]
+//            books2.append(b)
+//        }
+//    }
+//    
+//    return books2
+//}
+
 
 func loadBooks(completion: @escaping (_ books: [Book]) -> ()){
     
@@ -143,7 +160,13 @@ func loadBooks(completion: @escaping (_ books: [Book]) -> ()){
                 //                        fatalError("unable to initiate book")
                 //                    }
                                     let b = Book(json: bookJson!)
-                                    books.append(b!)
+                                    if let count = b?.num_copies {
+                                        for k in 0...count-1 {
+                                            let bb = Book(json: bookJson!)
+                                            bb?.currentCopy = bb?.bookCopies?[k]
+                                            books.append(bb!)
+                                        }
+                                    }
                 //                    print ("book loaded:\n " + "\(b?.title)")
                                 }
                             }
@@ -153,6 +176,7 @@ func loadBooks(completion: @escaping (_ books: [Book]) -> ()){
                         }
                         //now all books loaded
                         print ("Query>> \(books.count)" + " books loaded, callback completion")
+//                        var books2 = generateBookCopies(books: books)
                         completion(books)
 
         }
