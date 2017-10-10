@@ -25,7 +25,13 @@ echo "add book complete."
 echo 
 
 echo "re-build tags start..."
-url="http://localhost:3001/collectTags?pretty"
+url="http://localhost:3001/collectTags"
+echo "url: $url"
+curl $url
+echo
+
+echo "re-build categories start..."
+url="http://localhost:3001/buildCategories"
 echo "url: $url"
 curl $url
 echo

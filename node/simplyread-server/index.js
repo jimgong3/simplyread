@@ -593,3 +593,14 @@ app.post('/addOrder', function (req, res) {
 		logger.info("app>> addOrder done");
 	});
 })
+
+app.get('/bookshelves', function (req, res) {
+	logger.info("index>> GET /bookshelves");
+	booksUtil.bookshelves(req, db, function(docs) {
+		logger.info("index>> callback from booksUtil...");
+		logger.info(docs);
+		res.json(docs)
+		logger.info("index>> bookshelves done");
+	});
+})
+
