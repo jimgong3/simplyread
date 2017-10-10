@@ -109,7 +109,9 @@ exports.queryBookByCategory = function(db, category, callback){
     logger.info(docs);
 
 	if (docs.length == 0){
-		logger.info("Oops, category not found")
+		logger.info("Oops, category not found");
+		var empty = [];
+		callback(empty);
 	} else {
 		var book_ids = docs[0].book_ids;
 

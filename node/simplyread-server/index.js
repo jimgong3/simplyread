@@ -598,9 +598,20 @@ app.get('/bookshelves', function (req, res) {
 	logger.info("index>> GET /bookshelves");
 	booksUtil.bookshelves(req, db, function(docs) {
 		logger.info("index>> callback from booksUtil...");
-		logger.info(docs);
+//		logger.info(docs);
 		res.json(docs)
 		logger.info("index>> bookshelves done");
 	});
 })
+
+app.get('/idleBooks', function (req, res) {
+	logger.info("index>> GET /idleBooks");
+	booksUtil.idleBooks(req, db, function(docs) {
+		logger.info("index>> callback from booksUtil...");
+//		logger.info(docs);
+		res.json(docs)
+		logger.info("index>> idleBooks done");
+	});
+})
+
 
