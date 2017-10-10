@@ -31,7 +31,7 @@ class BookCategoriesViewController: UIViewController, UITableViewDataSource, UIT
             for tag in tags {
                 let button = UIButton(frame: CGRect(x: 0, y: 0, width: 100, height: 21))
                 button.setTitle("#" + tag.name, for: .normal)
-                button.setTitleColor(.blue, for: .normal)
+                button.setTitleColor(.darkGray, for: .normal)
                 button.titleLabel?.font = UIFont.systemFont(ofSize:13)
                 button.addTarget(self, action: #selector(self.clickTag), for: .touchUpInside)
                 

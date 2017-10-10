@@ -22,11 +22,16 @@ class Tag {
         print(json)
         
         self.name = (json["name"] as? String)!
-        self.num_books = (json["num_books"] as? Int)!
         
-        let bookIdJson = (json["book_ids"] as? [String])
-        for bookId in bookIdJson! {
-            self.book_ids?.append(bookId)
+        if json["num_books"] != nil {
+            self.num_books = (json["num_books"] as? Int)!
+        }
+        
+        if json["book_ids"] != nil {
+            let bookIdJson = (json["book_ids"] as? [String])
+            for bookId in bookIdJson! {
+                self.book_ids?.append(bookId)
+            }
         }
     }
     

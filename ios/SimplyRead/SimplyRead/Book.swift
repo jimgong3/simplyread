@@ -55,6 +55,9 @@ class Book {
     var bookCopies: [BookCopy]?
     var holder: String?     //the user who currently holds this book
     var currentCopy: BookCopy?
+    
+    var category: String?
+    var tags: [Tag]?
 
     init?(title: String){
         self.title = title
@@ -145,6 +148,23 @@ class Book {
             }
         }
         self.bookCopies = copies
+        
+        // get category
+        self.category = json["category"] as? String
+        
+        // get tags
+        var tags = [Tag]()
+        if let tagsArray = json["tags"] as? [Any] {
+            if tagsArray.count>0 {
+                for i in 0...tagsArray.count-1 {
+                    var tagJson = tagsArray[i] as? [String: Any]
+                    let t = Tag(json: tagJson!)
+                    tags.append(t!)
+                }
+            }
+        }
+        self.tags = tags
+        
     }
 
     

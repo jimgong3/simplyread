@@ -25,6 +25,14 @@ class SingleBookViewController: UIViewController {
 //    @IBOutlet weak var summaryText: UITextView!
 //    @IBOutlet weak var summaryText: UILabel!
     @IBOutlet weak var summaryText: UITextView!
+   
+    @IBOutlet weak var categoryButton: UIButton!
+    
+    @IBOutlet weak var tagsView1: UIStackView!
+    @IBOutlet weak var tagsView2: UIStackView!
+    
+    var tagClicked: String?
+    var categoryClicked: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -80,6 +88,46 @@ class SingleBookViewController: UIViewController {
             newFrame.size = CGSize(width: max(newSize.width, fixedWidth), height: newSize.height)
             summaryText.frame = newFrame
             
+            //show category
+            categoryButton.setTitle(book.category, for: .normal)
+            categoryButton.addTarget(self, action: #selector(self.clickCategory), for: .touchUpInside)
+            
+            //show tags - TBA
+            var count = 0;
+            for tag in book.tags! {
+                let button = UIButton(frame: CGRect(x: 0, y: 0, width: 100, height: 21))
+                button.setTitle("#" + tag.name, for: .normal)
+                button.setTitleColor(.darkGray, for: .normal)
+                button.titleLabel?.font = UIFont.systemFont(ofSize:12)
+                button.addTarget(self, action: #selector(self.clickTag), for: .touchUpInside)
+                
+                if count<5 {
+                    self.tagsView1.addArrangedSubview(button)
+                } else {
+                    self.tagsView2.addArrangedSubview(button)
+                }
+                count += 1
+            }
+            if count<5 {    //add dummy tags to look better
+                for i in 1...(5-count) {
+                    let button = UIButton(frame: CGRect(x: 0, y: 0, width: 100, height: 21))
+                    button.setTitle("     ", for: .normal)
+                    button.setTitleColor(.darkGray, for: .normal)
+                    button.titleLabel?.font = UIFont.systemFont(ofSize:12)
+                    button.addTarget(self, action: #selector(self.clickTag), for: .touchUpInside)
+                    self.tagsView1.addArrangedSubview(button)
+                }
+            } else if count<10 {    //add dummy tags to look better
+                for i in 1...(10-count) {
+                    let button = UIButton(frame: CGRect(x: 0, y: 0, width: 100, height: 21))
+                    button.setTitle("     ", for: .normal)
+                    button.setTitleColor(.darkGray, for: .normal)
+                    button.titleLabel?.font = UIFont.systemFont(ofSize:12)
+                    button.addTarget(self, action: #selector(self.clickTag), for: .touchUpInside)
+                    self.tagsView2.addArrangedSubview(button)
+                }
+            }
+
             // set scrollview size to include all contents
             var  contentRect = CGRect.zero
             for view in self.scrollView.subviews {
@@ -88,6 +136,23 @@ class SingleBookViewController: UIViewController {
             self.scrollView.contentSize = contentRect.size;
 
         }
+    }
+    
+    func clickTag(sender: UIButton!) {
+        print("BookCategoriesViewController>> tag tapped")
+        var tag = sender.titleLabel?.text
+        tag?.remove(at: (tag?.startIndex)!)
+        print("tag: \(tag)")
+        
+        self.tagClicked = tag
+        self.performSegue(withIdentifier: "booksForTag", sender: self)
+    }
+
+    func clickCategory(sender: UIButton!) {
+        print("click category")
+        var category = sender.titleLabel?.text
+        self.categoryClicked = category
+        self.performSegue(withIdentifier: "booksForCategory", sender: self)
     }
 
     override func didReceiveMemoryWarning() {
@@ -105,8 +170,18 @@ class SingleBookViewController: UIViewController {
         // Pass the selected object to the new view controller.
         super.prepare(for: segue, sender: sender)
         
-        guard let buyBookCartViewController = segue.destination as? BuyBookCartViewController else {
-            fatalError("unexpected destination: \(segue.destination)")
+//        guard let buyBookCartViewController = segue.destination as? BuyBookCartViewController else {
+//            fatalError("unexpected destination: \(segue.destination)")
+//        }
+        
+        if let booksForTagViewController = segue.destination as? BooksForTagViewController {
+            print("BookCategoriesVC>> dest: books for tag")
+            booksForTagViewController.tag = tagClicked
+        }
+        
+        if let booksForCategoryViewController = segue.destination as? BooksForCategoryViewController {
+            print("BookCategoriesVC>> dest: books for category")
+            booksForCategoryViewController.category = categoryClicked
         }
         
     }
