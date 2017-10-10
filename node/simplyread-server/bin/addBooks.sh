@@ -1,4 +1,4 @@
-﻿#!/bin/bash
+#!/bin/bash
 #
 # Import list of books from a csv file.
 # Arguments:
@@ -12,28 +12,33 @@ do
 	if [ $n == 0 ]
 	then
 		echo "skip the header"
-	else
+	elif [[ $isbn == \#* ]]
+  then
+    echo "skip this line"
+  else
 		echo "add new book: $n"
 		url="http://localhost:3001/addBook"
 		echo "url: $url"
-		curl $url --request POST $url --data-urlencode "isbn=$isbn" --data-urlencode "title=$title" --data-urlencode "category=$category" --data-urlencode "owner=$owner" --data-urlencode "price=$price"
+		curl $url --request POST --data-urlencode "isbn=$isbn" --data-urlencode "title=$title" --data-urlencode "category=$category" --data-urlencode "owner=$owner" --data-urlencode "price=$price"
 		echo
 	fi
 	let n++
 done < "$1"
 echo "add book complete."
-echo 
+echo
 
 echo "re-build tags start..."
 url="http://localhost:3001/collectTags"
 echo "url: $url"
 curl $url
+echo "re-build tags complete."
 echo
 
 echo "re-build categories start..."
 url="http://localhost:3001/buildCategories"
 echo "url: $url"
 curl $url
+echo "re-build categories complete."
 echo
 
 echo "done."
