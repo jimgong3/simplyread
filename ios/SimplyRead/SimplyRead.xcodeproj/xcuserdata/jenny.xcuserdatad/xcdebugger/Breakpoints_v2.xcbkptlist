@@ -151,14 +151,14 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "SimplyRead/data-service/Query.swift"
-            timestampString = "526574818.082191"
+            filePath = "SimplyRead/Book.swift"
+            timestampString = "529255849.081138"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "69"
-            endingLineNumber = "69"
-            landmarkName = "loadBooks(completion:)"
-            landmarkType = "9">
+            startingLineNumber = "56"
+            endingLineNumber = "56"
+            landmarkName = "Book"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -168,43 +168,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SimplyRead/Book.swift"
-            timestampString = "527440126.927937"
+            timestampString = "529306072.204284"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "44"
-            endingLineNumber = "44"
-            landmarkName = "init(json:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "SimplyRead/data-service/Query.swift"
-            timestampString = "526722744.952636"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "115"
-            endingLineNumber = "115"
-            landmarkName = "loadBooks(completion:)"
-            landmarkType = "9">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "SimplyRead/Book.swift"
-            timestampString = "527440126.927937"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "72"
-            endingLineNumber = "72"
+            startingLineNumber = "88"
+            endingLineNumber = "88"
             landmarkName = "init(json:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -280,11 +248,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SimplyRead/Book.swift"
-            timestampString = "527440126.927937"
+            timestampString = "529306072.204284"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "106"
-            endingLineNumber = "106"
+            startingLineNumber = "126"
+            endingLineNumber = "126"
             landmarkName = "init(json:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -296,11 +264,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SimplyRead/Book.swift"
-            timestampString = "527440126.927937"
+            timestampString = "529306072.204284"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "98"
-            endingLineNumber = "98"
+            startingLineNumber = "118"
+            endingLineNumber = "118"
             landmarkName = "init(json:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -328,11 +296,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SimplyRead/LoginViewController.swift"
-            timestampString = "526450150.306871"
+            timestampString = "528268411.651365"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "36"
-            endingLineNumber = "36"
+            startingLineNumber = "43"
+            endingLineNumber = "43"
             landmarkName = "prepare(for:sender:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -344,11 +312,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SimplyRead/data-service/Query.swift"
-            timestampString = "526574818.082191"
+            timestampString = "528391436.261289"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "17"
-            endingLineNumber = "17"
+            startingLineNumber = "14"
+            endingLineNumber = "14"
             landmarkName = "login(username:password:completion:)"
             landmarkType = "9">
          </BreakpointContent>
@@ -360,11 +328,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SimplyRead/data-service/Query.swift"
-            timestampString = "526574818.082191"
+            timestampString = "528391436.261289"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "36"
-            endingLineNumber = "36"
+            startingLineNumber = "33"
+            endingLineNumber = "33"
             landmarkName = "login(username:password:completion:)"
             landmarkType = "9">
             <Locations>
@@ -408,11 +376,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SimplyRead/data-service/Query.swift"
-            timestampString = "526574818.082191"
+            timestampString = "528391436.261289"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "41"
-            endingLineNumber = "41"
+            startingLineNumber = "38"
+            endingLineNumber = "38"
             landmarkName = "login(username:password:completion:)"
             landmarkType = "9">
          </BreakpointContent>
@@ -424,11 +392,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SimplyRead/data-service/Query.swift"
-            timestampString = "526574818.082191"
+            timestampString = "528391436.261289"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "43"
-            endingLineNumber = "43"
+            startingLineNumber = "40"
+            endingLineNumber = "40"
             landmarkName = "login(username:password:completion:)"
             landmarkType = "9">
          </BreakpointContent>
@@ -436,49 +404,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "No"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SimplyRead/data-service/Query.swift"
-            timestampString = "526574818.082191"
+            timestampString = "528391436.261289"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "58"
-            endingLineNumber = "58"
-            landmarkName = "loadBooks(completion:)"
-            landmarkType = "9">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "SimplyRead.loadBooks (completion : (Swift.Array&lt;SimplyRead.Book&gt;) -&gt; ()) -&gt; ()"
-                  moduleName = "SimplyRead"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/jenny/Documents/ios/SimplyRead/SimplyRead/data-service/Query.swift"
-                  timestampString = "526470691.975781"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "64"
-                  endingLineNumber = "64"
-                  offsetFromSymbolStart = "1121">
-               </Location>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "SimplyRead.(loadBooks (completion : (Swift.Array&lt;SimplyRead.Book&gt;) -&gt; ()) -&gt; ()).(closure #1)"
-                  moduleName = "SimplyRead"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/jenny/Documents/ios/SimplyRead/SimplyRead/data-service/Query.swift"
-                  timestampString = "526470691.978956"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "65"
-                  endingLineNumber = "65"
-                  offsetFromSymbolStart = "39">
-               </Location>
-            </Locations>
+            startingLineNumber = "123"
+            endingLineNumber = "123">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -504,11 +438,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SimplyRead/LoginViewController.swift"
-            timestampString = "526450150.306871"
+            timestampString = "528268411.651365"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "36"
-            endingLineNumber = "36"
+            startingLineNumber = "43"
+            endingLineNumber = "43"
             landmarkName = "prepare(for:sender:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -520,11 +454,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SimplyRead/LoginViewController.swift"
-            timestampString = "527090185.086099"
+            timestampString = "528268411.651365"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "59"
-            endingLineNumber = "59"
+            startingLineNumber = "66"
+            endingLineNumber = "66"
             landmarkName = "startLogin(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -536,11 +470,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SimplyRead/LoginViewController.swift"
-            timestampString = "527090185.086099"
+            timestampString = "528268411.651365"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "61"
-            endingLineNumber = "61"
+            startingLineNumber = "68"
+            endingLineNumber = "68"
             landmarkName = "startLogin(_:)"
             landmarkType = "7">
             <Locations>
@@ -584,11 +518,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SimplyRead/LoginViewController.swift"
-            timestampString = "527090185.086099"
+            timestampString = "528268411.651365"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "62"
-            endingLineNumber = "62"
+            startingLineNumber = "69"
+            endingLineNumber = "69"
             landmarkName = "startLogin(_:)"
             landmarkType = "7">
             <Locations>
@@ -632,11 +566,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SimplyRead/LoginViewController.swift"
-            timestampString = "527090185.086099"
+            timestampString = "528268411.651365"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "63"
-            endingLineNumber = "63"
+            startingLineNumber = "70"
+            endingLineNumber = "70"
             landmarkName = "startLogin(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -648,11 +582,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SimplyRead/BookTableViewController.swift"
-            timestampString = "527440126.927937"
+            timestampString = "529259039.389407"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "103"
-            endingLineNumber = "103"
+            startingLineNumber = "107"
+            endingLineNumber = "107"
             landmarkName = "prepare(for:sender:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -680,11 +614,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SimplyRead/LoginViewController.swift"
-            timestampString = "526452327.760465"
+            timestampString = "528268411.651365"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "49"
-            endingLineNumber = "49"
+            startingLineNumber = "56"
+            endingLineNumber = "56"
             landmarkName = "prepare(for:sender:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -696,11 +630,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SimplyRead/BookTableViewController.swift"
-            timestampString = "527440126.927937"
+            timestampString = "529259039.389407"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "119"
-            endingLineNumber = "119"
+            startingLineNumber = "123"
+            endingLineNumber = "123"
             landmarkName = "prepare(for:sender:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -804,7 +738,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "No"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SimplyRead/BookTableViewController.swift"
@@ -824,75 +758,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SimplyRead/data-service/Query.swift"
-            timestampString = "526722744.952636"
+            timestampString = "528391436.261289"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "119"
-            endingLineNumber = "119"
-            landmarkName = "loadBooks(completion:)"
-            landmarkType = "9">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "SimplyRead/data-service/Query.swift"
-            timestampString = "526574818.082191"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "62"
-            endingLineNumber = "62"
-            landmarkName = "loadBooks(completion:)"
-            landmarkType = "9">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "SimplyRead.(loadBooks (completion : (Swift.Array&lt;SimplyRead.Book&gt;) -&gt; ()) -&gt; ()).(closure #1)"
-                  moduleName = "SimplyRead"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/jenny/Documents/ios/SimplyRead/SimplyRead/data-service/Query.swift"
-                  timestampString = "526471311.154547"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "71"
-                  endingLineNumber = "71"
-                  offsetFromSymbolStart = "260">
-               </Location>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "SimplyRead.(loadBooks (completion : (Swift.Array&lt;SimplyRead.Book&gt;) -&gt; ()) -&gt; ()).(closure #1)"
-                  moduleName = "SimplyRead"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/jenny/Documents/ios/SimplyRead/SimplyRead/data-service/Query.swift"
-                  timestampString = "526471311.158196"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "71"
-                  endingLineNumber = "71"
-                  offsetFromSymbolStart = "301">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "SimplyRead/data-service/Query.swift"
-            timestampString = "526574818.082191"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "52"
-            endingLineNumber = "52"
+            startingLineNumber = "49"
+            endingLineNumber = "49"
             landmarkName = "login(username:password:completion:)"
             landmarkType = "9">
          </BreakpointContent>
@@ -904,11 +774,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SimplyRead/data-service/Query.swift"
-            timestampString = "526574818.082191"
+            timestampString = "528391436.261289"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "31"
-            endingLineNumber = "31"
+            startingLineNumber = "28"
+            endingLineNumber = "28"
             landmarkName = "login(username:password:completion:)"
             landmarkType = "9">
             <Locations>
@@ -952,27 +822,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SimplyRead/data-service/Query.swift"
-            timestampString = "526722744.952636"
+            timestampString = "528391436.261289"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "123"
-            endingLineNumber = "123"
-            landmarkName = "loadBooks(completion:)"
-            landmarkType = "9">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "SimplyRead/data-service/Query.swift"
-            timestampString = "526574818.082191"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "27"
-            endingLineNumber = "27"
+            startingLineNumber = "24"
+            endingLineNumber = "24"
             landmarkName = "login(username:password:completion:)"
             landmarkType = "9">
          </BreakpointContent>

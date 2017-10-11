@@ -140,7 +140,7 @@ class Book {
         self.num_copies = json["num_copies"] as? Int
         var bookCopies = json["book_copies"] as? [Any]
         var copies = [BookCopy]()
-        if (bookCopies?.count)!>0 {
+        if bookCopies != nil && (bookCopies?.count)!>0 {
             for i in 0...(bookCopies?.count)!-1 {
                 var copyJson = bookCopies?[i] as? [String: Any]
                 var bookCopy = BookCopy(json: copyJson!)

@@ -4,5 +4,5 @@ use_frameworks!
 
 target 'SimplyRead' do
     pod 'Alamofire', '~> 4.5'
-    pod 'BarcodeScanner'
+    #    pod 'BarcodeScanner'
 end

@@ -1,2 +1,3 @@
 github "soffes/CommonCrypto"
 github "soffes/Crypto"
+github "Alamofire/Alamofire" ~> 4.5

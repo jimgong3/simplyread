@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		7A73F617BB5D2E9443594947 /* Pods_SimplyRead.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BA3A84D978CBFDD31FF3E61 /* Pods_SimplyRead.framework */; };
+		1C47FD89226BCC3997CA48D3 /* Pods_SimplyRead.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BA3A84D978CBFDD31FF3E61 /* Pods_SimplyRead.framework */; };
 		BA0376D51F6CDCDE00FEDC46 /* BookCart.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA0376D41F6CDCDD00FEDC46 /* BookCart.swift */; };
 		BA0376D71F6CDDA800FEDC46 /* BuyBookCartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA0376D61F6CDDA800FEDC46 /* BuyBookCartViewController.swift */; };
 		BA1C41A61F52922500A3A6E2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1C41A51F52922500A3A6E2 /* AppDelegate.swift */; };
@@ -23,9 +23,18 @@
 		BA1FC1A41F7E9C800015DE9B /* CommonCrypto.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BA1FC1A11F7E9C800015DE9B /* CommonCrypto.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		BA1FC1A51F7E9C800015DE9B /* Crypto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BA1FC1A21F7E9C800015DE9B /* Crypto.framework */; };
 		BA1FC1A61F7E9C800015DE9B /* Crypto.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BA1FC1A21F7E9C800015DE9B /* Crypto.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		BA1FC1AA1F8DB7F50015DE9B /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BA1FC1A91F8DB7F50015DE9B /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		BA1FC1AC1F8DBEAB0015DE9B /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BA1FC1A91F8DB7F50015DE9B /* Alamofire.framework */; };
+		BA1FC1B41F8E02CA0015DE9B /* BarcodeScannerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1FC1AD1F8E02CA0015DE9B /* BarcodeScannerController.swift */; };
+		BA1FC1B51F8E02CA0015DE9B /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1FC1AE1F8E02CA0015DE9B /* Config.swift */; };
+		BA1FC1B61F8E02CA0015DE9B /* FocusViewType.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1FC1AF1F8E02CA0015DE9B /* FocusViewType.swift */; };
+		BA1FC1B71F8E02CA0015DE9B /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1FC1B01F8E02CA0015DE9B /* HeaderView.swift */; };
+		BA1FC1B81F8E02CA0015DE9B /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1FC1B11F8E02CA0015DE9B /* InfoView.swift */; };
+		BA1FC1B91F8E02CA0015DE9B /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1FC1B21F8E02CA0015DE9B /* State.swift */; };
+		BA1FC1BA1F8E02CA0015DE9B /* TorchMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1FC1B31F8E02CA0015DE9B /* TorchMode.swift */; };
 		BA220E8C1F7495F100EA1D6B /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA220E8B1F7495F100EA1D6B /* Tag.swift */; };
 		BA220E8F1F7499F500EA1D6B /* BookCategoriesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA220E8E1F7499F400EA1D6B /* BookCategoriesViewController.swift */; };
-		BA220E911F7546F500EA1D6B /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA220E901F7546F500EA1D6B /* Config.swift */; };
+		BA220E911F7546F500EA1D6B /* SimplyReadConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA220E901F7546F500EA1D6B /* SimplyReadConfig.swift */; };
 		BA220E931F75652200EA1D6B /* BooksForTagViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA220E921F75652200EA1D6B /* BooksForTagViewController.swift */; };
 		BA2762221F581FDE00F02966 /* Query.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA2762211F581FDE00F02966 /* Query.swift */; };
 		BA2762251F599A8000F02966 /* OrderDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA2762241F599A8000F02966 /* OrderDetailsViewController.swift */; };
@@ -64,6 +73,7 @@
 			files = (
 				BA1FC1A41F7E9C800015DE9B /* CommonCrypto.framework in Embed Frameworks */,
 				BA1FC1A61F7E9C800015DE9B /* Crypto.framework in Embed Frameworks */,
+				BA1FC1AA1F8DB7F50015DE9B /* Alamofire.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -92,9 +102,17 @@
 		BA1FC1A01F7E95EE0015DE9B /* SimplyRead-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SimplyRead-Bridging-Header.h"; sourceTree = "<group>"; };
 		BA1FC1A11F7E9C800015DE9B /* CommonCrypto.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CommonCrypto.framework; path = Carthage/Build/iOS/CommonCrypto.framework; sourceTree = "<group>"; };
 		BA1FC1A21F7E9C800015DE9B /* Crypto.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Crypto.framework; path = Carthage/Build/iOS/Crypto.framework; sourceTree = "<group>"; };
+		BA1FC1A91F8DB7F50015DE9B /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
+		BA1FC1AD1F8E02CA0015DE9B /* BarcodeScannerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BarcodeScannerController.swift; path = Libs/Source/BarcodeScanner/Sources/BarcodeScannerController.swift; sourceTree = "<group>"; };
+		BA1FC1AE1F8E02CA0015DE9B /* Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Config.swift; path = Libs/Source/BarcodeScanner/Sources/Config.swift; sourceTree = "<group>"; };
+		BA1FC1AF1F8E02CA0015DE9B /* FocusViewType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FocusViewType.swift; path = Libs/Source/BarcodeScanner/Sources/FocusViewType.swift; sourceTree = "<group>"; };
+		BA1FC1B01F8E02CA0015DE9B /* HeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HeaderView.swift; path = Libs/Source/BarcodeScanner/Sources/HeaderView.swift; sourceTree = "<group>"; };
+		BA1FC1B11F8E02CA0015DE9B /* InfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InfoView.swift; path = Libs/Source/BarcodeScanner/Sources/InfoView.swift; sourceTree = "<group>"; };
+		BA1FC1B21F8E02CA0015DE9B /* State.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = State.swift; path = Libs/Source/BarcodeScanner/Sources/State.swift; sourceTree = "<group>"; };
+		BA1FC1B31F8E02CA0015DE9B /* TorchMode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TorchMode.swift; path = Libs/Source/BarcodeScanner/Sources/TorchMode.swift; sourceTree = "<group>"; };
 		BA220E8B1F7495F100EA1D6B /* Tag.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
 		BA220E8E1F7499F400EA1D6B /* BookCategoriesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookCategoriesViewController.swift; sourceTree = "<group>"; };
-		BA220E901F7546F500EA1D6B /* Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
+		BA220E901F7546F500EA1D6B /* SimplyReadConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimplyReadConfig.swift; sourceTree = "<group>"; };
 		BA220E921F75652200EA1D6B /* BooksForTagViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BooksForTagViewController.swift; sourceTree = "<group>"; };
 		BA2762211F581FDE00F02966 /* Query.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Query.swift; path = "data-service/Query.swift"; sourceTree = "<group>"; };
 		BA2762241F599A8000F02966 /* OrderDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrderDetailsViewController.swift; sourceTree = "<group>"; };
@@ -121,7 +139,8 @@
 			files = (
 				BA1FC1A51F7E9C800015DE9B /* Crypto.framework in Frameworks */,
 				BA1FC1A31F7E9C800015DE9B /* CommonCrypto.framework in Frameworks */,
-				7A73F617BB5D2E9443594947 /* Pods_SimplyRead.framework in Frameworks */,
+				BA1FC1AC1F8DBEAB0015DE9B /* Alamofire.framework in Frameworks */,
+				1C47FD89226BCC3997CA48D3 /* Pods_SimplyRead.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -155,6 +174,7 @@
 		BA1C41991F52922400A3A6E2 = {
 			isa = PBXGroup;
 			children = (
+				BA1FC1A91F8DB7F50015DE9B /* Alamofire.framework */,
 				BA1FC1A11F7E9C800015DE9B /* CommonCrypto.framework */,
 				BA1FC1A21F7E9C800015DE9B /* Crypto.framework */,
 				BA1C41A41F52922500A3A6E2 /* SimplyRead */,
@@ -177,6 +197,7 @@
 		BA1C41A41F52922500A3A6E2 /* SimplyRead */ = {
 			isa = PBXGroup;
 			children = (
+				BA1FC1BB1F8E02D50015DE9B /* BarcodeScanner */,
 				BAD250F71F6ABF3C007BEB1F /* read */,
 				BA220E8D1F7499C900EA1D6B /* categories */,
 				BAD250F61F6ABEFC007BEB1F /* donate */,
@@ -197,6 +218,20 @@
 				BA1C41BC1F52922500A3A6E2 /* Info.plist */,
 			);
 			path = SimplyReadTests;
+			sourceTree = "<group>";
+		};
+		BA1FC1BB1F8E02D50015DE9B /* BarcodeScanner */ = {
+			isa = PBXGroup;
+			children = (
+				BA1FC1AD1F8E02CA0015DE9B /* BarcodeScannerController.swift */,
+				BA1FC1AE1F8E02CA0015DE9B /* Config.swift */,
+				BA1FC1AF1F8E02CA0015DE9B /* FocusViewType.swift */,
+				BA1FC1B01F8E02CA0015DE9B /* HeaderView.swift */,
+				BA1FC1B11F8E02CA0015DE9B /* InfoView.swift */,
+				BA1FC1B21F8E02CA0015DE9B /* State.swift */,
+				BA1FC1B31F8E02CA0015DE9B /* TorchMode.swift */,
+			);
+			name = BarcodeScanner;
 			sourceTree = "<group>";
 		};
 		BA220E8D1F7499C900EA1D6B /* categories */ = {
@@ -224,7 +259,7 @@
 				BAA5A6591F60EDF80090A5E2 /* SRTabBarController.swift */,
 				BA415A1A1F54FCA1005B0A26 /* LoginViewController.swift */,
 				BA220E8B1F7495F100EA1D6B /* Tag.swift */,
-				BA220E901F7546F500EA1D6B /* Config.swift */,
+				BA220E901F7546F500EA1D6B /* SimplyReadConfig.swift */,
 				BA1FC1991F7957BC0015DE9B /* Category.swift */,
 			);
 			name = common;
@@ -276,6 +311,7 @@
 				102D488A57AE3C1F36F3ECA2 /* [CP] Embed Pods Frameworks */,
 				2145505BF9A85DEF4E99A222 /* [CP] Copy Pods Resources */,
 				BA1FC1A71F7E9C800015DE9B /* Embed Frameworks */,
+				BA8AA5ED1F8E3C7400E89A5D /* Run Script */,
 			);
 			buildRules = (
 			);
@@ -373,12 +409,10 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-SimplyRead/Pods-SimplyRead-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
-				"${BUILT_PRODUCTS_DIR}/BarcodeScanner/BarcodeScanner.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BarcodeScanner.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -418,6 +452,20 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		BA8AA5ED1F8E3C7400E89A5D /* Run Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Run Script";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "APP_PATH=\"${TARGET_BUILD_DIR}/${WRAPPER_NAME}\"\n\n# This script loops through the frameworks embedded in the application and\n# removes unused architectures.\nfind \"$APP_PATH\" -name '*.framework' -type d | while read -r FRAMEWORK\ndo\nFRAMEWORK_EXECUTABLE_NAME=$(defaults read \"$FRAMEWORK/Info.plist\" CFBundleExecutable)\nFRAMEWORK_EXECUTABLE_PATH=\"$FRAMEWORK/$FRAMEWORK_EXECUTABLE_NAME\"\necho \"Executable is $FRAMEWORK_EXECUTABLE_PATH\"\n\nEXTRACTED_ARCHS=()\n\nfor ARCH in $ARCHS\ndo\necho \"Extracting $ARCH from $FRAMEWORK_EXECUTABLE_NAME\"\nlipo -extract \"$ARCH\" \"$FRAMEWORK_EXECUTABLE_PATH\" -o \"$FRAMEWORK_EXECUTABLE_PATH-$ARCH\"\nEXTRACTED_ARCHS+=(\"$FRAMEWORK_EXECUTABLE_PATH-$ARCH\")\ndone\n\necho \"Merging extracted architectures: ${ARCHS}\"\nlipo -o \"$FRAMEWORK_EXECUTABLE_PATH-merged\" -create \"${EXTRACTED_ARCHS[@]}\"\nrm \"${EXTRACTED_ARCHS[@]}\"\n\necho \"Replacing original executable with thinned version\"\nrm \"$FRAMEWORK_EXECUTABLE_PATH\"\nmv \"$FRAMEWORK_EXECUTABLE_PATH-merged\" \"$FRAMEWORK_EXECUTABLE_PATH\"\n\ndone";
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -430,6 +478,7 @@
 				BA220E931F75652200EA1D6B /* BooksForTagViewController.swift in Sources */,
 				BA415A191F54FC89005B0A26 /* BookTableViewController.swift in Sources */,
 				BA220E8C1F7495F100EA1D6B /* Tag.swift in Sources */,
+				BA1FC1BA1F8E02CA0015DE9B /* TorchMode.swift in Sources */,
 				BA2762251F599A8000F02966 /* OrderDetailsViewController.swift in Sources */,
 				BAAF535F1F61A1DB000743CF /* MyAccountViewController.swift in Sources */,
 				BAD250ED1F62D2B4007BEB1F /* DonateBookVC.swift in Sources */,
@@ -439,15 +488,21 @@
 				BAD250F31F695D24007BEB1F /* Global.swift in Sources */,
 				BA1FC19C1F795BD70015DE9B /* CategoryTableViewCell.swift in Sources */,
 				BA2762221F581FDE00F02966 /* Query.swift in Sources */,
+				BA1FC1B91F8E02CA0015DE9B /* State.swift in Sources */,
 				BAA5A65A1F60EDF80090A5E2 /* SRTabBarController.swift in Sources */,
+				BA1FC1B61F8E02CA0015DE9B /* FocusViewType.swift in Sources */,
+				BA1FC1B81F8E02CA0015DE9B /* InfoView.swift in Sources */,
 				BA1C41A81F52922500A3A6E2 /* ViewController.swift in Sources */,
 				BAD250F11F67A346007BEB1F /* DonateSingleBookNotFoundViewController.swift in Sources */,
 				BA0376D51F6CDCDE00FEDC46 /* BookCart.swift in Sources */,
+				BA1FC1B71F8E02CA0015DE9B /* HeaderView.swift in Sources */,
 				BA1FC19A1F7957BC0015DE9B /* Category.swift in Sources */,
+				BA1FC1B41F8E02CA0015DE9B /* BarcodeScannerController.swift in Sources */,
 				BA415A1B1F54FCA1005B0A26 /* LoginViewController.swift in Sources */,
 				BA59741B1F5C2A7C00185278 /* User.swift in Sources */,
+				BA1FC1B51F8E02CA0015DE9B /* Config.swift in Sources */,
 				BA1C41A61F52922500A3A6E2 /* AppDelegate.swift in Sources */,
-				BA220E911F7546F500EA1D6B /* Config.swift in Sources */,
+				BA220E911F7546F500EA1D6B /* SimplyReadConfig.swift in Sources */,
 				BAD250F51F6969DF007BEB1F /* DonateBookCartViewController.swift in Sources */,
 				BA0376D71F6CDDA800FEDC46 /* BuyBookCartViewController.swift in Sources */,
 				BAAF535D1F619E53000743CF /* MyAccountTableViewController.swift in Sources */,
@@ -593,7 +648,9 @@
 			baseConfigurationReference = 57E66032DBE5608286FFB949 /* Pods-SimplyRead.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 745SMA85GR;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
@@ -602,6 +659,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.jimgong.simplyread;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -611,7 +669,9 @@
 			baseConfigurationReference = 02EADD9038DB1A72BFB5C1A7 /* Pods-SimplyRead.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 745SMA85GR;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
@@ -620,6 +680,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.jimgong.simplyread;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;

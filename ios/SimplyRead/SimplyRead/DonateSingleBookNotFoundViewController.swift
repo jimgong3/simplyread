@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import BarcodeScanner
+//import BarcodeScanner
 
 class DonateSingleBookNotFoundViewController: UIViewController,
         UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {

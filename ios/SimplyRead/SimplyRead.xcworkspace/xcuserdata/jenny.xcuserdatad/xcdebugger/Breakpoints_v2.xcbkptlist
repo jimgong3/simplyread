@@ -10,13 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SimplyRead/data-service/Query.swift"
-            timestampString = "528391436.261289"
+            timestampString = "529257214.158243"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "128"
-            endingLineNumber = "128"
-            landmarkName = "loadBooks(completion:)"
-            landmarkType = "9">
+            startingLineNumber = "132"
+            endingLineNumber = "132">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -104,11 +102,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SimplyRead/data-service/Query.swift"
-            timestampString = "528391436.261289"
+            timestampString = "529258844.96288"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "260"
-            endingLineNumber = "260"
+            startingLineNumber = "270"
+            endingLineNumber = "270"
             landmarkName = "searchAddBook(isbn:completion:)"
             landmarkType = "9">
          </BreakpointContent>
@@ -168,11 +166,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SimplyRead/SingleBookViewController.swift"
-            timestampString = "528300603.163312"
+            timestampString = "529338950.823175"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "28"
-            endingLineNumber = "28"
+            startingLineNumber = "38"
+            endingLineNumber = "38"
             landmarkName = "viewDidLoad()"
             landmarkType = "7">
          </BreakpointContent>
@@ -184,11 +182,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SimplyRead/Book.swift"
-            timestampString = "528303754.789857"
+            timestampString = "529306072.204284"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "101"
-            endingLineNumber = "101"
+            startingLineNumber = "116"
+            endingLineNumber = "116"
             landmarkName = "init(json:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -200,11 +198,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SimplyRead/Book.swift"
-            timestampString = "528303754.789857"
+            timestampString = "529306072.204284"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "109"
-            endingLineNumber = "109"
+            startingLineNumber = "124"
+            endingLineNumber = "124"
             landmarkName = "init(json:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -216,11 +214,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SimplyRead/Book.swift"
-            timestampString = "528303754.789857"
+            timestampString = "529306072.204284"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "112"
-            endingLineNumber = "112"
+            startingLineNumber = "127"
+            endingLineNumber = "127"
             landmarkName = "init(json:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -488,11 +486,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SimplyRead/data-service/Query.swift"
-            timestampString = "528391436.261289"
+            timestampString = "529258844.96288"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "274"
-            endingLineNumber = "274"
+            startingLineNumber = "284"
+            endingLineNumber = "284"
             landmarkName = "searchAddBook(isbn:completion:)"
             landmarkType = "9">
          </BreakpointContent>
@@ -614,11 +612,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SimplyRead/Book.swift"
-            timestampString = "528303754.789857"
+            timestampString = "529306072.204284"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "104"
-            endingLineNumber = "104"
+            startingLineNumber = "119"
+            endingLineNumber = "119"
             landmarkName = "init(json:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -630,11 +628,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SimplyRead/Book.swift"
-            timestampString = "528303754.789857"
+            timestampString = "529306072.204284"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "108"
-            endingLineNumber = "108"
+            startingLineNumber = "123"
+            endingLineNumber = "123"
             landmarkName = "init(json:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -822,11 +820,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SimplyRead/Book.swift"
-            timestampString = "528303754.789857"
+            timestampString = "529306072.204284"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "105"
-            endingLineNumber = "105"
+            startingLineNumber = "120"
+            endingLineNumber = "120"
             landmarkName = "init(json:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -838,11 +836,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SimplyRead/SingleBookViewController.swift"
-            timestampString = "528303754.789857"
+            timestampString = "529339219.788762"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "96"
-            endingLineNumber = "96"
+            startingLineNumber = "191"
+            endingLineNumber = "191"
             landmarkName = "addToCart(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -854,11 +852,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SimplyRead/SingleBookViewController.swift"
-            timestampString = "528303754.789857"
+            timestampString = "529339219.788762"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "95"
-            endingLineNumber = "95"
+            startingLineNumber = "190"
+            endingLineNumber = "190"
             landmarkName = "addToCart(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -870,11 +868,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SimplyRead/SingleBookViewController.swift"
-            timestampString = "528303754.789857"
+            timestampString = "529339219.788762"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "106"
-            endingLineNumber = "106"
+            startingLineNumber = "201"
+            endingLineNumber = "201"
             landmarkName = "complete(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1141,12 +1139,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SimplyRead/data-service/Query.swift"
-            timestampString = "528391436.261289"
+            timestampString = "529258844.96288"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "333"
-            endingLineNumber = "333"
-            landmarkName = "addNewBookImage(isbn:image:completion:)"
+            startingLineNumber = "343"
+            endingLineNumber = "343"
+            landmarkName = "addNewBook2(title:author:isbn:completion:)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1157,12 +1155,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SimplyRead/data-service/Query.swift"
-            timestampString = "528391436.261289"
+            timestampString = "529258844.96288"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "293"
-            endingLineNumber = "293"
-            landmarkName = "addNewBook(title:author:isbn:completion:)"
+            startingLineNumber = "303"
+            endingLineNumber = "303"
+            landmarkName = "searchAddBook(isbn:completion:)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1236,11 +1234,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SimplyRead/data-service/Query.swift"
-            timestampString = "528391436.261289"
+            timestampString = "529258844.96288"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "345"
-            endingLineNumber = "345"
+            startingLineNumber = "355"
+            endingLineNumber = "355"
             landmarkName = "addNewBookImage(isbn:image:completion:)"
             landmarkType = "9">
          </BreakpointContent>
@@ -1252,11 +1250,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SimplyRead/Book.swift"
-            timestampString = "528303754.789857"
+            timestampString = "529306072.204284"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "72"
-            endingLineNumber = "72"
+            startingLineNumber = "87"
+            endingLineNumber = "87"
             landmarkName = "init(json:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1348,11 +1346,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SimplyRead/SingleBookViewController.swift"
-            timestampString = "528301001.321987"
+            timestampString = "529338950.823175"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "40"
-            endingLineNumber = "40"
+            startingLineNumber = "51"
+            endingLineNumber = "51"
             landmarkName = "viewDidLoad()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1380,12 +1378,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SimplyRead/data-service/Query.swift"
-            timestampString = "528391436.261289"
+            timestampString = "529258844.96288"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "371"
-            endingLineNumber = "371"
-            landmarkName = "queryHotTags(n:completion:)"
+            startingLineNumber = "381"
+            endingLineNumber = "381"
+            landmarkName = "getDataFromUrl(url:completion:)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1396,12 +1394,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SimplyRead/data-service/Query.swift"
-            timestampString = "528391436.261289"
+            timestampString = "529258844.96288"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "376"
-            endingLineNumber = "376"
-            landmarkName = "queryHotTags(n:completion:)"
+            startingLineNumber = "386"
+            endingLineNumber = "386"
+            landmarkName = "getDataFromUrl(url:completion:)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1444,12 +1442,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SimplyRead/data-service/Query.swift"
-            timestampString = "528391436.261289"
+            timestampString = "529258844.96288"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "341"
-            endingLineNumber = "341"
-            landmarkName = "addNewBookImage(isbn:image:completion:)"
+            startingLineNumber = "351"
+            endingLineNumber = "351"
+            landmarkName = "addNewBook2(title:author:isbn:completion:)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1572,12 +1570,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SimplyRead/data-service/Query.swift"
-            timestampString = "528391436.261289"
+            timestampString = "529258844.96288"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "172"
-            endingLineNumber = "172"
-            landmarkName = "loadBooksForTag(tag:completion:)"
+            startingLineNumber = "182"
+            endingLineNumber = "182"
+            landmarkName = "loadBooks(completion:)"
             landmarkType = "9">
             <Locations>
                <Location
@@ -1620,12 +1618,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SimplyRead/data-service/Query.swift"
-            timestampString = "528391436.261289"
+            timestampString = "529258844.96288"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "178"
-            endingLineNumber = "178"
-            landmarkName = "loadBooksForTag(tag:completion:)"
+            startingLineNumber = "188"
+            endingLineNumber = "188"
+            landmarkName = "loadBooks(completion:)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1668,12 +1666,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SimplyRead/data-service/Query.swift"
-            timestampString = "528391436.261289"
+            timestampString = "529258844.96288"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "405"
-            endingLineNumber = "405"
-            landmarkName = "queryCategories(completion:)"
+            startingLineNumber = "415"
+            endingLineNumber = "415"
+            landmarkName = "queryHotTags(n:completion:)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1684,12 +1682,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SimplyRead/data-service/Query.swift"
-            timestampString = "528391436.261289"
+            timestampString = "529258844.96288"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "412"
-            endingLineNumber = "412"
-            landmarkName = "queryCategories(completion:)"
+            startingLineNumber = "422"
+            endingLineNumber = "422"
+            landmarkName = "queryHotTags(n:completion:)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1796,12 +1794,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SimplyRead/data-service/Query.swift"
-            timestampString = "528391436.261289"
+            timestampString = "529258844.96288"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "306"
-            endingLineNumber = "306"
-            landmarkName = "addNewBook2(title:author:isbn:completion:)"
+            startingLineNumber = "316"
+            endingLineNumber = "316"
+            landmarkName = "addNewBook(title:author:isbn:completion:)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1812,11 +1810,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SimplyRead/Book.swift"
-            timestampString = "528303480.291792"
+            timestampString = "529306072.204284"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "85"
-            endingLineNumber = "85"
+            startingLineNumber = "100"
+            endingLineNumber = "100"
             landmarkName = "init(json:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1840,7 +1838,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SimplyRead/OrderDetailsViewController.swift"
@@ -1883,6 +1881,434 @@
             endingLineNumber = "91"
             landmarkName = "login3(username:password:completion:)"
             landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SimplyRead/data-service/Query.swift"
+            timestampString = "528392922.748778"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "98"
+            endingLineNumber = "98"
+            landmarkName = "login3(username:password:completion:)"
+            landmarkType = "9">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "SimplyRead.login3 (username : Swift.String, password : Swift.String, completion : (SimplyRead.User) -&gt; ()) -&gt; ()"
+                  moduleName = "SimplyRead"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/jenny/Documents/GitHub/simplyread/ios/SimplyRead/SimplyRead/data-service/Query.swift"
+                  timestampString = "528393053.04168"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "98"
+                  endingLineNumber = "98"
+                  offsetFromSymbolStart = "2341">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "SimplyRead.(login3 (username : Swift.String, password : Swift.String, completion : (SimplyRead.User) -&gt; ()) -&gt; ()).(closure #1)"
+                  moduleName = "SimplyRead"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/jenny/Documents/GitHub/simplyread/ios/SimplyRead/SimplyRead/data-service/Query.swift"
+                  timestampString = "528393053.045108"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "99"
+                  endingLineNumber = "99"
+                  offsetFromSymbolStart = "30">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SimplyRead/OrderDetailsViewController.swift"
+            timestampString = "528733096.265955"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "47"
+            endingLineNumber = "47"
+            landmarkName = "viewDidLoad()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SimplyRead/SingleBookViewController.swift"
+            timestampString = "529338950.823175"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "84"
+            endingLineNumber = "84"
+            landmarkName = "viewDidLoad()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SimplyRead/SingleBookViewController.swift"
+            timestampString = "529339219.788762"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "132"
+            endingLineNumber = "132"
+            landmarkName = "viewDidLoad()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SimplyRead/SingleBookViewController.swift"
+            timestampString = "529339219.788762"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "136"
+            endingLineNumber = "136"
+            landmarkName = "viewDidLoad()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SimplyRead/data-service/Query.swift"
+            timestampString = "529252352.230682"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "121"
+            endingLineNumber = "121">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SimplyRead/Book.swift"
+            timestampString = "529306072.204284"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "140"
+            endingLineNumber = "140"
+            landmarkName = "init(json:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SimplyRead/Book.swift"
+            timestampString = "529255293.17978"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "22"
+            endingLineNumber = "22"
+            landmarkName = "init(json:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SimplyRead/BookTableViewController.swift"
+            timestampString = "529259039.389407"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "88"
+            endingLineNumber = "88"
+            landmarkName = "tableView(_:cellForRowAt:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "SimplyRead.BookTableViewController.tableView (__ObjC.UITableView, cellForRowAt : Foundation.IndexPath) -&gt; __ObjC.UITableViewCell"
+                  moduleName = "SimplyRead"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/jenny/Documents/GitHub/simplyread/ios/SimplyRead/SimplyRead/BookTableViewController.swift"
+                  timestampString = "529258939.131404"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "87"
+                  endingLineNumber = "87"
+                  offsetFromSymbolStart = "3052">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "SimplyRead.BookTableViewController.tableView (__ObjC.UITableView, cellForRowAt : Foundation.IndexPath) -&gt; __ObjC.UITableViewCell"
+                  moduleName = "SimplyRead"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/jenny/Documents/GitHub/simplyread/ios/SimplyRead/SimplyRead/BookTableViewController.swift"
+                  timestampString = "529258939.135506"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "87"
+                  endingLineNumber = "87"
+                  offsetFromSymbolStart = "4049">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SimplyRead/data-service/Query.swift"
+            timestampString = "529257427.455357"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "134"
+            endingLineNumber = "134">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SimplyRead/data-service/Query.swift"
+            timestampString = "529258844.96288"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "162"
+            endingLineNumber = "162"
+            landmarkName = "loadBooks(completion:)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SimplyRead/Book.swift"
+            timestampString = "529305937.61991"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "153"
+            endingLineNumber = "153"
+            landmarkName = "init(json:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SimplyRead/Tag.swift"
+            timestampString = "529306253.476095"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "26"
+            endingLineNumber = "26"
+            landmarkName = "init(json:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SimplyRead/data-service/Query.swift"
+            timestampString = "529306515.087414"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "140"
+            endingLineNumber = "140"
+            landmarkName = "loadBooks(completion:)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SimplyRead/SingleBookViewController.swift"
+            timestampString = "529339219.788762"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "97"
+            endingLineNumber = "97"
+            landmarkName = "viewDidLoad()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SimplyRead/SingleBookViewController.swift"
+            timestampString = "529339219.788762"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "142"
+            endingLineNumber = "142"
+            landmarkName = "clickTag(sender:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SimplyRead/SingleBookViewController.swift"
+            timestampString = "529339219.788762"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "171"
+            endingLineNumber = "171"
+            landmarkName = "prepare(for:sender:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SimplyRead/SingleBookViewController.swift"
+            timestampString = "529339219.788762"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "111"
+            endingLineNumber = "111"
+            landmarkName = "viewDidLoad()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SimplyRead/SingleBookViewController.swift"
+            timestampString = "529339219.788762"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "152"
+            endingLineNumber = "152"
+            landmarkName = "clickCategory(sender:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SimplyRead/SingleBookViewController.swift"
+            timestampString = "529339219.788762"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "177"
+            endingLineNumber = "177"
+            landmarkName = "prepare(for:sender:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "SimplyRead.SingleBookViewController.prepare (for : __ObjC.UIStoryboardSegue, sender : Swift.Optional&lt;Any&gt;) -&gt; ()"
+                  moduleName = "SimplyRead"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/jenny/Documents/GitHub/simplyread/ios/SimplyRead/SimplyRead/SingleBookViewController.swift"
+                  timestampString = "529399759.526367"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "177"
+                  endingLineNumber = "177"
+                  offsetFromSymbolStart = "449">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "SimplyRead.SingleBookViewController.prepare (for : __ObjC.UIStoryboardSegue, sender : Swift.Optional&lt;Any&gt;) -&gt; ()"
+                  moduleName = "SimplyRead"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/jenny/Documents/GitHub/simplyread/ios/SimplyRead/SimplyRead/SingleBookViewController.swift"
+                  timestampString = "529399759.529801"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "177"
+                  endingLineNumber = "177"
+                  offsetFromSymbolStart = "604">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SimplyRead/SingleBookViewController.swift"
+            timestampString = "529339219.788762"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "93"
+            endingLineNumber = "93"
+            landmarkName = "viewDidLoad()"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
