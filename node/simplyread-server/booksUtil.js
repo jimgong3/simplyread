@@ -157,7 +157,7 @@ exports.addBook = function(req, db, callback){
 // Find all bookshelves or the bookshelf for specific user
 exports.bookshelves = function(req, db, callback){
 	logger.info("booksUtil>> bookshelves start...");
-  
+
 	var username = req.query.username;
 	logger.info("booksUtil>> username: " + username);
 
@@ -177,17 +177,17 @@ exports.bookshelves = function(req, db, callback){
 // Find idle books from the bookshelf of a specific user
 exports.idleBooks = function(req, db, callback){
 	logger.info("booksUtil>> idleBooks start...");
-  
+
 	var username = req.query.username;
 	logger.info("booksUtil>> username: " + username);
 
 	var query = {};
 	if (username != null)
 		query = {username: username};
-	else 
+	else
 		logger.error("booksUtil>> username cannot be empty");
 	logger.info("booksUtil>> query: " + JSON.stringify(query));
-	
+
 	var collection = db.collection('bookshelves');
 	collection.find(query).toArray(function(err, docs) {
 		logger.info("booksUtil>> result: " + JSON.stringify(docs));
@@ -198,7 +198,7 @@ exports.idleBooks = function(req, db, callback){
 		} else {
 			var idle_book_ids = new HashSet();
 			for(var i=0; i<docs.length; i++){
-				var book_ids = docs[i].idle_book_ids;
+				var book_ids = docs[i].book_ids_idle;
 				for(var j=0; j<book_ids.length; j++){
 					if(!idle_book_ids.contains(book_ids[j])){
 						logger.info("booksUtil>> add book id: " + book_ids[j]);
@@ -207,11 +207,11 @@ exports.idleBooks = function(req, db, callback){
 						logger.info("booksUtil>> skip book ids: " + book_ids[j]);
 					}
 				}
-			}	
+			}
 			var idle_book_ids_array = idle_book_ids.toArray();
 //			logger.info("booksUtil>> idle book ids: " + JSON.stringify(idle_book_ids_array));
 			logger.info("booksUtil>> idle book ids: " + idle_book_ids_array.length);
-			
+
 			var collectionBook = db.collection('books');
 			var query_b = {_id: {$in: idle_book_ids_array}};
 			collectionBook.find(query_b).toArray(function(err, docs){
@@ -219,8 +219,7 @@ exports.idleBooks = function(req, db, callback){
 				logger.info("booksUtil>> found books: " + docs.length);
 				callback(docs);
 			});
-			
+
 		}
 	});
 }
-
