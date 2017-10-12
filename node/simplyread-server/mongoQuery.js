@@ -61,7 +61,7 @@ exports.queryBook = function(db, isbn, callback){
                   {isbn13: isbn}
                 ]
               };
-  logger.info("mongoQuery>> query: " + query);
+  logger.info("mongoQuery>> query: " + JSON.stringify(query));
   // logger.info(query);
 
   collection.find(query).toArray(function(err, docs) {

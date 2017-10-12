@@ -243,6 +243,18 @@ app.post('/addBook', function (req, res) {
 	});
 })
 
+app.get('/searchBook', function (req, res) {
+	logger.info("index>> GET /searchBook");
+	booksUtil.searchBook(req, db, function(docs) {
+		logger.info("index>> callback from booksUtil...");
+//		logger.info(docs);
+		res.json(docs)
+		logger.info("index>> searchBook done");
+	});
+})
+
+// Below function shall be obsolete,
+// replaced by booksUtil.addBook
 app.get('/addNewBook', function (req, res) {
 	logger.info("app>> add new book");
 
@@ -281,7 +293,8 @@ app.get('/addNewBook', function (req, res) {
 	});
 });
 
-
+// Below function shall be obsolete
+// replaced by booksUtil.addBook
 app.post('/addNewBook', function (req, res) {
 	logger.info("app>> add new book");
 
