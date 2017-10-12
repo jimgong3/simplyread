@@ -133,22 +133,30 @@ exports.addBook = function(req, db, callback){
 
 			var bookJson = docs[0];
 			var bookCopies = bookJson["book_copies"];
+      if (bookCopies == null)
+        bookCopies = [];
 			bookCopies.push(newCopy);
 
 			var num_copies = bookJson["num_copies"];
+      if (num_copies == null)
+        num_copies = 0;
+      // else
+      //   num_copies = parseInt(num_copies, 10);
 			num_copies += 1;
 
 			var query = {$or: [{isbn10: isbn}, {isbn13: isbn}]};
-			logger.info("booksUtil>> query: " + query);
+			logger.info("booksUtil>> query: " + JSON.stringify(query));
 			// logger.info(query);
 
 			var update = {$set: {num_copies: num_copies, book_copies: bookCopies}}
-			logger.info("booksUtil>> update: " + update);
+			logger.info("booksUtil>> update: " + JSON.stringify(update));
 
 			collection.update(query, update, function(err, docs) {
 				logger.info("booksUtil>> update complete");
 				// logger.info(docs);
-				callback(docs);
+        var result = [];
+        result.push(bookJson);
+				callback(result);
 			});
 		}
 	});

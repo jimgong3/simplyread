@@ -304,13 +304,12 @@ func searchAddBook(isbn: String, completion: @escaping (_ book: Book) -> ()){
     }
 }
 
-func addNewBook(title: String, author: String, isbn: String, completion: @escaping (_ book: Book) -> ()){
+func searchBook(isbn: String, completion: @escaping (_ book: Book) -> ()){
     
-    print("add new book, title: " + title + ", author: " + author + ", isbn: " + isbn)
     var urlStr: String?
-    urlStr = "http://" + SERVER_IP + ":" + PORT + "/addNewbook?title=" + title + "&author=" + author + "&isbn=" + isbn
+    urlStr = "http://" + SERVER_IP + ":" + PORT + "/searchBook?isbn=" + isbn
     let url = URL(string: urlStr!)
-    print("Query>> add new book, url")
+    print("Query>> url")
     print(url)
     
     Alamofire.request(url!).responseJSON { response in
@@ -319,12 +318,52 @@ func addNewBook(title: String, author: String, isbn: String, completion: @escapi
         print("Query>> Result: \(response.result)")                         // response serialization result
         
         if let json = response.result.value {
-            print("JSON: \(json)") // serialized json response
-            //anything else
+            //            print("JSON: \(json)") // serialized json response
+            
+            var books = [Book]()
+            if let array = json as? [Any] {
+                if array.count>0 {
+                    print("Query>> book found in database, return book details")
+                    var bookJson = array[0] as? [String: Any]
+                    //                    print("Query>> bookJson: ")
+                    //                    print(bookJson)
+                    let b = Book(json: bookJson!)
+                    completion(b!)
+                }
+                else{
+                    print("Query>> no book found in database or web")
+                    let b = Book(title: "")     //meaning book not found
+                    completion(b!)
+                }
+            }
         }
     }
 }
 
+// This function is replaced by addNewBook2
+//func addNewBook(title: String, author: String, isbn: String, completion: @escaping (_ book: Book) -> ()){
+//    
+//    print("add new book, title: " + title + ", author: " + author + ", isbn: " + isbn)
+//    var urlStr: String?
+//    urlStr = "http://" + SERVER_IP + ":" + PORT + "/addNewbook?title=" + title + "&author=" + author + "&isbn=" + isbn
+//    let url = URL(string: urlStr!)
+//    print("Query>> add new book, url")
+//    print(url)
+//    
+//    Alamofire.request(url!).responseJSON { response in
+//        print("Query>> Request: \(String(describing: response.request))")   // original url request
+//        print("Query>> Response: \(String(describing: response.response))") // http url response
+//        print("Query>> Result: \(response.result)")                         // response serialization result
+//        
+//        if let json = response.result.value {
+//            print("JSON: \(json)") // serialized json response
+//            //anything else
+//        }
+//    }
+//}
+
+// Add a new book whose information cannot be found in database or web,
+// Book details are manually input by user
 func addNewBook2(title: String, author: String, isbn: String, completion: @escaping (_ book: Book) -> ()){
     
     print("add new book, title: " + title + ", author: " + author + ", isbn: " + isbn)
@@ -376,6 +415,53 @@ func addNewBookImage(isbn: String, image: UIImage, completion: @escaping (_ book
             }
     }
     )
+}
+
+// Add book by isbn, book details can be found through isbn in database or web
+func addBookByIsbn(isbn: String, title: String, category: String, owner: String, price: Double, completion: @escaping (_ book: Book) -> ()){
+    
+    print("add new book, isbn: " + isbn + ", title: " + title)
+    print("category: " + category + ", owner: " + owner)
+    print("price: " + price.description)
+    var urlStr: String?
+    urlStr = "http://" + SERVER_IP + ":" + PORT + "/addBook"
+    let url = URL(string: urlStr!)
+    print("Query>> add new book, url (POST)")
+    print(url)
+    
+    let parameters: Parameters = [
+        "isbn": isbn,
+        "title": title,
+        "category": category,
+        "owner": owner,
+        "price": price
+    ]
+    
+    Alamofire.request(url!, method: .post, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+        print("Query>> Request: \(String(describing: response.request))")   // original url request
+        print("Query>> Response: \(String(describing: response.response))") // http url response
+        print("Query>> Result: \(response.result)")                         // response serialization result
+        
+        if let json = response.result.value {
+            print("JSON: \(json)") // serialized json response
+            var books = [Book]()
+            if let array = json as? [Any] {
+                if array.count>0 {
+                    print("Query>> book found in database, return book details")
+                    var bookJson = array[0] as? [String: Any]
+                    //                    print("Query>> bookJson: ")
+                    //                    print(bookJson)
+                    let b = Book(json: bookJson!)
+                    completion(b!)
+                }
+                else{
+                    print("Query>> no book found in database or web")
+                    let b = Book(title: "")     //meaning book not found
+                    completion(b!)
+                }
+            }
+        }
+    }
 }
 
 

@@ -97,7 +97,7 @@ class SingleBookViewController: UIViewController {
             for tag in book.tags! {
                 let button = UIButton(frame: CGRect(x: 0, y: 0, width: 100, height: 21))
                 button.setTitle("#" + tag.name, for: .normal)
-                button.setTitleColor(.darkGray, for: .normal)
+                button.setTitleColor(.orange, for: .normal)
                 button.titleLabel?.font = UIFont.systemFont(ofSize:12)
                 button.addTarget(self, action: #selector(self.clickTag), for: .touchUpInside)
                 
@@ -111,8 +111,8 @@ class SingleBookViewController: UIViewController {
             if count<5 {    //add dummy tags to look better
                 for i in 1...(5-count) {
                     let button = UIButton(frame: CGRect(x: 0, y: 0, width: 100, height: 21))
-                    button.setTitle("     ", for: .normal)
-                    button.setTitleColor(.darkGray, for: .normal)
+                    button.setTitle("    ", for: .normal)
+                    button.setTitleColor(.orange, for: .normal)
                     button.titleLabel?.font = UIFont.systemFont(ofSize:12)
                     button.addTarget(self, action: #selector(self.clickTag), for: .touchUpInside)
                     self.tagsView1.addArrangedSubview(button)
@@ -120,8 +120,8 @@ class SingleBookViewController: UIViewController {
             } else if count<10 {    //add dummy tags to look better
                 for i in 1...(10-count) {
                     let button = UIButton(frame: CGRect(x: 0, y: 0, width: 100, height: 21))
-                    button.setTitle("     ", for: .normal)
-                    button.setTitleColor(.darkGray, for: .normal)
+                    button.setTitle("    ", for: .normal)
+                    button.setTitleColor(.orange, for: .normal)
                     button.titleLabel?.font = UIFont.systemFont(ofSize:12)
                     button.addTarget(self, action: #selector(self.clickTag), for: .touchUpInside)
                     self.tagsView2.addArrangedSubview(button)

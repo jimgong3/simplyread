@@ -233,6 +233,8 @@ app.get('/searchAddBook', function (req, res) {
 	});
 });
 
+// Add a given book with owner and holder information
+// Parameter: isbn, title, category, owner, price
 app.post('/addBook', function (req, res) {
 	logger.info("index>> POST /addBook");
 	booksUtil.addBook(req, db, function(docs) {
@@ -243,6 +245,8 @@ app.post('/addBook', function (req, res) {
 	});
 })
 
+// Search book by isbn
+// Parameter: isbn
 app.get('/searchBook', function (req, res) {
 	logger.info("index>> GET /searchBook");
 	booksUtil.searchBook(req, db, function(docs) {
@@ -254,7 +258,7 @@ app.get('/searchBook', function (req, res) {
 })
 
 // Below function shall be obsolete,
-// replaced by booksUtil.addBook
+// replaced by POST addNewBook
 app.get('/addNewBook', function (req, res) {
 	logger.info("app>> add new book");
 
@@ -293,8 +297,9 @@ app.get('/addNewBook', function (req, res) {
 	});
 });
 
-// Below function shall be obsolete
-// replaced by booksUtil.addBook
+// This function handles the addition of new book whose isbn data
+// cannot be found in Douban, the book details has to be provided
+// by users manually via POST request
 app.post('/addNewBook', function (req, res) {
 	logger.info("app>> add new book");
 
@@ -332,7 +337,8 @@ app.post('/addNewBook', function (req, res) {
 	});
 });
 
-
+// This function handles the POST request which upload the book images
+// to server
 app.post('/upload', function(req, res) {
 	logger.info("app>> upload");
   	logger.info("app>> req body: ")
@@ -626,5 +632,3 @@ app.get('/idleBooks', function (req, res) {
 		logger.info("index>> idleBooks done");
 	});
 })
-
-

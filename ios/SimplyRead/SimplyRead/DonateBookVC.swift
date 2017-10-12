@@ -102,7 +102,8 @@ extension DonateBookViewController: BarcodeScannerCodeDelegate {
         print("DonateBookViewController>> type: " + type)
         
          // send request to search book with isbn/code
-        searchAddBook(isbn: code, completion: {(book: Book) -> () in
+//        searchAddBook(isbn: code, completion: {(book: Book) -> () in
+        searchBook(isbn: code, completion: {(book: Book) -> () in
             if(!book.title.isEmpty){    //book found
                 print("DonateBookViewController>> callback, book: ")
                 print(book.title)
@@ -112,7 +113,6 @@ extension DonateBookViewController: BarcodeScannerCodeDelegate {
             else{
                 print("DonateBookViewController>> callback, book not found ")
                 self.performSegue(withIdentifier: "donateSearchBookNotFound", sender: self)
-                
             }
         })
 

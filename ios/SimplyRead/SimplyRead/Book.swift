@@ -165,6 +165,13 @@ class Book {
         }
         self.tags = tags
         
+        // get isbn
+        if json["isbn10"] != nil {
+            self.isbn = json["isbn10"] as! String
+        } else if json["isbn13"] != nil {
+            self.isbn = json["isbn13"] as! String
+        }
+        
     }
 
     

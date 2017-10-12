@@ -27,7 +27,8 @@ public struct SettingsButton {
 public struct Info {
 //  public static var text = localizedString("INFO_DESCRIPTION_TEXT")
     public static var text = localizedString("請將鏡頭對著圖書背面ISBN編號")
-  public static var loadingText = localizedString("INFO_LOADING_TITLE")
+//  public static var loadingText = localizedString("INFO_LOADING_TITLE")
+    public static var loadingText = localizedString("正在查找圖書信息...")
   public static var notFoundText = localizedString("NO_PRODUCT_ERROR_TITLE")
   public static var settingsText = localizedString("ASK_FOR_PERMISSION_TEXT")
 

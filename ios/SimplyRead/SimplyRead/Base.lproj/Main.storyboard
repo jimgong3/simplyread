@@ -268,9 +268,9 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CgC-3T-PUO">
-                                <rect key="frame" x="243" y="580" width="98" height="30"/>
+                                <rect key="frame" x="138" y="580" width="98" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="完成"/>
+                                <state key="normal" title="提交"/>
                                 <connections>
                                     <action selector="complete:" destination="Q2r-A5-nwY" eventType="touchUpInside" id="9dA-ki-bf1"/>
                                 </connections>
@@ -279,14 +279,27 @@
                                 <rect key="frame" x="24" y="82" width="97" height="127"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RfT-ew-P2R">
-                                <rect key="frame" x="32" y="580" width="115" height="30"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="借閱費：" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z38-yM-ePX">
+                                <rect key="frame" x="16" y="285" width="65" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="加入漂書籃"/>
-                                <connections>
-                                    <action selector="addToCart:" destination="Q2r-A5-nwY" eventType="touchUpInside" id="tFP-uZ-Oxj"/>
-                                </connections>
-                            </button>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="/ 30天" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ysX-vD-6oc">
+                                <rect key="frame" x="146" y="285" width="65" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="10" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="B0s-2d-IvY">
+                                <rect key="frame" x="74" y="280" width="64" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <textInputTraits key="textInputTraits" keyboardType="numbersAndPunctuation"/>
+                            </textField>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -295,13 +308,13 @@
                         <outlet property="authorsLabel" destination="wSG-o7-2tR" id="JSe-CV-54N"/>
                         <outlet property="photoImageView" destination="TFz-th-4Vy" id="2EK-jG-cAM"/>
                         <outlet property="publisherLabel" destination="3Zj-o2-xXS" id="dQ9-Br-oM2"/>
+                        <outlet property="rentText" destination="B0s-2d-IvY" id="ift-Xm-mv7"/>
                         <outlet property="titleLabel" destination="sL1-A5-YJe" id="kJR-Lz-Kwx"/>
-                        <segue destination="7Lz-LT-eZQ" kind="show" identifier="donateSelectComplete1" id="o1I-ql-AqD"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8UI-mL-eKa" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4001" y="1362"/>
+            <point key="canvasLocation" x="4000.8000000000002" y="1361.4692653673164"/>
         </scene>
         <!--圖書詳情-->
         <scene sceneID="hag-VU-mNt">
@@ -657,7 +670,7 @@
                                                     <rect key="frame" x="8" y="14" width="166" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="textColor" red="0.5" green="0.0" blue="0.5" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -934,9 +947,6 @@
                                 <rect key="frame" x="198" y="302" width="81" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="帳戶增值"/>
-                                <connections>
-                                    <segue destination="5aF-2e-UOu" kind="show" id="Hc9-Dt-0Oc"/>
-                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="悅讀券" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gUb-eT-nKA">
                                 <rect key="frame" x="17" y="340" width="162" height="21"/>
@@ -1108,7 +1118,7 @@
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                         <state key="normal" title="category">
-                                            <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="titleColor" red="0.5" green="0.0" blue="0.5" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Publisher" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VB6-VD-4T2">
@@ -1238,7 +1248,7 @@
                                         <rect key="frame" x="0.0" y="28" width="343" height="85"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="qwk-4Y-k1f" id="XPW-81-fX5">
-                                            <rect key="frame" x="0.0" y="0.0" width="343" height="84.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="343" height="85"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="books new" translatesAutoresizingMaskIntoConstraints="NO" id="x2y-tQ-Vsd">
@@ -1817,8 +1827,7 @@ AEEAAAAAAAAAAAAAAAAAABQQA
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="kbJ-AP-Z6n"/>
-        <segue reference="NSE-w9-EiH"/>
-        <segue reference="uwf-fT-fhP"/>
-        <segue reference="th0-Rz-9zb"/>
+        <segue reference="OLx-G1-7B9"/>
+        <segue reference="QwS-ty-iVk"/>
     </inferredMetricsTieBreakers>
 </document>
