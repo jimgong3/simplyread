@@ -44,6 +44,8 @@ function translate(bookJson){
 	}
 }
 
+// Create book json from Web/Douban reply, num of copy is 1,
+// used when inserting "new" book
 function createBookJsonFromDoubanResponse(body, category, owner, price){
   logger.info("bookUtil>> createBookJsonFromDoubanResponse");
 
@@ -76,6 +78,7 @@ function createBookJsonFromDoubanResponse(body, category, owner, price){
   return bookJson;
 }
 
+// Used when user upload a book, add book info with copies info to database
 exports.addBook = function(req, db, callback){
 	logger.info("bookUtil>> addBook start...");
 
@@ -162,6 +165,8 @@ exports.addBook = function(req, db, callback){
 	});
 }
 
+// Create book json from Web/Douban reply, without creating any copy,
+// shall be used by searchBooks
 function createBookJsonFromDoubanResponseNoCopy(body){
   logger.info("bookUtil>> createBookJsonFromDoubanResponseNoCopy");
 
@@ -183,6 +188,9 @@ function createBookJsonFromDoubanResponseNoCopy(body){
   return bookJson;
 }
 
+// Search book from database by isbn, if not found then search web for
+// this book and insert found book info into database, then return book
+// details (if any)
 exports.searchBook = function(req, db, callback){
 	logger.info("bookUtil>> searchBook start...");
 
@@ -299,4 +307,60 @@ exports.idleBooks = function(req, db, callback){
 
 		}
 	});
+}
+
+// Get tags of a book into a hashmap
+function getTagsFromBook(book){
+    logger.info("booksUtil>> updateTagsFromBook: " + book.title);
+    // logger.info("book id: " + book._id);
+    // logger.info("book tags: " + book.tags);
+    var map = new HashMap();
+
+    var bookId = book._id;
+    var tags = book.tags;
+    if(tags != null){
+      logger.info("tags found for this book");
+      tags.forEach(function(tag){
+        var name = tag.name;
+        // logger.info("tag name: " + name);
+        var curBooks = map.get(name);
+        if (curBooks == null){
+          // logger.info("mongoQuery>> new tag: " + name + ", add book id: " + bookId);
+          var books = [];
+          books.push(bookId);
+          map.set(name, books);
+        } else {
+          logger.info("booksUtil>> this case shall not happen - suppose each tag will appear only once for a single book");
+        }
+      })
+    } else {
+      logger.info("this book has no tag");
+    }
+
+    return map;
+}
+
+// Update existing tags collection with the tags info from a map {tag, book ids}
+function updateTags(db, map){
+  logger.info("booksUtil>> updateTags start...");
+  var collection = db.collection('tags');
+
+  map.forEach(function(value, key){
+    logger.info("booksUtil>> processing tag: " + key);
+    var query = {name: key};
+
+    collection.find(query)
+    // logger.info("rebuild documents for tag: " + key)
+    var tagJson = {};
+    tagJson["name"] = key;
+    tagJson["num_books"] = value.length;
+    tagJson["book_ids"] = value;
+
+    // logger.info("insert document to tags collection: " + JSON.stringify(tagJson));
+    collection.insertOne(tagJson, function(err, res){
+      if (err) throw err;
+      // logger.info("1 document inserted for tag: " + key);
+    })
+  });
+  logger.info("function buildTags2 complete");
 }

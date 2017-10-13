@@ -166,6 +166,7 @@ exports.hotTags = function(db, n, callback){
   });
 }
 
+// Sub-function of collectTags, add the tags info into map
 function collectTagFromBook(map, book){
     logger.info("mongoQuery>> collectTagFromBook: " + book.title);
     // logger.info("book id: " + book._id);
@@ -207,29 +208,32 @@ function collectTagFromBook(map, book){
     }
 }
 
-function buildTags(colTags, map){
-  var query = {}
-  colTags.deleteMany(query, function(err, obj){
-    if (err) throw err;
-    logger.info(obj.result.n + " documents from tags deleted.")
+// This function is obsolete, replaced by buildTags2
+// function buildTags(colTags, map){
+//   var query = {}
+//   colTags.deleteMany(query, function(err, obj){
+//     if (err) throw err;
+//     logger.info(obj.result.n + " documents from tags deleted.")
+//
+//     map.forEach(function(value, key){
+//       logger.info("adding tag and books: " + key)
+//       var tagJson = {};
+//       tagJson["name"] = key;
+//       tagJson["num_books"] = value.length;
+//       tagJson["book_ids"] = value;
+//
+//       logger.info("insert document to tags collection: " + tagJson);
+//       colTags.insertOne(tagJson, function(err, res){
+//         if (err) throw err;
+//         logger.info("1 document inserted.")
+//       })
+//     })
+//   });
+//   logger.info("function buildTags complete");
+// }
 
-    map.forEach(function(value, key){
-      logger.info("adding tag and books: " + key)
-      var tagJson = {};
-      tagJson["name"] = key;
-      tagJson["num_books"] = value.length;
-      tagJson["book_ids"] = value;
-
-      logger.info("insert document to tags collection: " + tagJson);
-      colTags.insertOne(tagJson, function(err, res){
-        if (err) throw err;
-        logger.info("1 document inserted.")
-      })
-    })
-  });
-  logger.info("function buildTags complete");
-}
-
+// This is the sub-function of collectTags. It rebuilds the entire
+// tags collection from "map" which contains {tag name, book_ids}
 function buildTags2(colTags, map){
   logger.info("buildTags2 start");
   colTags.deleteMany({}, function(err, obj){
@@ -259,6 +263,9 @@ function buildTags2(colTags, map){
 });
 }
 
+// This function re-build the entire tags collection from
+// "all" books, existing tags in the collection will be
+// deleted first.
 exports.collectTags = function(db, callback){
   logger.info("mongoQuery>> collectTags");
 

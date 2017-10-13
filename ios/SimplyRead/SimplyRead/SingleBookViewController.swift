@@ -150,9 +150,13 @@ class SingleBookViewController: UIViewController {
 
     func clickCategory(sender: UIButton!) {
         print("click category")
-        var category = sender.titleLabel?.text
-        self.categoryClicked = category
-        self.performSegue(withIdentifier: "booksForCategory", sender: self)
+        let category = sender.titleLabel?.text
+        if category != nil {
+            self.categoryClicked = category
+            self.performSegue(withIdentifier: "booksForCategory", sender: self)
+        } else {
+            print("SingleBookVC: book has no category yet")
+        }
     }
 
     override func didReceiveMemoryWarning() {
