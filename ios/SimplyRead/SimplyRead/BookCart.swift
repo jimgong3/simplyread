@@ -13,9 +13,12 @@ class BuyBookCart {
     
     var books = [Book]()
     var numBooks = 0
-    var totalPrice = 0
-    var totalDeposit = 0
-    var totalShippingFee = 0
+    var totalPrice = 0.0
+    var totalDeposit = 0.0
+    var totalShippingFee = 0.0
+    
+    var orders = [String: Int]()            //number of books for each holder
+    var shippingFees = [String: Double]()   //shipping fee by holder
     
     func addBook(book: Book){
         print("BuyBookCart>> add book")
@@ -23,9 +26,25 @@ class BuyBookCart {
         print("BuyBookCart>> book added to cart, # of books: \(books.count)")
         
         numBooks += 1
-        totalPrice += Int(book.our_price_hkd!)!
+        totalPrice += Double((book.currentCopy?.price)!)!
         if book.deposit != nil && book.deposit != "NaN"{
-            totalDeposit += Int(book.deposit!)!
+            totalDeposit += Double(book.deposit!)!
+        }
+        
+        var holder = book.currentCopy?.hold_by
+        if orders[holder!] == nil {
+            orders[holder!] = 1
+            shippingFees[holder!] = 18.0
+            totalShippingFee += shippingFees[holder!]!
+        } else {
+            orders[holder!] = orders[holder!]! + 1
+            if orders[holder!]! <= 2 {
+                shippingFees[holder!] = 18.0
+            } else {
+                totalShippingFee -= shippingFees[holder!]!
+                shippingFees[holder!] = Double(18 + 7 * (orders[holder!]! - 2))
+                totalShippingFee += shippingFees[holder!]!
+            }
         }
         
 //        if book.shipping_fee != nil && book.shipping_fee != "NaN"{
@@ -34,11 +53,11 @@ class BuyBookCart {
         //calculate shipping fee
         //first two books: $18
         //each book after: $7
-        if numBooks <= 2 {
-            totalShippingFee = 18
-        } else {
-            totalShippingFee = 18 + 7 * (numBooks-2)
-        }
+//        if numBooks <= 2 {
+//            totalShippingFee = 18.0
+//        } else {
+//            totalShippingFee = Double(18 + 7 * (numBooks-2))
+//        }
     }
 }
 

@@ -51,9 +51,9 @@ class Book {
     
     var isbn: String?   //used when donate book
     
-    var num_copies: Int?
-    var bookCopies: [BookCopy]?
-    var holder: String?     //the user who currently holds this book
+//    var num_copies: Int?
+//    var bookCopies: [BookCopy]?
+//    var holder: String?     //the user who currently holds this book
     var currentCopy: BookCopy?
     
     var category: String?
@@ -137,17 +137,18 @@ class Book {
 //        print ("Book>> parse book complete for " + "(\title)")
         
         // get number of copies
-        self.num_copies = json["num_copies"] as? Int
+//        self.num_copies = json["num_copies"] as? Int
         var bookCopies = json["book_copies"] as? [Any]
         var copies = [BookCopy]()
-        if bookCopies != nil && (bookCopies?.count)!>0 {
+        if bookCopies != nil && (bookCopies?.count)!>0 {    // shall have at most one copy
             for i in 0...(bookCopies?.count)!-1 {
                 var copyJson = bookCopies?[i] as? [String: Any]
                 var bookCopy = BookCopy(json: copyJson!)
                 copies.append(bookCopy!)
+                currentCopy = bookCopy
             }
         }
-        self.bookCopies = copies
+//        self.bookCopies = copies
         
         // get category
         self.category = json["category"] as? String

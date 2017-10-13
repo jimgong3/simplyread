@@ -17,7 +17,9 @@ class BuyBookCartViewController: UIViewController, UITableViewDataSource, UITabl
     @IBOutlet weak var numBooks: UILabel!
     @IBOutlet weak var totalPrice: UILabel!
     @IBOutlet weak var totalDeposit: UILabel!
-
+    @IBOutlet weak var totalShipping: UILabel!
+    @IBOutlet weak var totalFee: UILabel!
+    
     let cellReuseIdentifier = "cell"
     let cellIdentifier = "BookTableViewCell"
 
@@ -37,6 +39,10 @@ class BuyBookCartViewController: UIViewController, UITableViewDataSource, UITabl
 //        }
         totalPrice.text = BuyBookCart.sharedInstance.totalPrice.description
         totalDeposit.text = BuyBookCart.sharedInstance.totalDeposit.description
+        totalShipping.text = BuyBookCart.sharedInstance.totalShippingFee.description
+        
+        let grandTotal = BuyBookCart.sharedInstance.totalPrice + BuyBookCart.sharedInstance.totalDeposit + BuyBookCart.sharedInstance.totalShippingFee
+        totalFee.text = grandTotal.description
         
         // Register the table view cell class and its reuse id
         self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellReuseIdentifier)
@@ -85,8 +91,12 @@ class BuyBookCartViewController: UIViewController, UITableViewDataSource, UITabl
             }
         }
         // set price
-        cell.ourPriceLabel.text = book.our_price_hkd
+        cell.ourPriceLabel.text = book.currentCopy?.price
         cell.depositLabel.text = book.deposit
+        
+        //set holder
+        var holder = book.currentCopy?.hold_by
+        cell.holderLabel.text = book.currentCopy?.hold_by
         
         return cell
     }

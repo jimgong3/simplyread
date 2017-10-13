@@ -159,6 +159,7 @@ class SingleBookViewController: UIViewController {
         }
     }
 
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -187,7 +188,12 @@ class SingleBookViewController: UIViewController {
             print("BookCategoriesVC>> dest: books for category")
             booksForCategoryViewController.category = categoryClicked
         }
-        
+
+        if let bookTableViewController = segue.destination as? BookTableViewController {
+            print("BookCategoriesVC>> dest: book table")
+            bookTableViewController.idleBooksFromUser = self.book?.currentCopy?.hold_by
+        }
+
     }
     
     @IBAction func addToCart(_ sender: Any) {
@@ -208,7 +214,12 @@ class SingleBookViewController: UIViewController {
 
     @IBAction func bookshelf(_ sender: Any) {
         print("SingleBookViewController>> choose bookshelf ")
-        //...
+        let username = self.book?.currentCopy?.hold_by
+        if username != nil {
+            self.performSegue(withIdentifier: "ViewIdleBooksForUser", sender: self)
+        } else {
+            print("SingleBookVC: book has no holder information")
+        }
     }
 
 }

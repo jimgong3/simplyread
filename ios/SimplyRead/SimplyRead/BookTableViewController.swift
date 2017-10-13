@@ -19,6 +19,8 @@ class BookTableViewController: UIViewController, UITableViewDataSource, UITableV
     
     let cellReuseIdentifier = "cell"
     let cellIdentifier = "BookTableViewCell"
+    
+    var idleBooksFromUser: String?
 
     //MARK: Private Methods
     
@@ -26,13 +28,25 @@ class BookTableViewController: UIViewController, UITableViewDataSource, UITableV
         super.viewDidLoad()
         
         print("BookTabelViewControler>> start loadBooks")
-        loadBooks(completion: {(books: [Book]) -> () in
-            print("BookTableViewController>> callback")
-            self.books = books
-            DispatchQueue.main.async{
-                self.tableView.reloadData()
-            }
-        })
+        if(idleBooksFromUser == nil){
+            print("BookTableVC>> load all books")
+            loadBooks(completion: {(books: [Book]) -> () in
+                print("BookTableViewController>> callback")
+                self.books = books
+                DispatchQueue.main.async{
+                    self.tableView.reloadData()
+                }
+            })
+        } else {
+            print("BookTableVC>> load idle books from user")
+            loadIdleBooksForUser(username: idleBooksFromUser!, completion: {(books: [Book]) -> () in
+                print("BookTableViewController>> callback")
+                self.books = books
+                DispatchQueue.main.async{
+                    self.tableView.reloadData()
+                }
+            })
+        }
 
         // Register the table view cell class and its reuse id
         self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellReuseIdentifier)
@@ -85,7 +99,8 @@ class BookTableViewController: UIViewController, UITableViewDataSource, UITableV
         cell.ourPriceLabel.text = book.currentCopy?.price   //price of each copy
         
         //set holder
-        cell.holderLabel.text = (book.currentCopy?.hold_by)!
+//        cell.holderLabel.text = (book.currentCopy?.hold_by)!
+        cell.holderLabel.text = book.currentCopy?.hold_by
         
         return cell
     }

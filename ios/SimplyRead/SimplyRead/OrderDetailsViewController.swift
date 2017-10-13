@@ -33,20 +33,19 @@ class OrderDetailsViewController: UIViewController {
         let me = Me.sharedInstance.user
         postAddressText.text = me?.post_address
         
-        numberBooksLabel.text = BuyBookCart.sharedInstance.numBooks.description
+//        numberBooksLabel.text = BuyBookCart.sharedInstance.numBooks.description
         
         //fees
         let totalPrice = BuyBookCart.sharedInstance.totalPrice
-        totalPriceLabel.text = totalPrice.description
+//        totalPriceLabel.text = totalPrice.description
         let totalDeposit = BuyBookCart.sharedInstance.totalDeposit
-        depositLabel.text = totalDeposit.description
-        
+//        depositLabel.text = totalDeposit.description
+//        
 //        let totalShippingFee = BuyBookCart.sharedInstance.totalShippingFee
 //        let totalShippingFee = 18   //hardcode for testing
         let totalShippingFee = BuyBookCart.sharedInstance.totalShippingFee
-        shippingFee1Label.text = totalShippingFee.description
-        shippingFeeLabel.text = totalShippingFee.description
-        
+//        shippingFee1Label.text = totalShippingFee.description
+//        shippingFeeLabel.text = totalShippingFee.description
         
         let grandTotal = totalPrice + totalDeposit + totalShippingFee
         grandTotalLabel.text = grandTotal.description

@@ -161,13 +161,14 @@ func loadBooks(completion: @escaping (_ books: [Book]) -> ()){
                 //                        fatalError("unable to initiate book")
                 //                    }
                                     let b = Book(json: bookJson!)
-                                    if let count = b?.num_copies {
-                                        for k in 0...count-1 {
-                                            let bb = Book(json: bookJson!)
-                                            bb?.currentCopy = bb?.bookCopies?[k]
-                                            books.append(bb!)
-                                        }
-                                    }
+                                    books.append(b!)
+//                                    if let count = b?.num_copies {
+//                                        for k in 0...count-1 {
+//                                            let bb = Book(json: bookJson!)
+//                                            bb?.currentCopy = bb?.bookCopies?[k]
+//                                            books.append(bb!)
+//                                        }
+//                                    }
                 //                    print ("book loaded:\n " + "\(b?.title)")
                                 }
                             }
@@ -233,6 +234,45 @@ func loadBooksForCategory(category: String, completion: @escaping (_ books: [Boo
     
     var urlStr: String?
     urlStr = "http://" + SERVER_IP + ":" + PORT + "/queryBookByCategory?category=" + category
+    
+    var url: URL?   //handle possible special charctor in tag
+    if let encoded = urlStr?.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed), let url = URL(string: encoded) {
+        print("Query>> load books by category url: ")
+        print(url)
+        
+        Alamofire.request(url).responseJSON { response in
+            print("Request: \(String(describing: response.request))")   // original url request
+            print("Response: \(String(describing: response.response))") // http url response
+            print("Result: \(response.result)")                         // response serialization result
+            
+            if let json = response.result.value {
+                print("JSON: \(json)") // serialized json response
+                
+                var books = [Book]()
+                if let array = json as? [Any] {
+                    if array.count>0 {
+                        for i in 0...array.count-1 {
+                            var bookJson = array[i] as? [String: Any]
+                            let b = Book(json: bookJson!)
+                            books.append(b!)
+                        }
+                    }
+                    else{
+                        print("Query>> oops, no book is found")
+                    }
+                }
+                //now all books loaded
+                print ("Query>> \(books.count)" + " books loaded, callback completion")
+                completion(books)
+            }
+        }
+    }
+}
+
+func loadIdleBooksForUser(username: String, completion: @escaping (_ books: [Book]) -> ()){
+    
+    var urlStr: String?
+    urlStr = "http://" + SERVER_IP + ":" + PORT + "/idleBooks?username=" + username
     
     var url: URL?   //handle possible special charctor in tag
     if let encoded = urlStr?.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed), let url = URL(string: encoded) {
