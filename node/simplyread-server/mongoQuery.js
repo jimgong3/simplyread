@@ -146,8 +146,8 @@ exports.queryTags = function(db, callback){
 
   collection.find().sort({num_books: -1}).toArray(function(err, docs) {
     assert.equal(err, null);
-    logger.info("mongoQuery>> result: ");
-    logger.info(docs);
+    logger.info("mongoQuery>> # of tags: " + docs.length);
+//    logger.info(docs);
     callback(docs);
   });
 }

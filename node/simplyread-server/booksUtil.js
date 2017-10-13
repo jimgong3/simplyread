@@ -3,6 +3,7 @@ var pricing = require('./pricing');
 var translator = require('./translator');
 
 var HashSet = require('hashset');
+var HashMap = require('hashmap')
 
 var winston = require('winston')
 var logger = new (winston.Logger)({
@@ -110,15 +111,19 @@ exports.addBook = function(req, db, callback){
 				}
 				else{
 					logger.info("booksUtil>> book found in Douban, create new book...");
-          var bookJson = createBookJsonFromDoubanResponse(body, category, owner, price);
+					var bookJson = createBookJsonFromDoubanResponse(body, category, owner, price);
 
-          logger.info("booksUtil>> insert book into database...");
+					logger.info("booksUtil>> insert book into database...");
 					mongoQuery.insertBook(db, bookJson, function(docs){
 						logger.info("booksUtil>> book added into database, return book details in array")
 						var result = [];
 						result.push(bookJson);
 						callback(result);
 						logger.info("booksUtil>> return result: " + result);
+
+						logger.info("booksUtil>> update tags from book: " + bookJson.title);
+						updateTagsFromBook(bookJson, db);
+
 						logger.info("booksUtil>> add book done");
 					});
 				}
@@ -136,15 +141,15 @@ exports.addBook = function(req, db, callback){
 
 			var bookJson = docs[0];
 			var bookCopies = bookJson["book_copies"];
-      if (bookCopies == null)
-        bookCopies = [];
+			if (bookCopies == null)
+			bookCopies = [];
 			bookCopies.push(newCopy);
 
 			var num_copies = bookJson["num_copies"];
-      if (num_copies == null)
-        num_copies = 0;
-      // else
-      //   num_copies = parseInt(num_copies, 10);
+			if (num_copies == null)
+				num_copies = 0;
+		  // else
+		  //   num_copies = parseInt(num_copies, 10);
 			num_copies += 1;
 
 			var query = {$or: [{isbn10: isbn}, {isbn13: isbn}]};
@@ -157,9 +162,12 @@ exports.addBook = function(req, db, callback){
 			collection.update(query, update, function(err, docs) {
 				logger.info("booksUtil>> update complete");
 				// logger.info(docs);
-        var result = [];
-        result.push(bookJson);
+				var result = [];
+				result.push(bookJson);
 				callback(result);
+
+				logger.info("booksUtil>> update tags from book: " + bookJson.title);
+				updateTagsFromBook(bookJson, db);
 			});
 		}
 	});
@@ -309,9 +317,14 @@ exports.idleBooks = function(req, db, callback){
 	});
 }
 
+function updateTagsFromBook(book, db){
+	var map = getTagsFromBook(book);
+	updateTags(db, map);
+}
+
 // Get tags of a book into a hashmap
 function getTagsFromBook(book){
-    logger.info("booksUtil>> updateTagsFromBook: " + book.title);
+    logger.info("booksUtil>> getTagsFromBook: " + book.title);
     // logger.info("book id: " + book._id);
     // logger.info("book tags: " + book.tags);
     var map = new HashMap();
@@ -346,21 +359,53 @@ function updateTags(db, map){
   var collection = db.collection('tags');
 
   map.forEach(function(value, key){
-    logger.info("booksUtil>> processing tag: " + key);
     var query = {name: key};
+    collection.find(query).toArray(function(err, docs){
+  		logger.info("booksUtil>> processing tag: " + key + ", " + value);
+  		if (docs.length == 0){
+  			logger.info("booksUtil>> tag not found in database, insert now...")
+  			var tagJson = {};
+  			tagJson["name"] = key;
+  			tagJson["num_books"] = 1;
+  			tagJson["book_ids"] = value;
 
-    collection.find(query)
-    // logger.info("rebuild documents for tag: " + key)
-    var tagJson = {};
-    tagJson["name"] = key;
-    tagJson["num_books"] = value.length;
-    tagJson["book_ids"] = value;
+  			logger.info("insert document to tags collection: " + JSON.stringify(tagJson));
+  			collection.insertOne(tagJson, function(err, res){
+  			  if (err) throw err;
+  			  logger.info("booksUtil>> new tag inserted.");
+  			})
+  		} else {
+  			logger.info("booksUtil>> tag found in database, update book id...");
+  			var tagJson = docs[0];
+  			// logger.info("tagJson - before: " + JSON.stringify(tagJson));
+  			// logger.info("value[0]: " + JSON.stringify(value[0]));
+        var book_ids = tagJson["book_ids"];
 
-    // logger.info("insert document to tags collection: " + JSON.stringify(tagJson));
-    collection.insertOne(tagJson, function(err, res){
-      if (err) throw err;
-      // logger.info("1 document inserted for tag: " + key);
-    })
+        logger.info("booksUtil>> check if current book exist, book id: " + value[0]);
+        var found = false;
+        for(var i=0; i<book_ids.length; i++){
+          logger.info("book id: " + book_ids[i]);
+          if((book_ids[i]).equals(value[0])) {
+            found = true;
+            break;
+          }
+        }
+        if(!found){
+          logger.info("booksUtil>> book id not found, insert now (otherwise skip)...")
+          book_ids.push(value[0]);
+    			// tagJson["book_ids"] = book_ids;
+    			// logger.info("tagJson - after: " + JSON.stringify(tagJson));
+          var num_books = tagJson["num_books"];
+          num_books += 1;
+
+    			var update = {$set: {num_books: num_books, book_ids: book_ids}};
+    			logger.info("booksUtil>> update: " + JSON.stringify(update));
+
+    			collection.update(query, update, function(err, docs){
+    				logger.info("booksUtil>> book id updated.");
+    			});
+        }
+  		}
+	});
   });
-  logger.info("function buildTags2 complete");
 }

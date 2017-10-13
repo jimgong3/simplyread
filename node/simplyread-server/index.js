@@ -370,15 +370,15 @@ app.get('/web/pug', function (req, res) {
 });
 
 app.get('/tags', function (req, res) {
-	logger.info("app>> get /tags");
+	logger.info("index>> get /tags");
 
 	const {headers, method, url} = req;
-	logger.info("app>> method: " + method);
-	logger.info("app>> url: " + url);
+	logger.info("index>> method: " + method);
+	logger.info("index>> url: " + url);
 
 	mongoQuery.queryTags(db, function(docs) {
 		logger.info("app>> callback from queryTags");
-		logger.info(docs);
+//		logger.info(docs);
 		res.json(docs)
 		logger.info("app>> tags done");
 	});
