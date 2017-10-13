@@ -110,7 +110,7 @@ app.get('/books', function (req, res) {
 
 	mongoQuery.queryBooks(db, function(docs) {
 		logger.info("app>> callback from queryBooks");
-		logger.info(docs);
+		// logger.info(docs);
 		res.json(docs)
 		logger.info("app>> books done");
 	});
@@ -613,6 +613,7 @@ app.post('/addOrder', function (req, res) {
 	});
 })
 
+// Find all bookshelves or the bookshelf for specific user
 app.get('/bookshelves', function (req, res) {
 	logger.info("index>> GET /bookshelves");
 	booksUtil.bookshelves(req, db, function(docs) {
@@ -623,6 +624,7 @@ app.get('/bookshelves', function (req, res) {
 	});
 })
 
+// Find idle books from the bookshelf of a specific user
 app.get('/idleBooks', function (req, res) {
 	logger.info("index>> GET /idleBooks");
 	booksUtil.idleBooks(req, db, function(docs) {
