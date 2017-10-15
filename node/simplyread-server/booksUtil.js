@@ -149,13 +149,13 @@ function updateTags(db, map){
   			  logger.info("booksUtil>> new tag inserted.");
   			})
   		} else {
-  			logger.info("booksUtil>> tag found in database, update book id...");
+  			// logger.info("booksUtil>> tag found in database, update book id...");
   			var tagJson = docs[0];
   			// logger.info("tagJson - before: " + JSON.stringify(tagJson));
   			// logger.info("value[0]: " + JSON.stringify(value[0]));
         var book_ids = tagJson["book_ids"];
 
-        logger.info("booksUtil>> check if current book exist, book id: " + value[0]);
+        // logger.info("booksUtil>> check if current book exist, book id: " + value[0]);
         var found = false;
         for(var i=0; i<book_ids.length; i++){
           logger.info("book id: " + book_ids[i]);
@@ -165,7 +165,7 @@ function updateTags(db, map){
           }
         }
         if(!found){
-          logger.info("booksUtil>> book id not found, insert now (otherwise skip)...")
+          // logger.info("booksUtil>> book id not found, insert now (otherwise skip)...")
           book_ids.push(value[0]);
     			// tagJson["book_ids"] = book_ids;
     			// logger.info("tagJson - after: " + JSON.stringify(tagJson));
@@ -336,6 +336,9 @@ function addCopyToExistingBook(isbn, owner, price, docs, db, callback){
   bookCopies.push(newCopy);
   newBookJson["book_copies"] = bookCopies;
   newBookJson["num_copies"] = 1;
+
+  var datetime = new Date()
+  newBookJson["add_date"] = datetime;
 
   var collection = db.collection('books');
 	collection.insertOne(newBookJson, function(err, docs) {

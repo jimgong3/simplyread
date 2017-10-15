@@ -89,7 +89,12 @@ exports.queryBookByTag = function(db, tag, callback){
 
 		var colBooks = db.collection('books');
 		var queryBooks = {_id: {$in: book_ids}};
-		colBooks.find(queryBooks).toArray(function(err, docs){
+
+    var order = {add_date: -1};
+    logger.info("mongoQuer>> order");
+    logger.info(order);
+
+		colBooks.find(queryBooks).sort(order).toArray(function(err, docs){
 			logger.info("mongoQuery>> find books by tag result: ")
 			logger.info(docs);
 			callback(docs);
@@ -117,7 +122,12 @@ exports.queryBookByCategory = function(db, category, callback){
 
 		var colBooks = db.collection('books');
 		var queryBooks = {_id: {$in: book_ids}};
-		colBooks.find(queryBooks).toArray(function(err, docs){
+
+    var order = {add_date: -1};
+    logger.info("mongoQuer>> order");
+    logger.info(order);
+
+		colBooks.find(queryBooks).sort(order).toArray(function(err, docs){
 			logger.info("mongoQuery>> find books by category result: ")
 			logger.info(docs);
 			callback(docs);

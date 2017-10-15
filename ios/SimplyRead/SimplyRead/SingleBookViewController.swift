@@ -34,6 +34,8 @@ class SingleBookViewController: UIViewController {
     var tagClicked: String?
     var categoryClicked: String?
     
+    @IBOutlet weak var bookshelfButton: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -92,7 +94,7 @@ class SingleBookViewController: UIViewController {
             categoryButton.setTitle(book.category, for: .normal)
             categoryButton.addTarget(self, action: #selector(self.clickCategory), for: .touchUpInside)
             
-            //show tags - TBA
+            //show tags
             var count = 0;
             for tag in book.tags! {
                 let button = UIButton(frame: CGRect(x: 0, y: 0, width: 100, height: 21))
@@ -135,6 +137,8 @@ class SingleBookViewController: UIViewController {
             }
             self.scrollView.contentSize = contentRect.size;
 
+            //set bookshelf name
+            bookshelfButton.setTitle((book.currentCopy?.hold_by)! + "的書架", for: .normal)
         }
     }
     

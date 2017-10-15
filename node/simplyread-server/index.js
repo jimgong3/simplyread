@@ -127,8 +127,8 @@ app.get('/book', function (req, res) {
 	logger.info("app>> isbn: " + isbn);
 
 	mongoQuery.queryBook(db, isbn, function(docs) {
-		logger.info("app>> callback from book by isbn");
-		logger.info(docs);
+		logger.info("app>> callback from queryBook");
+		// logger.info(docs);
 		res.json(docs)
 		logger.info("app>> book by isbn done");
 	});
@@ -226,7 +226,7 @@ app.get('/searchAddBook', function (req, res) {
 		}
 		else {
 			logger.info("app>> book already exist in database, return book details")
-			logger.info(docs);
+			// logger.info(docs);
 			res.json(docs);
 		}
 		logger.info("app>> add book by isbn done");

@@ -18,6 +18,7 @@ class DonateSingleBookViewController: UIViewController {
     @IBOutlet weak var authorsLabel: UILabel!
     @IBOutlet weak var photoImageView: UIImageView!
     @IBOutlet weak var publisherLabel: UILabel!
+    @IBOutlet weak var originalPriceLabel: UILabel!
     
 //    var isbnCode: String?
 //    @IBOutlet weak var depositText: UITextField!
@@ -46,6 +47,8 @@ class DonateSingleBookViewController: UIViewController {
             }
             // show publisher
             publisherLabel.text = book.publisher
+            // show original price
+            originalPriceLabel.text = book.price
         }
 
     }
@@ -93,23 +96,32 @@ class DonateSingleBookViewController: UIViewController {
         print("DonateSingleBookViewController>> choose complete ")
 //        self.performSegue(withIdentifier: "donateSelectComplete1", sender: self)
         
-        var isbn = self.book?.isbn
-        var owner = Me.sharedInstance.user?.username
-        var category = ""   // to be revised
-        var price = Double(rentText.text!)     // to be revised
-        addBookByIsbn(isbn: isbn!, title: "", category: category, owner: owner!, price: price!,
-                      completion: {(book: Book) -> () in
-            print("DonateSingleBookViewController>> callback, book: ")
-            print(book.title)
-            self.book = book
-            self.viewDidLoad()  //force refresh data
-                        
-            let alert = UIAlertController(title: "提示", message: "圖書上傳成功。", preferredStyle: .alert)
+        let isbn = self.book?.isbn
+        let owner = Me.sharedInstance.user?.username
+        let category = ""   // to be revised
+        let price = Int(rentText.text!)
+        
+        if price == nil {
+            let alert = UIAlertController(title: "提示", message: "借閱價須為整數。", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: NSLocalizedString("好", comment: "Default action"), style: .`default`, handler: { _ in
                 NSLog("The \"OK\" alert occured.")
             }))
             self.present(alert, animated: true, completion: nil)
-        })
+        } else {
+            addBookByIsbn(isbn: isbn!, title: "", category: category, owner: owner!, price: price!,
+                          completion: {(book: Book) -> () in
+                print("DonateSingleBookViewController>> callback, book: ")
+                print(book.title)
+                self.book = book
+                self.viewDidLoad()  //force refresh data
+                            
+                let alert = UIAlertController(title: "提示", message: "圖書上傳成功。", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: NSLocalizedString("好", comment: "Default action"), style: .`default`, handler: { _ in
+                    NSLog("The \"OK\" alert occured.")
+                }))
+                self.present(alert, animated: true, completion: nil)
+            })
+        }
     }
 
 }

@@ -161,7 +161,9 @@ func loadBooks(completion: @escaping (_ books: [Book]) -> ()){
                 //                        fatalError("unable to initiate book")
                 //                    }
                                     let b = Book(json: bookJson!)
-                                    books.append(b!)
+                                    if b?.currentCopy != nil {
+                                        books.append(b!)
+                                    }
 //                                    if let count = b?.num_copies {
 //                                        for k in 0...count-1 {
 //                                            let bb = Book(json: bookJson!)
@@ -214,7 +216,9 @@ func loadBooksForTag(tag: String, completion: @escaping (_ books: [Book]) -> ())
                         for i in 0...array.count-1 {
                             var bookJson = array[i] as? [String: Any]
                             let b = Book(json: bookJson!)
-                            books.append(b!)
+                            if b?.currentCopy != nil {
+                                books.append(b!)
+                            }
                         }
                     }
                     else{
@@ -254,7 +258,9 @@ func loadBooksForCategory(category: String, completion: @escaping (_ books: [Boo
                         for i in 0...array.count-1 {
                             var bookJson = array[i] as? [String: Any]
                             let b = Book(json: bookJson!)
-                            books.append(b!)
+                            if b?.currentCopy != nil {
+                                books.append(b!)
+                            }
                         }
                     }
                     else{
@@ -293,7 +299,9 @@ func loadIdleBooksForUser(username: String, completion: @escaping (_ books: [Boo
                         for i in 0...array.count-1 {
                             var bookJson = array[i] as? [String: Any]
                             let b = Book(json: bookJson!)
-                            books.append(b!)
+                            if b?.currentCopy != nil {
+                                books.append(b!)
+                            }
                         }
                     }
                     else{
@@ -308,7 +316,7 @@ func loadIdleBooksForUser(username: String, completion: @escaping (_ books: [Boo
     }
 }
 
-
+// This function is obsolete, for testing only.
 func searchAddBook(isbn: String, completion: @escaping (_ book: Book) -> ()){
     
     var urlStr: String?
@@ -345,6 +353,7 @@ func searchAddBook(isbn: String, completion: @escaping (_ book: Book) -> ()){
     }
 }
 
+// User when upload books, search book details by isbnr
 func searchBook(isbn: String, completion: @escaping (_ book: Book) -> ()){
     
     var urlStr: String?
@@ -459,7 +468,7 @@ func addNewBookImage(isbn: String, image: UIImage, completion: @escaping (_ book
 }
 
 // Add book by isbn, book details can be found through isbn in database or web
-func addBookByIsbn(isbn: String, title: String, category: String, owner: String, price: Double, completion: @escaping (_ book: Book) -> ()){
+func addBookByIsbn(isbn: String, title: String, category: String, owner: String, price: Int, completion: @escaping (_ book: Book) -> ()){
     
     print("add new book, isbn: " + isbn + ", title: " + title)
     print("category: " + category + ", owner: " + owner)
