@@ -6,6 +6,15 @@ var logger = new (winston.Logger)({
   ]
 });
 
+var nodemailer = require('nodemailer');
+var transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'simplyreadhk@gmail.com',
+    pass: 'hkSimply'
+  }
+});
+
 // CLIENT FACING FUNCTION
 // Return: [user] for success, or [] otherwise
 exports.register = function(req, db, callback){
@@ -20,8 +29,7 @@ exports.register = function(req, db, callback){
 
   var collection = db.collection('users');
   var query = {username: username};
-  logger.info("mongoQuery>> query: ");
-  logger.info(query);
+  logger.info("loginUtil>> query: " + JSON.stringify(query));
 
   collection.find(query).toArray(function(err, docs) {
   	if(docs.length > 0){
@@ -40,11 +48,44 @@ exports.register = function(req, db, callback){
     		}
 
       	collection.insertOne(user, function(err, docs) {
-  		  logger.info("mongoQuery>> 1 user inserted");
+  		  logger.info("loginUtil>> 1 user inserted");
   		  var result = [];
   		  result.push(user);
   		  callback(result);
+
+        sendEmailRegisterSuccess(username, fullname, email);
   	  });
   	}
+  });
+}
+
+function sendEmailRegisterSuccess(username, fullname, email){
+  var from = "simplyreadhk@gmail.com";
+  var to = email;
+  var cc = "simplyreadhk@gmail.com";
+  var subject = "SimplyRead: Register Successfully";
+  var text = "";
+  text += "Dear Customer, \n\nThanks for your registration, below please find the user account details for your reference: "
+  text += "\n\nUsername: " + username;
+  text += "\n\nFullname: " + fullname;
+  text += "\n\nEmail: " + email;
+  text += "\n\nThank you.";
+  text += "\n\nSimplyRead";
+
+  var mailOptions = {
+    from: from,
+    to: to,
+    cc: cc,
+    subject: subject,
+    text: text
+  };
+  logger.info("loginUtil>> mailOptions: " + JSON.stringify(mailOptions));
+
+  transporter.sendMail(mailOptions, function(error, info){
+    if (error) {
+      logger.info(error);
+    } else {
+      logger.info('loginUtil>> Email sent: ' + info.response);
+    }
   });
 }

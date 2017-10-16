@@ -94,8 +94,8 @@ app.post('/login', function (req, res) {
 app.post('/register', function (req, res) {
 	logger.info("app>> POST /register");
 	loginUtil.register(req, db, function(docs) {
-		logger.info("app>> callback from register");
-		logger.info(docs);
+		logger.info("app>> callback from register...");
+		// logger.info(docs);
 		res.json(docs)
 		logger.info("app>> register done");
 	});
