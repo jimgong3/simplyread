@@ -9,7 +9,7 @@
 import UIKit
 //import BarcodeScanner
 
-class DonateSingleBookViewController: UIViewController {
+class DonateSingleBookViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate {
 
     var book: Book?
     var user: User?
@@ -19,6 +19,22 @@ class DonateSingleBookViewController: UIViewController {
     @IBOutlet weak var photoImageView: UIImageView!
     @IBOutlet weak var publisherLabel: UILabel!
     @IBOutlet weak var originalPriceLabel: UILabel!
+    
+    @IBOutlet weak var categoryPicker: UIPickerView!
+    let categoryData = [
+        "未分類",
+        "商管理財",
+        "流行文學",
+        "心理勵志",
+        "飲食文化",
+        "旅遊地理",
+        "生活趣味",
+        "養生保健",
+        "親子教育",
+        "宗教哲學",
+        "兒童圖書"
+    ]
+    var category: String?
     
 //    var isbnCode: String?
 //    @IBOutlet weak var depositText: UITextField!
@@ -49,8 +65,26 @@ class DonateSingleBookViewController: UIViewController {
             publisherLabel.text = book.publisher
             // show original price
             originalPriceLabel.text = book.price
+            
         }
 
+        categoryPicker.delegate = self
+        categoryPicker.dataSource = self
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        // set default category
+        var cat = book?.category
+        var row = 0
+        for i in 0...categoryData.count {
+            if categoryData[i] == cat {
+                row = i
+                break
+            }
+        }
+        categoryPicker.selectRow(row, inComponent: 0, animated: true) //not working
     }
     
     override func didReceiveMemoryWarning() {
@@ -58,6 +92,25 @@ class DonateSingleBookViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+
+    // The number of columns of data
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    // The number of rows of data
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return categoryData.count
+    }
+    
+    // The data to return for the row and component (column) that's being passed in
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return categoryData[row]
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        self.category = categoryData[row]
+    }
 
     /*
     // MARK: - Navigation
@@ -97,8 +150,12 @@ class DonateSingleBookViewController: UIViewController {
 //        self.performSegue(withIdentifier: "donateSelectComplete1", sender: self)
         
         let isbn = self.book?.isbn
+//        let user = Me.sharedInstance.user
         let owner = Me.sharedInstance.user?.username
-        let category = ""   // to be revised
+        var category = ""
+        if self.category != nil {
+            category = self.category!
+        }
         let price = Int(rentText.text!)
         
         if price == nil {

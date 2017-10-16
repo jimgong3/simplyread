@@ -37,7 +37,7 @@ exports.addBook = function(req, db, callback){
 		}
 		else {
 			logger.info("booksUtil>> book already exist in database, add new copy...")
-      addCopyToExistingBook(isbn, owner, price, docs, db, function(result){
+      addCopyToExistingBook(isbn, category, owner, price, docs, db, function(result){
         logger.info("booksUtil>> callback from addCopyToExistingBook...")
         callback(result);
       })
@@ -318,13 +318,15 @@ function translate(bookJson){
 
 // Sub-function of addBook.
 // Add new copy for an existing book
-function addCopyToExistingBook(isbn, owner, price, docs, db, callback){
+function addCopyToExistingBook(isbn, category, owner, price, docs, db, callback){
   logger.info("booksUtil>> addCopyToExistingBook...")
 
   var bookJson = docs[0];
   logger.info("bookUtil>> existing book_id: " + bookJson["_id"]);
   var newBookJson = JSON.parse(JSON.stringify(bookJson));
   delete newBookJson._id;
+  // delete newBookJson.category;
+  newBookJson["category"] = category;
 
   var newCopy = {};
   newCopy["owner"] = owner;

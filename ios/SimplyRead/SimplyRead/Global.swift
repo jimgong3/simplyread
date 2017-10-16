@@ -10,7 +10,5 @@ import Foundation
 
 class Me {
     static let sharedInstance = Me()
-    
     var user: User?
-
 }
