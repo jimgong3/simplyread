@@ -12,6 +12,7 @@ import UIKit
 class DonateSingleBookNotFoundViewController: UIViewController,
         UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
 
+    var isbn: String?
     var book: Book?
     var user: User?
     
@@ -33,6 +34,10 @@ class DonateSingleBookNotFoundViewController: UIViewController,
         titleText.delegate = self
         authorText.delegate = self
         isbnText.delegate = self
+        
+        if isbn != nil {
+            isbnText.text = isbn
+        }
     }
 
     override func didReceiveMemoryWarning() {

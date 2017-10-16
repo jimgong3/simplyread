@@ -11,6 +11,7 @@ import UIKit
 
 class DonateBookViewController: UIViewController {
     
+    var isbn: String?
     var book: Book?
     var user: User?
 
@@ -51,6 +52,7 @@ class DonateBookViewController: UIViewController {
         }
         else if let donateSingleBookNotFoundViewController = segue.destination as? DonateSingleBookNotFoundViewController {
             print("DonateBookViewController>> book not found")
+            donateSingleBookNotFoundViewController.isbn = isbn
             donateSingleBookNotFoundViewController.user = user
         }
         else {
@@ -74,7 +76,6 @@ class DonateBookViewController: UIViewController {
     @IBAction func simulateScanComplete(_ sender: UIButton) {
         print("DonateBookViewController>> simulate scan complete")
         
-        
         //prepare dummy data
         var code = "7300226531"
         searchAddBook(isbn: code, completion: {(book: Book) -> () in
@@ -89,6 +90,7 @@ class DonateBookViewController: UIViewController {
     //for testing
     @IBAction func simulateScanCompleteNotFound(_ sender: UIButton) {
         print("DonateBookViewController>> simulate scan complete, book not found")
+        self.isbn = "7300226531"
         self.performSegue(withIdentifier: "donateSearchBookNotFound", sender: self)
     }
 
@@ -101,6 +103,8 @@ extension DonateBookViewController: BarcodeScannerCodeDelegate {
         print("DonateBookViewController>> code: " + code)
         print("DonateBookViewController>> type: " + type)
         
+        self.isbn = code
+        
          // send request to search book with isbn/code
 //        searchAddBook(isbn: code, completion: {(book: Book) -> () in
         searchBook(isbn: code, completion: {(book: Book) -> () in
@@ -110,7 +114,7 @@ extension DonateBookViewController: BarcodeScannerCodeDelegate {
                 self.book = book
                 self.performSegue(withIdentifier: "donateSearchBook", sender: self)
             }
-            else{
+            else{   //book not found
                 print("DonateBookViewController>> callback, book not found ")
                 self.performSegue(withIdentifier: "donateSearchBookNotFound", sender: self)
             }
