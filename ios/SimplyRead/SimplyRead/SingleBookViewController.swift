@@ -57,10 +57,10 @@ class SingleBookViewController: UIViewController {
                 image_url = book.image_url
             }
             if (image_url != nil) {
-                var url = URL(string: image_url!)
+                let url = URL(string: image_url!)
                 getDataFromUrl(url: url!) { (data, response, error) in
                     guard let data = data, error == nil else { return }
-                    print(response?.suggestedFilename ?? url?.lastPathComponent)
+//                    print(response?.suggestedFilename ?? url?.lastPathComponent)
                     print("SingleBookViewController>> image download finished")
                     DispatchQueue.main.async() { () -> Void in
                         self.photoImageView.image = UIImage(data: data)
@@ -111,7 +111,7 @@ class SingleBookViewController: UIViewController {
                 count += 1
             }
             if count<5 {    //add dummy tags to look better
-                for i in 1...(5-count) {
+                for _ in 1...(5-count) {
                     let button = UIButton(frame: CGRect(x: 0, y: 0, width: 100, height: 21))
                     button.setTitle("    ", for: .normal)
                     button.setTitleColor(.orange, for: .normal)
@@ -120,7 +120,7 @@ class SingleBookViewController: UIViewController {
                     self.tagsView1.addArrangedSubview(button)
                 }
             } else if count<10 {    //add dummy tags to look better
-                for i in 1...(10-count) {
+                for _ in 1...(10-count) {
                     let button = UIButton(frame: CGRect(x: 0, y: 0, width: 100, height: 21))
                     button.setTitle("    ", for: .normal)
                     button.setTitleColor(.orange, for: .normal)
