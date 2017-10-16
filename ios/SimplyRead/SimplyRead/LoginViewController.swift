@@ -20,6 +20,10 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         // Do any additional setup after loading the view.
         usernameText.delegate = self
         passwordText.delegate = self
+
+        // check if remembered username & password
+        usernameText.text = UserDefaults.standard.string(forKey: "username")
+        passwordText.text = UserDefaults.standard.string(forKey: "password")
     }
 
     override func didReceiveMemoryWarning() {
@@ -53,10 +57,10 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
 //            self.performSegue(withIdentifier: "loginSuccess", sender: nil)
 //        })
         
-        if let srTabBarController = segue.destination as? SRTabBarController {
-            srTabBarController.user = user  //obsolete
-            Me.sharedInstance.user = user
-        }
+//        if let srTabBarController = segue.destination as? SRTabBarController {
+//            srTabBarController.user = user  //obsolete
+//            Me.sharedInstance.user = user
+//        }
 
     }
     
@@ -77,12 +81,16 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                 }))
                 self.present(alert, animated: true, completion: nil)
             } else {
-                print("LoginViewController>> set global, user: ")
+//                print("LoginViewController>> set global, user: ")
                 Me.sharedInstance.user = user
                 
                 DispatchQueue.main.async(){
                     self.performSegue(withIdentifier: "loginSuccess", sender: self)
                 }
+                
+                //remember username & password
+                UserDefaults.standard.set(username, forKey: "username")
+                UserDefaults.standard.set(password, forKey: "password")
             }
         })
 
