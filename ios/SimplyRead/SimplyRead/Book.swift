@@ -64,8 +64,8 @@ class Book {
     }
     
     init?(json: [String: Any]) {
-        print("Book>> create book from json")
-        print(json)
+//        print("Book>> create book from json...")
+//        print(json)
         
         // get title
         let title = json["title"] as? String

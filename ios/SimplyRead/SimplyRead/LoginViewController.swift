@@ -53,28 +53,36 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
 //            self.performSegue(withIdentifier: "loginSuccess", sender: nil)
 //        })
         
-        guard let srTabBarController = segue.destination as?
-            SRTabBarController else {
-                fatalError("unexpected destination: \(segue.destination)")
+        if let srTabBarController = segue.destination as? SRTabBarController {
+            srTabBarController.user = user  //obsolete
+            Me.sharedInstance.user = user
         }
-        srTabBarController.user = user
-        Me.sharedInstance.user = user
 
     }
     
     @IBAction func startLogin(_ sender: Any) {
-        var username = usernameText.text
-        var password = passwordText.text
+        let username = usernameText.text
+        let password = passwordText.text
         login3(username: username!, password: password!, completion: {(user: User) -> () in
-            print("LoginViewController>> callback, user: ")
-            self.user = user
+            print("LoginViewController>> callback, username: ")
+//            self.user = user
             print(user.username)
             
-            print("LoginViewController>> set global, user: ")
-            Me.sharedInstance.user = user
-        
-            DispatchQueue.main.async(){
-                self.performSegue(withIdentifier: "loginSuccess", sender: self)
+            if user.username == "" {
+                print("Login: login fail")
+                
+                let alert = UIAlertController(title: "提示", message: "登錄不成功，請檢查登錄名和密碼。", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: NSLocalizedString("好", comment: "Default action"), style: .`default`, handler: { _ in
+                    NSLog("The \"OK\" alert occured.")
+                }))
+                self.present(alert, animated: true, completion: nil)
+            } else {
+                print("LoginViewController>> set global, user: ")
+                Me.sharedInstance.user = user
+                
+                DispatchQueue.main.async(){
+                    self.performSegue(withIdentifier: "loginSuccess", sender: self)
+                }
             }
         })
 
@@ -86,5 +94,12 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                 self.performSegue(withIdentifier: "loginSuccess", sender: self)
             }
     }
+
+//    @IBAction func register(_ sender: Any) {
+//        print("LoginViewController>> register ")
+//        DispatchQueue.main.async(){
+//            self.performSegue(withIdentifier: "register", sender: self)
+//        }
+//    }
 
 }

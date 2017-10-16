@@ -19,9 +19,9 @@ class User {
     var balance: String?
     
     init?(username: String){
-        guard !username.isEmpty else{
-            return nil
-        }
+//        guard !username.isEmpty else{
+//            return nil
+//        }
         self.username = username
     }
     

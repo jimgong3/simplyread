@@ -82,7 +82,7 @@ class BookTableViewController: UIViewController, UITableViewDataSource, UITableV
         // set images
         if (book.image_url != nil) {
 //            var url = URL(string: book.image_medium_url!)
-            var url = URL(string: book.image_url!)
+            let url = URL(string: book.image_url!)
             getDataFromUrl(url: url!) { (data, response, error) in
                 guard let data = data, error == nil else { return }
 //                print(response?.suggestedFilename ?? url?.lastPathComponent)

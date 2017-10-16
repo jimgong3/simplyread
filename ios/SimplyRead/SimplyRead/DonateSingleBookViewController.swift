@@ -35,10 +35,10 @@ class DonateSingleBookViewController: UIViewController {
             authorsLabel.text = book.authorsText
             // show images
             if (book.image_medium_url != nil) {
-                var url = URL(string: book.image_large_url!)
+                let url = URL(string: book.image_large_url!)
                 getDataFromUrl(url: url!) { (data, response, error) in
                     guard let data = data, error == nil else { return }
-                    print(response?.suggestedFilename ?? url?.lastPathComponent)
+//                    print(response?.suggestedFilename ?? url?.lastPathComponent)
                     print("SingleBookViewController>> image download finished")
                     DispatchQueue.main.async() { () -> Void in
                         self.photoImageView.image = UIImage(data: data)

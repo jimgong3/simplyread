@@ -10,6 +10,7 @@ import Foundation
 import Alamofire
 import Crypto
 
+// This function is obsolete (due to using URLSession), replaced by login3
 func login(username: String, password: String, completion: @escaping (_ user: User) -> ()){
     print("Query>> login username: " + username + ", password: " + password)
     let queryStr = "?username="+username+"&password="+password
@@ -49,7 +50,7 @@ func login(username: String, password: String, completion: @escaping (_ user: Us
     task.resume()
 }
 
-
+// This function is obsolete (due to using GET), replaced by login3
 func login2(username: String, password: String, completion: @escaping (_ user: User) -> ()){
     
     var urlStr: String?
@@ -111,6 +112,49 @@ func login3(username: String, password: String, completion: @escaping (_ user: U
                 }
                 else{
                     print("Query>> oops, no user is found")
+                    let u = User(username: "")  //indicate failed registeration
+                    completion(u!)
+                }
+            }
+        }
+    }
+}
+
+func register(username: String, password: String, fullname: String, email: String, completion: @escaping (_ user: User) -> ()){
+    
+    var urlStr: String?
+    urlStr = "http://" + SERVER_IP + ":" + PORT + "/register"
+    let url = URL(string: urlStr!)
+    print("Query>> register url: ")
+    print(url!)
+    
+    let password2 = password.sha1
+    print("original password: " + password + ", encrypted password: " + password2!)
+    let parameters: Parameters = [
+        "username": username,
+        "password": password2!,
+        "fullname": fullname,
+        "email": email
+    ]
+    
+    Alamofire.request(url!, method: .post, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+        print("Query>> Request: \(String(describing: response.request))")   // original url request
+        print("Query>> Response: \(String(describing: response.response))") // http url response
+        print("Query>> Result: \(response.result)")                         // response serialization result
+        
+        if let json = response.result.value {
+            print("JSON: \(json)") // serialized json response
+            
+            if let array = json as? [Any] {
+                if array.count>0 {
+                    let userJson = array[0] as? [String: Any]
+                    let u = User(json: userJson!)
+                    completion(u!)
+                }
+                else{
+                    print("Query>> registration fail: username exist")
+                    let u = User(username: "")  //indicate failed registeration
+                    completion(u!)
                 }
             }
         }

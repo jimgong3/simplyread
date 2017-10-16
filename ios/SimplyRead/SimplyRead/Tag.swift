@@ -18,8 +18,8 @@ class Tag {
     }
     
     init?(json: [String: Any]){
-        print("Tag>> create tag from json")
-        print(json)
+//        print("Tag>> create tag from json...")
+//        print(json)
         
         self.name = (json["name"] as? String)!
         
