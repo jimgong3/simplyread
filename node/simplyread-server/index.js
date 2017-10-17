@@ -634,3 +634,10 @@ app.get('/idleBooks', function (req, res) {
 		logger.info("index>> idleBooks done");
 	});
 })
+
+// Add a sf-express shop
+app.post('/addSfShop', function (req, res) {
+	logger.info("index>> POST /addSfShop");
+	res.json({info: 'function TBA'});
+})
+
