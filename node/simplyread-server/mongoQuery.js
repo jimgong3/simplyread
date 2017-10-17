@@ -387,18 +387,17 @@ exports.buildCategories = function(db, callback){
 }
 
 exports.queryCategories = function(db, callback){
-  logger.info("mongoQuery>> query all categories");
+  logger.info("mongoQuery>> queryCategories start...");
 
   var collection = db.collection('categories');
 
   var order = {ref: 1};
-  logger.info("mongoQuer>> order");
-  logger.info(order);
+  logger.info("mongoQuer>> order: " + JSON.stringify(order));
 
   collection.find().sort(order).toArray(function(err, docs) {
     assert.equal(err, null);
-    logger.info("mongoQuery>> result: ");
-    logger.info(docs);
+    logger.info("mongoQuery>> # of result: " + docs.length);
+//    logger.info(docs);
     callback(docs);
   });
 }

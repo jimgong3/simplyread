@@ -464,7 +464,7 @@ app.get('/categories', function (req, res) {
 
 	mongoQuery.queryCategories(db, function(docs) {
 		logger.info("app>> callback from queryCategories");
-		logger.info(docs);
+//		logger.info(docs);
 		res.json(docs)
 		logger.info("app>> categories done");
 	});

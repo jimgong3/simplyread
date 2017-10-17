@@ -79,6 +79,9 @@ function searchAddBookFromWeb(isbn, category, owner, price, db, callback){
 
         logger.info("booksUtil>> update tags from book: " + bookJson.title);
         updateTagsFromBook(bookJson, db);
+		
+		logger.info("booksUtil>> update category from book: " + bookJson.title);
+		updateCategoryFromBook(bookJson, db);
 
         logger.info("booksUtil>> add new book to owner's bookshelf...");
         var book_id = bookJson["_id"];
@@ -182,6 +185,34 @@ function updateTags(db, map){
   		}
 	});
   });
+}
+
+// Sub-function of adding books
+function updateCategoryFromBook(book, db){
+	logger.info("booksUtil>> updateCategoryFromBook start...");
+	
+	var bookId = book._id;
+    var category = book.category;
+	
+	var collection = db.collection("categories");
+	var query = {name: category};
+	collection.find(query).toArray(function(err, docs){
+		if(docs.length == 0){
+			logger.info("booksUtil>> book category not found (this shall not happen), do nothing: " + category);
+		} else {
+			logger.info("booksUtil>> category found for: " + category);
+			
+			var categoryJson = docs[0];
+			var book_ids = categoryJson["book_ids"];
+			book_ids.push(bookId);
+			
+			var update = {$set: {book_ids: book_ids}};
+			logger.info("booksUtil>> update: " + JSON.stringify(update));
+			collection.update(query, update, function(err2, docs2) {
+				logger.info("booksUtil>> category updated")
+			});
+		}
+	});
 }
 
 // Sub-function of searchAddBookFromWeb
@@ -352,6 +383,9 @@ function addCopyToExistingBook(isbn, category, owner, price, docs, db, callback)
 
 		logger.info("booksUtil>> update tags from book: " + newBookJson.title);
 		updateTagsFromBook(newBookJson, db);
+		
+		logger.info("booksUtil>> update category from book: " + bookJson.title);
+		updateCategoryFromBook(newBookJson, db);
 
     logger.info("booksUtil>> add new book to owner's bookshelf...");
     var book_id = newBookJson["_id"];
