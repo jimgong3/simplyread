@@ -23,21 +23,22 @@ exports.addBook = function(req, db, callback){
 	var category = req.body.category;
 	var owner = req.body.owner;
 	var price = req.body.price;
-	logger.info("booksUtil>> isbn: " + isbn + ", title: " + title + ", category: " + category + ", owner: " + owner + ", price: " + price);
+	var deposit = req.body.deposit;
+	logger.info("booksUtil>> isbn: " + isbn + ", title: " + title + ", category: " + category + ", owner: " + owner + ", price: " + price + ", deposit: " + deposit);
 
 	var collection = db.collection('books');
 	mongoQuery.queryBook(db, isbn, function(docs) {
 		logger.info("booksUtil >> callback from mongoQuery...")
 		if(!docs.length){
 			logger.info("booksUtil>> book not found in existing database, query Douban now...");
-			searchAddBookFromWeb(isbn, category, owner, price, db, function(result){
+			searchAddBookFromWeb(isbn, category, owner, price, deposit, db, function(result){
         logger.info("booksUtil>> callback from searchAddBookFromWeb...")
         callback(result);
       })
 		}
 		else {
 			logger.info("booksUtil>> book already exist in database, add new copy...")
-      addCopyToExistingBook(isbn, category, owner, price, docs, db, function(result){
+      addCopyToExistingBook(isbn, category, owner, price, deposit, docs, db, function(result){
         logger.info("booksUtil>> callback from addCopyToExistingBook...")
         callback(result);
       })
@@ -67,7 +68,7 @@ function searchAddBookFromWeb(isbn, category, owner, price, db, callback){
     }
     else{
       logger.info("booksUtil>> book found in Douban, create new book...");
-      var bookJson = createBookJsonFromDoubanResponse(body, category, owner, price);
+      var bookJson = createBookJsonFromDoubanResponse(body, category, owner, price, deposit);
 
       logger.info("booksUtil>> insert book into database...");
       mongoQuery.insertBook(db, bookJson, function(docs){
@@ -281,7 +282,7 @@ function addNewBookToOwnersBookshelf(db, username, book_id){
 // Sub-function of searchBook.
 // Create book json from Web/Douban reply, num of copy is 1,
 // used when inserting "new" book
-function createBookJsonFromDoubanResponse(body, category, owner, price){
+function createBookJsonFromDoubanResponse(body, category, owner, price, deposit){
   logger.info("bookUtil>> createBookJsonFromDoubanResponse");
 
   var bookJson = JSON.parse(body);
@@ -301,6 +302,10 @@ function createBookJsonFromDoubanResponse(body, category, owner, price){
   bookCopy["price"] = price;		//user chosen price
   bookCopy["hold_by"] = owner;
   bookCopy["status"] = "idle";
+  if (deposit != null)
+	bookCopy["deposit"] = deposit;
+  else 
+	bookCopy["deposit"] = bookJson["deposit"];
   bookCopies.push(bookCopy);
   bookJson["book_copies"] = bookCopies;
 
@@ -349,7 +354,7 @@ function translate(bookJson){
 
 // Sub-function of addBook.
 // Add new copy for an existing book
-function addCopyToExistingBook(isbn, category, owner, price, docs, db, callback){
+function addCopyToExistingBook(isbn, category, owner, price, deposit, docs, db, callback){
   logger.info("booksUtil>> addCopyToExistingBook...")
 
   var bookJson = docs[0];
@@ -364,6 +369,10 @@ function addCopyToExistingBook(isbn, category, owner, price, docs, db, callback)
   newCopy["price"] = price;
   newCopy["hold_by"] = owner;
   newCopy["status"] = "idle";
+  if (deposit != null)
+	newCopy["deposit"] = deposit;
+  else 
+	newCopy["deposit"] = newBookJson["deposit"];
 
   var bookCopies = [];
   bookCopies.push(newCopy);
