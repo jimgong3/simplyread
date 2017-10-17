@@ -8,6 +8,8 @@ var mongoOrders = require('./mongoOrders');
 var loginUtil = require('./loginUtil');
 var booksUtil = require('./booksUtil');
 var pricing = require('./pricing');
+var shippingUtil = require('./shippingUtil');
+
 var translator = require('./translator');
 var multiparty = require('multiparty');
 // var multiparty = require('connect-multiparty')
@@ -109,7 +111,7 @@ app.get('/books', function (req, res) {
 	logger.info("app>> url: " + url);
 
 	mongoQuery.queryBooks(db, function(docs) {
-		logger.info("app>> callback from queryBooks");
+		logger.info("app>> callback from queryBooks, # of books: " + docs.length);
 		// logger.info(docs);
 		res.json(docs)
 		logger.info("app>> books done");
@@ -411,7 +413,7 @@ app.get('/hotTags', function (req, res) {
 
 	mongoQuery.hotTags(db, n, function(docs) {
 		logger.info("app>> callback from hotTags");
-		logger.info(docs);
+		// logger.info(docs);
 		res.json(docs)
 		logger.info("app>> hot tags done");
 	});
@@ -638,6 +640,20 @@ app.get('/idleBooks', function (req, res) {
 // Add a sf-express shop
 app.post('/addSfShop', function (req, res) {
 	logger.info("index>> POST /addSfShop");
-	res.json({info: 'function TBA'});
+  shippingUtil.addSfShop(req, db, function(docs) {
+		logger.info("index>> callback from addSfShop...");
+//		logger.info(docs);
+		res.json(docs)
+		logger.info("index>> addSfShop done");
+	});
 })
 
+app.get('/sfShops', function (req, res) {
+	logger.info("index>> GET /sfShops");
+	shippingUtil.sfShops(req, db, function(docs) {
+		logger.info("index>> callback from shippingUtil...");
+//		logger.info(docs);
+		res.json(docs)
+		logger.info("index>> sfShops done");
+	});
+})
