@@ -64,7 +64,11 @@ exports.queryBook = function(db, isbn, callback){
   logger.info("mongoQuery>> query: " + JSON.stringify(query));
   // logger.info(query);
 
-  collection.find(query).toArray(function(err, docs) {
+  var order = {add_date: -1};
+  logger.info("mongoQuer>> order");
+  logger.info(order);
+
+  collection.find(query).sort(order).toArray(function(err, docs) {
     assert.equal(err, null);
     logger.info("mongoQuery>> # of result: " + docs.length);
     // logger.info(docs.length);
@@ -170,8 +174,8 @@ exports.hotTags = function(db, n, callback){
 
   collection.find().sort({num_books: -1}).limit(nInt).toArray(function(err, docs) {
     assert.equal(err, null);
-    logger.info("mongoQuery>> result: ");
-    logger.info(docs);
+    logger.info("mongoQuery>> # of result: " + docs.length);
+    // logger.info(docs);
     callback(docs);
   });
 }

@@ -78,10 +78,12 @@ class DonateSingleBookViewController: UIViewController, UIPickerViewDataSource, 
         // set default category
         var cat = book?.category
         var row = 0
-        for i in 0...categoryData.count {
-            if categoryData[i] == cat {
-                row = i
-                break
+        if cat != nil {
+            for i in 0...categoryData.count-1 {
+                if categoryData[i] == cat {
+                    row = i
+                    break
+                }
             }
         }
         categoryPicker.selectRow(row, inComponent: 0, animated: true) //not working

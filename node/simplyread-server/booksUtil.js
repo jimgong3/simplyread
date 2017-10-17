@@ -27,6 +27,7 @@ exports.addBook = function(req, db, callback){
 	logger.info("booksUtil>> isbn: " + isbn + ", title: " + title + ", category: " + category + ", owner: " + owner + ", price: " + price + ", deposit: " + deposit);
 
 	var collection = db.collection('books');
+  var query = {}
 	mongoQuery.queryBook(db, isbn, function(docs) {
 		logger.info("booksUtil >> callback from mongoQuery...")
 		if(!docs.length){
@@ -80,9 +81,9 @@ function searchAddBookFromWeb(isbn, category, owner, price, db, callback){
 
         logger.info("booksUtil>> update tags from book: " + bookJson.title);
         updateTagsFromBook(bookJson, db);
-		
-		logger.info("booksUtil>> update category from book: " + bookJson.title);
-		updateCategoryFromBook(bookJson, db);
+
+    		logger.info("booksUtil>> update category from book: " + bookJson.title);
+    		updateCategoryFromBook(bookJson, db);
 
         logger.info("booksUtil>> add new book to owner's bookshelf...");
         var book_id = bookJson["_id"];
@@ -191,10 +192,10 @@ function updateTags(db, map){
 // Sub-function of adding books
 function updateCategoryFromBook(book, db){
 	logger.info("booksUtil>> updateCategoryFromBook start...");
-	
+
 	var bookId = book._id;
     var category = book.category;
-	
+
 	var collection = db.collection("categories");
 	var query = {name: category};
 	collection.find(query).toArray(function(err, docs){
@@ -202,11 +203,11 @@ function updateCategoryFromBook(book, db){
 			logger.info("booksUtil>> book category not found (this shall not happen), do nothing: " + category);
 		} else {
 			logger.info("booksUtil>> category found for: " + category);
-			
+
 			var categoryJson = docs[0];
 			var book_ids = categoryJson["book_ids"];
 			book_ids.push(bookId);
-			
+
 			var update = {$set: {book_ids: book_ids}};
 			logger.info("booksUtil>> update: " + JSON.stringify(update));
 			collection.update(query, update, function(err2, docs2) {
@@ -304,7 +305,7 @@ function createBookJsonFromDoubanResponse(body, category, owner, price, deposit)
   bookCopy["status"] = "idle";
   if (deposit != null)
 	bookCopy["deposit"] = deposit;
-  else 
+  else
 	bookCopy["deposit"] = bookJson["deposit"];
   bookCopies.push(bookCopy);
   bookJson["book_copies"] = bookCopies;
@@ -371,7 +372,7 @@ function addCopyToExistingBook(isbn, category, owner, price, deposit, docs, db, 
   newCopy["status"] = "idle";
   if (deposit != null)
 	newCopy["deposit"] = deposit;
-  else 
+  else
 	newCopy["deposit"] = newBookJson["deposit"];
 
   var bookCopies = [];
@@ -392,7 +393,7 @@ function addCopyToExistingBook(isbn, category, owner, price, deposit, docs, db, 
 
 		logger.info("booksUtil>> update tags from book: " + newBookJson.title);
 		updateTagsFromBook(newBookJson, db);
-		
+
 		logger.info("booksUtil>> update category from book: " + bookJson.title);
 		updateCategoryFromBook(newBookJson, db);
 
