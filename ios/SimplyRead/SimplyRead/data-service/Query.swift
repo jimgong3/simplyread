@@ -512,11 +512,12 @@ func addNewBookImage(isbn: String, image: UIImage, completion: @escaping (_ book
 }
 
 // Add book by isbn, book details can be found through isbn in database or web
-func addBookByIsbn(isbn: String, title: String, category: String, owner: String, price: Int, completion: @escaping (_ book: Book) -> ()){
+func addBookByIsbn(isbn: String, title: String, category: String, owner: String, price: Int, deposit: Int, completion: @escaping (_ book: Book) -> ()){
     
     print("add new book, isbn: " + isbn + ", title: " + title)
     print("category: " + category + ", owner: " + owner)
-    print("price: " + price.description)
+    print("price: " + price.description + ", deposit: " + deposit.description)
+    
     var urlStr: String?
     urlStr = "http://" + SERVER_IP + ":" + PORT + "/addBook"
     let url = URL(string: urlStr!)
@@ -528,7 +529,8 @@ func addBookByIsbn(isbn: String, title: String, category: String, owner: String,
         "title": title,
         "category": category,
         "owner": owner,
-        "price": price
+        "price": price,
+        "deposit": deposit
     ]
     
     Alamofire.request(url!, method: .post, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in

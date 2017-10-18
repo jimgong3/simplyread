@@ -163,7 +163,7 @@ function updateTags(db, map){
         // logger.info("booksUtil>> check if current book exist, book id: " + value[0]);
         var found = false;
         for(var i=0; i<book_ids.length; i++){
-          logger.info("book id: " + book_ids[i]);
+          // logger.info("book id: " + book_ids[i]);
           if((book_ids[i]).equals(value[0])) {
             found = true;
             break;
@@ -178,7 +178,7 @@ function updateTags(db, map){
           num_books += 1;
 
     			var update = {$set: {num_books: num_books, book_ids: book_ids}};
-    			logger.info("booksUtil>> update: " + JSON.stringify(update));
+    			// logger.info("booksUtil>> update: " + JSON.stringify(update));
 
     			collection.update(query, update, function(err, docs){
     				logger.info("booksUtil>> book id updated for tag: " + key);
@@ -304,9 +304,9 @@ function createBookJsonFromDoubanResponse(body, category, owner, price, deposit)
   bookCopy["hold_by"] = owner;
   bookCopy["status"] = "idle";
   if (deposit != null)
-	bookCopy["deposit"] = deposit;
+  	bookCopy["deposit"] = deposit;
   else
-	bookCopy["deposit"] = bookJson["deposit"];
+  	bookCopy["deposit"] = bookJson["deposit"];
   bookCopies.push(bookCopy);
   bookJson["book_copies"] = bookCopies;
 
@@ -371,9 +371,9 @@ function addCopyToExistingBook(isbn, category, owner, price, deposit, docs, db, 
   newCopy["hold_by"] = owner;
   newCopy["status"] = "idle";
   if (deposit != null)
-	newCopy["deposit"] = deposit;
+  	newCopy["deposit"] = deposit;
   else
-	newCopy["deposit"] = newBookJson["deposit"];
+  	newCopy["deposit"] = newBookJson["deposit"];
 
   var bookCopies = [];
   bookCopies.push(newCopy);

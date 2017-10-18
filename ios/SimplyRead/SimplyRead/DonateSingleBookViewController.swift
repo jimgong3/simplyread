@@ -9,7 +9,7 @@
 import UIKit
 //import BarcodeScanner
 
-class DonateSingleBookViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate {
+class DonateSingleBookViewController: UIViewController, UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate {
 
     var book: Book?
     var user: User?
@@ -39,7 +39,8 @@ class DonateSingleBookViewController: UIViewController, UIPickerViewDataSource, 
 //    var isbnCode: String?
 //    @IBOutlet weak var depositText: UITextField!
     @IBOutlet weak var rentText: UITextField!
-
+    @IBOutlet weak var depositText: UITextField!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -68,6 +69,8 @@ class DonateSingleBookViewController: UIViewController, UIPickerViewDataSource, 
             
         }
 
+        rentText.delegate = self
+        depositText.delegate = self
         categoryPicker.delegate = self
         categoryPicker.dataSource = self
     }
@@ -86,13 +89,22 @@ class DonateSingleBookViewController: UIViewController, UIPickerViewDataSource, 
                 }
             }
         }
-        categoryPicker.selectRow(row, inComponent: 0, animated: true) //not working
+        categoryPicker.selectRow(row, inComponent: 0, animated: true)
+        if row != 0 {
+            self.category = categoryData[row]
+        }
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        rentText.resignFirstResponder()
+        return true
+    }
+
     
 
     // The number of columns of data
@@ -159,15 +171,16 @@ class DonateSingleBookViewController: UIViewController, UIPickerViewDataSource, 
             category = self.category!
         }
         let price = Int(rentText.text!)
+        let deposit = Int(depositText.text!)
         
-        if price == nil {
-            let alert = UIAlertController(title: "提示", message: "借閱價須為整數。", preferredStyle: .alert)
+        if price == nil || deposit == nil {
+            let alert = UIAlertController(title: "提示", message: "按金和借閱價須為整數。", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: NSLocalizedString("好", comment: "Default action"), style: .`default`, handler: { _ in
                 NSLog("The \"OK\" alert occured.")
             }))
             self.present(alert, animated: true, completion: nil)
         } else {
-            addBookByIsbn(isbn: isbn!, title: "", category: category, owner: owner!, price: price!,
+            addBookByIsbn(isbn: isbn!, title: "", category: category, owner: owner!, price: price!, deposit: deposit!,
                           completion: {(book: Book) -> () in
                 print("DonateSingleBookViewController>> callback, book: ")
                 print(book.title)
