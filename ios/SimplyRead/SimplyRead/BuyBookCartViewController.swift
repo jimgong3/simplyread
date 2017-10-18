@@ -20,6 +20,7 @@ class BuyBookCartViewController: UIViewController, UITableViewDataSource, UITabl
     @IBOutlet weak var totalShipping: UILabel!
     @IBOutlet weak var totalFee: UILabel!
     
+    
     let cellReuseIdentifier = "cell"
     let cellIdentifier = "BookTableViewCell"
 
@@ -50,8 +51,41 @@ class BuyBookCartViewController: UIViewController, UITableViewDataSource, UITabl
         // This view controller itself will provide the delegate methods and row data for the table view.
         tableView.delegate = self
         tableView.dataSource = self
+        
+        var rightButton = UIBarButtonItem(title: "編輯", style: UIBarButtonItemStyle.plain, target: self, action: Selector(("showEditing:")))
+        self.navigationItem.rightBarButtonItem = rightButton
     }
 
+    func showEditing(_ sender: UIBarButtonItem)
+    {
+        if(self.tableView.isEditing == true) {
+            self.tableView.isEditing = false
+            self.navigationItem.rightBarButtonItem?.title = "編輯"
+        } else {
+            self.tableView.isEditing = true
+            self.navigationItem.rightBarButtonItem?.title = "完成"
+        }
+    }
+    
+    // Override to support editing the table view.
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            // Delete the row from the data source
+            BuyBookCart.sharedInstance.dropBook(book: books[indexPath.row])
+            totalPrice.text = BuyBookCart.sharedInstance.totalPrice.description
+            totalDeposit.text = BuyBookCart.sharedInstance.totalDeposit.description
+            totalShipping.text = BuyBookCart.sharedInstance.totalShippingFee.description
+            books.remove(at: indexPath.row)
+            
+            let grandTotal = BuyBookCart.sharedInstance.totalPrice + BuyBookCart.sharedInstance.totalDeposit + BuyBookCart.sharedInstance.totalShippingFee
+            totalFee.text = grandTotal.description
+
+            tableView.deleteRows(at: [indexPath], with: .fade)
+        } else if editingStyle == .insert {
+            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+        }
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -100,6 +134,7 @@ class BuyBookCartViewController: UIViewController, UITableViewDataSource, UITabl
         
         return cell
     }
+    
     
     @IBAction func done(_ sender: Any) {
         print("BuyBookCartViewController>> done")
