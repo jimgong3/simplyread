@@ -5,10 +5,12 @@ var pretty = require('express-prettify');
 var assert = require('assert');
 var mongoQuery = require('./mongoQuery');
 var mongoOrders = require('./mongoOrders');
+
 var loginUtil = require('./loginUtil');
 var booksUtil = require('./booksUtil');
 var pricing = require('./pricing');
 var shippingUtil = require('./shippingUtil');
+var ordersUtil = require('./ordersUtil');
 
 var translator = require('./translator');
 var multiparty = require('multiparty');
@@ -34,7 +36,7 @@ var httpPort = "8080"
 var db
 var mongoUtil = require('./mongoUtil');
 mongoUtil.connectToServer( function(err){
-	logger.info("app>> connected to mongodb server")
+	logger.info("index>> connected to mongodb server")
 	db = mongoUtil.getDb();
 })
 
@@ -45,8 +47,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
 app.listen(port, function () {
-  console.log('app>> server listening on port ' + port);
-  logger.info('app>> server listening on port ' + port);
+//  console.log('index>> server listening on port ' + port);
+  logger.info("index>> server listening on port " + port);
 });
 
 app.get('/', function (req, res) {
@@ -104,17 +106,12 @@ app.post('/register', function (req, res) {
 })
 
 app.get('/books', function (req, res) {
-	logger.info("app>> get /books");
-
-	const {headers, method, url} = req;
-	logger.info("app>> method: " + method);
-	logger.info("app>> url: " + url);
-
-	mongoQuery.queryBooks(db, function(docs) {
-		logger.info("app>> callback from queryBooks, # of books: " + docs.length);
+	logger.info("index>> GET /books");
+	booksUtil.books(req, db, function(docs) {
+		logger.info("index>> callback from booksUtil, # of books: " + docs.length);
 		// logger.info(docs);
 		res.json(docs)
-		logger.info("app>> books done");
+		logger.info("index>> books done");
 	});
 })
 
@@ -601,6 +598,7 @@ app.get('/ordersByUser', function (req, res) {
 	});
 })
 
+// Obsolete, replaced by POST /submitOrder
 app.post('/addOrder', function (req, res) {
 	logger.info("app>> POST /addOrder");
 
@@ -612,6 +610,16 @@ app.post('/addOrder', function (req, res) {
 		logger.info(docs);
 		res.json(docs)
 		logger.info("app>> addOrder done");
+	});
+})
+
+app.post('/submitOrder', function (req, res) {
+	logger.info("index>> POST /submitOrder");
+	ordersUtil.submitOrder(req, db, function(docs) {
+		logger.info("app>> callback from ordersUtil...");
+//		logger.info(docs);
+		res.json(docs)
+		logger.info("index>> submitOrder done");
 	});
 })
 

@@ -45,6 +45,52 @@ exports.queryOrdersByUser = function(db, username, callback){
   });
 }
 
+
+// Obsolete, replaced by ordersUtil.submitOrder
+exports.addOrder = function(db, details, callback){
+  logger.info("mongoOrders>> addOrder");
+
+  var order = JSON.parse(details);
+  logger.info("mongoOrders>> parsed order");
+
+  var datetime = new Date()
+  order["date"] = datetime;
+
+  order["status"] = "submitted";  //inital order status
+
+  var collection = db.collection('orders');
+  var orderId = nextOrderId(db);
+	order["orderId"] = orderId;
+
+	collection.insertOne(order, function(err, docs) {
+		assert.equal(err, null);
+		logger.info("mongoOrders>> order insert complete");
+
+		if(order.email != null) {
+		  logger.info("mongoOrders>> send email order confirmation to: " + order.email);
+		  sendEmail(order.email, order);
+		}
+		callback(order);
+	});
+}
+
+
+function nextOrderId(db){
+	var collection = db.collection('orders');
+	collection.find().sort({_id: -1}).limit(1).toArray(function(err, docs){
+		if(docs.length == 0){
+			logger.info("mongoOrders>> no order yet, next order id is 1")
+			return 1;
+		}else{
+			var lastOrder = docs[0];
+			var lastOrderId = lastOrder.orderId;
+			var nextOrderId = lastOrderId + 1;
+			logger.info("mongoOrders>> next order id: " + nextOrderId);
+			return nextOrderId;
+		}
+	});
+}
+
 function sendEmail(email, order){
   var from = "simplyreadhk@gmail.com";
   var to = email;
@@ -84,47 +130,4 @@ function sendEmail(email, order){
       logger.info('mongoOrders>> Email sent: ' + info.response);
     }
   });
-}
-
-function nextOrderId(db){
-	var collection = db.collection('orders');
-	collection.find().sort({_id: -1}).limit(1).toArray(function(err, docs){
-		if(docs.length == 0){
-			logger.info("mongoOrders>> no order yet, next order id is 1")
-			return 1;
-		}else{
-			var lastOrder = docs[0];
-			var lastOrderId = lastOrder.orderId;
-			var nextOrderId = lastOrderId + 1;
-			logger.info("mongoOrders>> next order id: " + nextOrderId);
-			return nextOrderId;
-		}
-	});
-}
-
-exports.addOrder = function(db, details, callback){
-  logger.info("mongoOrders>> addOrder");
-
-  var order = JSON.parse(details);
-  logger.info("mongoOrders>> parsed order");
-
-  var datetime = new Date()
-  order["date"] = datetime;
-
-  order["status"] = "submitted";  //inital order status
-
-  var collection = db.collection('orders');
-  var orderId = nextOrderId(db);
-	order["orderId"] = orderId;
-
-	collection.insertOne(order, function(err, docs) {
-		assert.equal(err, null);
-		logger.info("mongoOrders>> order insert complete");
-
-		if(order.email != null) {
-		  logger.info("mongoOrders>> send email order confirmation to: " + order.email);
-		  sendEmail(order.email, order);
-		}
-		callback(order);
-	});
 }

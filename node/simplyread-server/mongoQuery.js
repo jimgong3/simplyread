@@ -30,6 +30,7 @@ exports.queryUser = function(db, username, password, callback){
   });
 }
 
+// Obsolete, replaced by booksUtil.books
 exports.queryBooks = function(db, callback){
   logger.info("mongoQuery>> queryBooks");
 
