@@ -22,17 +22,17 @@ class MyAccountViewController: UIViewController {
 
         // Do any additional setup after loading the view.
         // get user
-        let srTableBarController = self.tabBarController as! SRTabBarController
-        user = srTableBarController.user
+//        let srTableBarController = self.tabBarController as! SRTabBarController
+//        user = srTableBarController.user
+        user = Me.sharedInstance.user
         
         // set attributes
-        if let user = user{
+        if user != nil {
             usernameText.text = user.username
             fullnameText.text = user.fullname
             postAddressText.text = user.post_address
             balanceText.text = user.balance
         }
-
     }
 
     override func didReceiveMemoryWarning() {
