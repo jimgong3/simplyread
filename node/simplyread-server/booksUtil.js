@@ -4,6 +4,7 @@ var translator = require('./translator');
 
 var HashSet = require('hashset');
 var HashMap = require('hashmap')
+var ObjectId = require('mongodb').ObjectID
 
 var winston = require('winston')
 var logger = new (winston.Logger)({
@@ -12,6 +13,55 @@ var logger = new (winston.Logger)({
     new (winston.transports.File)({ filename: './logs/booksUtil.log' })
   ]
 });
+
+// CLIENT FACING FUNCTION
+// Parameter:
+//	skip 	# of first results to skip, default is 0
+//	limit 	# of results to return, default is 20
+// 	gtid	great than the given object id
+//	ltid	less than the given object id
+exports.books = function(req, db, callback){
+  logger.info("booksUtil>> queryBooks");
+  var collection = db.collection('books');
+
+  var skip = 0;
+  if (req.query.skip != null)
+	  skip = parseInt(req.query.skip, 10);
+  logger.info("booksUtil>> skip: " + skip);
+
+  var limit = 20;
+  if (req.query.limit != null)
+	   limit = parseInt(req.query.limit, 10);
+  logger.info("booksUtil>> limit: " + limit);
+
+  var gtid = req.query.gtid;
+  var ltid = req.query.ltid;
+  
+  var condition = [];
+  if (gtid != null){
+	  var gtoid = new ObjectId(gtid);
+	  condition.push({_id: {$gt: gtoid}});
+  }
+  if (ltid != null){
+	  var ltoid = new ObjectId(ltid);
+	  condition.push({_id: {$lt: ltoid}});
+  }
+  
+  var query = {};
+  if (condition.length > 0)
+	query = {$and: condition};
+  logger.info("booksUtil>> query: " + JSON.stringify(query));
+
+  var order = {_id: -1};
+  logger.info("mongoQuer>> order: " + JSON.stringify(order));
+
+  collection.find(query).sort(order).skip(skip).limit(limit).toArray(function(err, docs) {
+    logger.info("booksUtil>> # of result: " + docs.length);
+//    logger.info(docs);
+    callback(docs);
+  });
+}
+
 
 // CLIENT FACING FUNCTION
 // Used when user upload a book, add book info with copies info to database
@@ -27,21 +77,21 @@ exports.addBook = function(req, db, callback){
 	logger.info("booksUtil>> isbn: " + isbn + ", title: " + title + ", category: " + category + ", owner: " + owner + ", price: " + price + ", deposit: " + deposit);
 
 	var collection = db.collection('books');
-  var query = {}
+	var query = {}
 	mongoQuery.queryBook(db, isbn, function(docs) {
 		logger.info("booksUtil >> callback from mongoQuery...")
 		if(!docs.length){
 			logger.info("booksUtil>> book not found in existing database, query Douban now...");
 			searchAddBookFromWeb(isbn, category, owner, price, deposit, db, function(result){
-        logger.info("booksUtil>> callback from searchAddBookFromWeb...")
-        callback(result);
-      })
+				logger.info("booksUtil>> callback from searchAddBookFromWeb...")
+				callback(result);
+			})
 		}
 		else {
 			logger.info("booksUtil>> book already exist in database, add new copy...")
-      addCopyToExistingBook(isbn, category, owner, price, deposit, docs, db, function(result){
-        logger.info("booksUtil>> callback from addCopyToExistingBook...")
-        callback(result);
+			addCopyToExistingBook(isbn, category, owner, price, deposit, docs, db, function(result){
+			logger.info("booksUtil>> callback from addCopyToExistingBook...")
+			callback(result);
       })
 		}
 	});
@@ -96,11 +146,139 @@ function searchAddBookFromWeb(isbn, category, owner, price, db, callback){
   });
 }
 
+
+// Sub-function of addBook.
+// Add new copy for an existing book
+function addCopyToExistingBook(isbn, category, owner, price, deposit, docs, db, callback){
+  logger.info("booksUtil>> addCopyToExistingBook...")
+
+  var bookJson = docs[0];
+  logger.info("bookUtil>> existing book_id: " + bookJson["_id"]);
+  var newBookJson = JSON.parse(JSON.stringify(bookJson));
+  delete newBookJson._id;
+  // delete newBookJson.category;
+  newBookJson["category"] = category;
+
+  var newCopy = {};
+  newCopy["owner"] = owner;
+  newCopy["price"] = price;
+  newCopy["hold_by"] = owner;
+  newCopy["status"] = "idle";
+  if (deposit != null)
+  	newCopy["deposit"] = deposit;
+  else
+  	newCopy["deposit"] = newBookJson["deposit"];
+
+  var bookCopies = [];
+  bookCopies.push(newCopy);
+  newBookJson["book_copies"] = bookCopies;
+  newBookJson["num_copies"] = 1;
+
+  var datetime = new Date()
+  newBookJson["add_date"] = datetime;
+
+  var collection = db.collection('books');
+	collection.insertOne(newBookJson, function(err, docs) {
+		logger.info("booksUtil>> insert book complete, new book_id: " + newBookJson["_id"]);
+		// logger.info(docs);
+		var result = [];
+		result.push(newBookJson);
+		callback(result);
+
+		logger.info("booksUtil>> update tags from book: " + newBookJson.title);
+		updateTagsFromBook(newBookJson, db);
+
+		logger.info("booksUtil>> update category from book: " + bookJson.title);
+		updateCategoryFromBook(newBookJson, db);
+
+    logger.info("booksUtil>> add new book to owner's bookshelf...");
+    var book_id = newBookJson["_id"];
+    logger.info("booksUtil>> book_id: " + book_id);
+    addNewBookToOwnersBookshelf(db, owner, book_id);
+	});
+}
+
+
+// Sub-function of searchBook.
+// Create book json from Web/Douban reply, num of copy is 1,
+// used when inserting "new" book
+function createBookJsonFromDoubanResponse(body, category, owner, price, deposit){
+  logger.info("bookUtil>> createBookJsonFromDoubanResponse");
+
+  var bookJson = JSON.parse(body);
+
+  //add customized fields
+  bookJson["our_price_hkd"] = "0";		//obsolete
+  bookJson["deposit"] = pricing.getDeposit(bookJson.price).toString();
+  bookJson["shipping_fee"] = "0";			//obsolete
+  bookJson["num_total"] = "0"				//obsolete
+  bookJson["num_onshelf"] = "0"			//obsolete
+  bookJson["category"] = category;
+
+  bookJson["num_copies"] = 1;
+  var bookCopies = [];
+  var bookCopy = {};
+  bookCopy["owner"] = owner
+  bookCopy["price"] = price;		//user chosen price
+  bookCopy["hold_by"] = owner;
+  bookCopy["status"] = "idle";
+  if (deposit != null)
+  	bookCopy["deposit"] = deposit;
+  else
+  	bookCopy["deposit"] = bookJson["deposit"];
+  bookCopies.push(bookCopy);
+  bookJson["book_copies"] = bookCopies;
+
+  var datetime = new Date()
+  bookJson["add_date"] = datetime;
+
+  //translate Simp Chi to Trad Chi
+  translate(bookJson);
+
+  return bookJson;
+}
+
+// Sub-function used when creating books, translate various sections of books,
+// including: title, summary, catalog, tags, author, publisher, author_intro
+function translate(bookJson){
+	if(bookJson["title"] != null){
+		bookJson["title"] = translator.translate2(bookJson["title"])
+	}
+	if(bookJson["summary"] != null){
+		bookJson["summary"] = translator.translate2(bookJson["summary"])
+	}
+	if(bookJson["catalog"] != null){
+		bookJson["catalog"] = translator.translate2(bookJson["catalog"])
+	}
+	if(bookJson["tags"] != null){
+		var tags = bookJson["tags"];
+		for(var i=0; i<tags.length; i++){
+			tags[i]["name"] = translator.translate2(tags[i]["name"]);
+		}
+		bookJson["tags"] = tags;
+	}
+	if(bookJson["author"] != null){
+		var authors = bookJson["author"];
+		for(var i=0; i<authors.length; i++){
+			authors[i] = translator.translate2(authors[i]);
+		}
+		bookJson["author"] = authors;
+	}
+	if(bookJson["publisher"] != null){
+		bookJson["publisher"] = translator.translate2(bookJson["publisher"])
+	}
+	if(bookJson["author_intro"] != null){
+		bookJson["author_intro"] = translator.translate2(bookJson["author_intro"])
+	}
+}
+
+// Sub-function of adding books
 function updateTagsFromBook(book, db){
 	var map = getTagsFromBook(book);
 	updateTags(db, map);
 }
 
+// Sub-function of adding books
 // Get tags of a book into a hashmap
 function getTagsFromBook(book){
     logger.info("booksUtil>> getTagsFromBook: " + book.title);
@@ -132,6 +310,7 @@ function getTagsFromBook(book){
     return map;
 }
 
+// Sub-function of adding books
 // Update existing tags collection with the tags info from a map {tag, book ids}
 function updateTags(db, map){
   logger.info("booksUtil>> updateTags start...");
@@ -280,154 +459,6 @@ function addNewBookToOwnersBookshelf(db, username, book_id){
   });
 }
 
-// Sub-function of searchBook.
-// Create book json from Web/Douban reply, num of copy is 1,
-// used when inserting "new" book
-function createBookJsonFromDoubanResponse(body, category, owner, price, deposit){
-  logger.info("bookUtil>> createBookJsonFromDoubanResponse");
-
-  var bookJson = JSON.parse(body);
-
-  //add customized fields
-  bookJson["our_price_hkd"] = "0";		//obsolete
-  bookJson["deposit"] = pricing.getDeposit(bookJson.price).toString();
-  bookJson["shipping_fee"] = "0";			//obsolete
-  bookJson["num_total"] = "0"				//obsolete
-  bookJson["num_onshelf"] = "0"			//obsolete
-  bookJson["category"] = category;
-
-  bookJson["num_copies"] = 1;
-  var bookCopies = [];
-  var bookCopy = {};
-  bookCopy["owner"] = owner
-  bookCopy["price"] = price;		//user chosen price
-  bookCopy["hold_by"] = owner;
-  bookCopy["status"] = "idle";
-  if (deposit != null)
-  	bookCopy["deposit"] = deposit;
-  else
-  	bookCopy["deposit"] = bookJson["deposit"];
-  bookCopies.push(bookCopy);
-  bookJson["book_copies"] = bookCopies;
-
-  var datetime = new Date()
-  bookJson["add_date"] = datetime;
-
-  //translate Simp Chi to Trad Chi
-  translate(bookJson);
-
-  return bookJson;
-}
-
-// Sub-function used when creating books, translate various sections of books,
-// including: title, summary, catalog, tags, author, publisher, author_intro
-function translate(bookJson){
-	if(bookJson["title"] != null){
-		bookJson["title"] = translator.translate2(bookJson["title"])
-	}
-	if(bookJson["summary"] != null){
-		bookJson["summary"] = translator.translate2(bookJson["summary"])
-	}
-	if(bookJson["catalog"] != null){
-		bookJson["catalog"] = translator.translate2(bookJson["catalog"])
-	}
-	if(bookJson["tags"] != null){
-		var tags = bookJson["tags"];
-		for(var i=0; i<tags.length; i++){
-			tags[i]["name"] = translator.translate2(tags[i]["name"]);
-		}
-		bookJson["tags"] = tags;
-	}
-	if(bookJson["author"] != null){
-		var authors = bookJson["author"];
-		for(var i=0; i<authors.length; i++){
-			authors[i] = translator.translate2(authors[i]);
-		}
-		bookJson["author"] = authors;
-	}
-	if(bookJson["publisher"] != null){
-		bookJson["publisher"] = translator.translate2(bookJson["publisher"])
-	}
-	if(bookJson["author_intro"] != null){
-		bookJson["author_intro"] = translator.translate2(bookJson["author_intro"])
-	}
-}
-
-// Sub-function of addBook.
-// Add new copy for an existing book
-function addCopyToExistingBook(isbn, category, owner, price, deposit, docs, db, callback){
-  logger.info("booksUtil>> addCopyToExistingBook...")
-
-  var bookJson = docs[0];
-  logger.info("bookUtil>> existing book_id: " + bookJson["_id"]);
-  var newBookJson = JSON.parse(JSON.stringify(bookJson));
-  delete newBookJson._id;
-  // delete newBookJson.category;
-  newBookJson["category"] = category;
-
-  var newCopy = {};
-  newCopy["owner"] = owner;
-  newCopy["price"] = price;
-  newCopy["hold_by"] = owner;
-  newCopy["status"] = "idle";
-  if (deposit != null)
-  	newCopy["deposit"] = deposit;
-  else
-  	newCopy["deposit"] = newBookJson["deposit"];
-
-  var bookCopies = [];
-  bookCopies.push(newCopy);
-  newBookJson["book_copies"] = bookCopies;
-  newBookJson["num_copies"] = 1;
-
-  var datetime = new Date()
-  newBookJson["add_date"] = datetime;
-
-  var collection = db.collection('books');
-	collection.insertOne(newBookJson, function(err, docs) {
-		logger.info("booksUtil>> insert book complete, new book_id: " + newBookJson["_id"]);
-		// logger.info(docs);
-		var result = [];
-		result.push(newBookJson);
-		callback(result);
-
-		logger.info("booksUtil>> update tags from book: " + newBookJson.title);
-		updateTagsFromBook(newBookJson, db);
-
-		logger.info("booksUtil>> update category from book: " + bookJson.title);
-		updateCategoryFromBook(newBookJson, db);
-
-    logger.info("booksUtil>> add new book to owner's bookshelf...");
-    var book_id = newBookJson["_id"];
-    logger.info("booksUtil>> book_id: " + book_id);
-    addNewBookToOwnersBookshelf(db, owner, book_id);
-	});
-}
-
-// Sub-function of searchBook
-// Create book json from Web/Douban reply, without creating any copy,
-// shall be used by searchBooks
-function createBookJsonFromDoubanResponseNoCopy(body){
-  logger.info("bookUtil>> createBookJsonFromDoubanResponseNoCopy");
-
-  var bookJson = JSON.parse(body);
-
-  //add customized fields
-  bookJson["our_price_hkd"] = "0";		//obsolete
-  bookJson["deposit"] = pricing.getDeposit(bookJson.price).toString();
-  bookJson["shipping_fee"] = "0";			//obsolete
-  bookJson["num_total"] = "0"				//obsolete
-  bookJson["num_onshelf"] = "0"			//obsolete
-
-  var datetime = new Date()
-  bookJson["add_date"] = datetime;
-
-  //translate Simp Chi to Trad Chi
-  translate(bookJson);
-
-  return bookJson;
-}
-
 // CLIENT FACING FUNCTION
 // Search book from database by isbn, if not found then search web for
 // this book and insert found book info into database, then return book
@@ -478,6 +509,30 @@ exports.searchBook = function(req, db, callback){
 			callback(docs);
 		}
 	});
+}
+
+// Sub-function of searchBook
+// Create book json from Web/Douban reply, without creating any copy,
+// shall be used by searchBooks
+function createBookJsonFromDoubanResponseNoCopy(body){
+  logger.info("bookUtil>> createBookJsonFromDoubanResponseNoCopy");
+
+  var bookJson = JSON.parse(body);
+
+  //add customized fields
+  bookJson["our_price_hkd"] = "0";		//obsolete
+  bookJson["deposit"] = pricing.getDeposit(bookJson.price).toString();
+  bookJson["shipping_fee"] = "0";			//obsolete
+  bookJson["num_total"] = "0"				//obsolete
+  bookJson["num_onshelf"] = "0"			//obsolete
+
+  var datetime = new Date()
+  bookJson["add_date"] = datetime;
+
+  //translate Simp Chi to Trad Chi
+  translate(bookJson);
+
+  return bookJson;
 }
 
 // Find all bookshelves or the bookshelf for specific user
@@ -542,7 +597,7 @@ exports.idleBooks = function(req, db, callback){
 
 			var collectionBook = db.collection('books');
 			var query_b = {_id: {$in: idle_book_ids_array}};
-      logger.info("booksUtil>> query: " + JSON.stringify(query_b));
+			logger.info("booksUtil>> query: " + JSON.stringify(query_b));
 			collectionBook.find(query_b).toArray(function(err, docs){
 //				logger.info("booksUtil>> found books: " + JSON.stringify(docs));
 				logger.info("booksUtil>> found books: " + docs.length);
