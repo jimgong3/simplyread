@@ -58,19 +58,10 @@ app.get('/', function (req, res) {
 
 app.get('/user', function (req, res) {
 	var date = new Date()
-	logger.info("app>> get /user");
-
-	const {headers, method, url} = req;
-	logger.info("app>> method: " + method);
-	logger.info("app>> url: " + url);
-
-	var username = req.query.username;
-	var password = req.query.password;
-	logger.info("app>> username: " + username + ", password: " + password);
-
-	mongoQuery.queryUser(db, username, password, function(docs) {
-		logger.info("app>> callback from queryUser");
-		logger.info(docs);
+	logger.info("index>> GET /user");
+	loginUtil.user(req, db, function(docs) {
+		logger.info("index>> callback from loginUtil...");
+//		logger.info(docs);
 		res.json(docs)
 		logger.info("app>> user done");
 	});
@@ -574,12 +565,12 @@ app.get('/translateBooks', function (req, res) {
 })
 
 app.get('/orders', function (req, res) {
-	logger.info("app>> GET /orders");
-	mongoOrders.queryOrders(db, function(docs) {
-		logger.info("app>> callback from mongoOrders");
-		logger.info(docs);
+	logger.info("index>> GET /orders");
+	ordersUtil.orders(req, db, function(docs) {
+		logger.info("index>> callback from ordersUtil...");
+//		logger.info(docs);
 		res.json(docs)
-		logger.info("app>> orders done");
+		logger.info("index>> orders done");
 	});
 })
 
@@ -665,3 +656,15 @@ app.get('/sfShops', function (req, res) {
 		logger.info("index>> sfShops done");
 	});
 })
+
+// Add a sf-express shop
+app.post('/updateUserProfile', function (req, res) {
+	logger.info("index>> POST /updateUserProfile");
+  loginUtil.updateUserProfile(req, db, function(docs) {
+		logger.info("index>> callback from loginUtil...");
+//		logger.info(docs);
+		res.json(docs)
+		logger.info("index>> updateUserProfile done");
+	});
+})
+
