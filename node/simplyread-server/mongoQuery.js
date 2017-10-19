@@ -11,6 +11,7 @@ var logger = new (winston.Logger)({
   ]
 });
 
+// Obsolete, replaced by loginUtil.user
 exports.queryUser = function(db, username, password, callback){
   logger.info("mongoQuery>> query user: " + username);
 

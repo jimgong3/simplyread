@@ -17,16 +17,48 @@ var transporter = nodemailer.createTransport({
 
 // CLIENT FACING FUNCTION
 // Parameters:
+//	- username	
+// 	- orderId
+exports.orders = function(req, db, callback){
+  logger.info("ordersUtil>> orders start...");
+
+  var username = req.query.username;
+  var orderId;
+  if (req.query.orderId != null)
+	  orderId = parseInt(req.query.orderId, 10);
+  logger.info("ordersUtil>> username: " + username + ", orderId: " + orderId);
+
+  var condition = [];
+  if (username != null)
+	  condition.push({username: username});
+  if (orderId != null)
+	  condition.push({orderId: orderId});
+  
+  var query = {};
+  if (condition.length>0)
+	  query = {$and: condition};
+  logger.info("ordersUtil>> query: " + JSON.stringify(query));
+  
+  var collection = db.collection('orders');
+  collection.find(query).toArray(function(err, docs) {
+    logger.info("ordersUtil>> # of result: " + docs.length);
+//    logger.info(docs);
+    callback(docs);
+  });
+}
+
+// CLIENT FACING FUNCTION
+// Parameters:
 //	- details	json format order details, containing below information
 //					username
 //					email
 //					list of "book_copies"
 //						book_id, isbn, title, owner, price, hold_by, deposit
-//					num of books
-//					total price
-//					total deposit
-//					shipping fee
-//					grand total
+//					num_of_books
+//					sum_price
+//					sum_deposit
+//					shipping_fee
+//					total
 exports.submitOrder = function(req, db, callback){
   logger.info("ordersUtil>> ordersUtil start...");
   var collection = db.collection('orders');
@@ -94,9 +126,9 @@ function sendOrderConfirmation(email, orderJson){
     }
   }
   text += "\n\nTotal number of books: " + orderJson.num_books;
-  text += "\n\nTotal price: " + orderJson.total_price;
-  text += "\n\nTotal deposit: " + orderJson.total_deposit;
-  text += "\n\nTotal shipping fee: " + orderJson.total_shipping_fee;
+  text += "\n\nTotal price: " + orderJson.sum_price;
+  text += "\n\nTotal deposit: " + orderJson.sum_deposit;
+  text += "\n\nTotal shipping fee: " + orderJson.shipping_fee;
   text += "\n\nGrand Total: " + orderJson.total;
   text += "\n\nThank you.";
   text += "\n\nSimplyRead";
@@ -118,6 +150,19 @@ function sendOrderConfirmation(email, orderJson){
 }
 
 // Sub-function of submitOrder
-function processOrder(orderJson){
-
+function processOrder(orderJson, db){
+	logger.info("ordersUtil>> processOrder start...");
+	
+	
+	// generate transfers
+	// update balances
+	//...
 }
+
+// Sub-function of processOrder
+function generateTransfers(orderJson, db){
+	logger.info("ordersUtil>> generate transfer start...");
+	
+	
+}
+

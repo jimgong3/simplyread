@@ -20,6 +20,7 @@ var transporter = nodemailer.createTransport({
   }
 });
 
+// Obsolete, replaced by ordersUtil.orders
 exports.queryOrders = function(db, callback){
   logger.info("mongoOrders>> queryOrders");
 
