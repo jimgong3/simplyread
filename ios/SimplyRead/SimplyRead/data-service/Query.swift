@@ -643,4 +643,54 @@ func queryCategories(completion: @escaping (_ categories: [Category]) -> ()){
 }
 
 
+func updateUserProfile(username: String, password: String, fullname: String, email: String, phone: String, settle_f2f_enable: String, settle_f2f_details: String, settle_sf_enable: String, settle_sf_area: String, settle_sf_sfid: String, settle_sf_address: String, completion: @escaping (_ user: User) -> ()){
+    
+    var urlStr: String?
+    urlStr = "http://" + SERVER_IP + ":" + PORT + "/updateUserProfile"
+    let url = URL(string: urlStr!)
+    print("Query>> url: ")
+    print(url)
+    
+    var password2 = password.sha1
+    print("original password: " + password + ", encrypted password: " + password2!)
+    let parameters: Parameters = [
+        "username": username,
+        "password": password2!,
+        "fullname": fullname,
+        "email": email,
+        "phone": phone,
+        "settle_f2f_enable": settle_f2f_enable,
+        "settle_f2f_details": settle_f2f_details,
+        "settle_sf_enable": settle_sf_enable,
+        "settle_sf_area": settle_sf_area,
+        "settle_sf_sfid": settle_sf_sfid,
+        "settle_sf_address": settle_sf_address
+    ]
+    
+    Alamofire.request(url!, method: .post, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+        print("Query>> Request: \(String(describing: response.request))")   // original url request
+        print("Query>> Response: \(String(describing: response.response))") // http url response
+        print("Query>> Result: \(response.result)")                         // response serialization result
+        
+        if let json = response.result.value {
+            print("JSON: \(json)") // serialized json response
+            
+//            if let array = json as? [Any] {
+//                if array.count>0 {
+//                    var userJson = array[0] as? [String: Any]
+//                    let u = User(json: userJson!)
+//                    completion(u!)
+//                }
+//                else{
+//                    print("Query>> oops, no user is found")
+//                    let u = User(username: "")  //indicate failed registeration
+//                    completion(u!)
+//                }
+//            }
+            let u = User(username: "")  //currently server returns no user json
+            completion(u!)
+        }
+    }
+}
+
 

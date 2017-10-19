@@ -8,6 +8,7 @@
 
 import UIKit
 
+// Obsolete, replaced by MyAccountViewController
 class MyAccountTableViewController: UITableViewController {
 
     var user: User!
