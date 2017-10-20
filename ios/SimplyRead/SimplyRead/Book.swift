@@ -58,6 +58,8 @@ class Book {
     
     var category: String?
     var tags: [Tag]?
+    
+    var mongoObjectId: String?
 
     init?(title: String){
         self.title = title
@@ -171,6 +173,11 @@ class Book {
             self.isbn = json["isbn10"] as! String
         } else if json["isbn13"] != nil {
             self.isbn = json["isbn13"] as! String
+        }
+        
+        // get mongo object id
+        if json["_id"] != nil {
+            self.mongoObjectId = json["_id"] as! String
         }
         
     }

@@ -179,10 +179,27 @@ func register(username: String, password: String, fullname: String, email: Strin
 //}
 
 
-func loadBooks(completion: @escaping (_ books: [Book]) -> ()){
-    
+func loadBooks(bottomBookId: String? = nil, completion: @escaping (_ books: [Book]) -> ()){
  
-    let url = URL(string: "http://" + SERVER_IP + ":" + PORT + "/books")
+    var parameters: [String] = []
+    if bottomBookId != nil {
+        parameters.append("ltid="+bottomBookId!)
+    }
+    
+    var urlStr = "http://" + SERVER_IP + ":" + PORT + "/books"
+    if parameters.count>0 {
+        urlStr += "?"
+        urlStr += (parameters[0])
+        
+        if (parameters.count)>1 {
+            for i in 1...(parameters.count)-1 {
+                urlStr += "&"
+                urlStr += (parameters[i])
+            }
+        }
+    }
+    
+    let url = URL(string: urlStr)
     print("Query>> load books url: ")
     print(url)
     

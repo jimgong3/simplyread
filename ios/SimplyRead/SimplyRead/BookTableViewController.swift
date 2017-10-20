@@ -22,6 +22,14 @@ class BookTableViewController: UIViewController, UITableViewDataSource, UITableV
     
     var idleBooksFromUser: String?
 
+    // number of items to be fetched each time (i.e., database LIMIT)
+    let itemsPerBatch = 20
+    // _id of the book at bottom/top
+    var topBookId: String?
+    var bottomBookId: String?
+    // a flag for when all database items have already been loaded
+    var reachedEndOfItems = false
+    
     //MARK: Private Methods
     
     override func viewDidLoad() {
@@ -102,7 +110,52 @@ class BookTableViewController: UIViewController, UITableViewDataSource, UITableV
 //        cell.holderLabel.text = (book.currentCopy?.hold_by)!
         cell.holderLabel.text = book.currentCopy?.hold_by
         
+        // Check if the last row number is the same as the last current data element
+        if bottomBookId == nil || book.mongoObjectId! < bottomBookId! {
+            bottomBookId = book.mongoObjectId
+        }
+        if indexPath.row == self.books.count - 1 {
+            self.loadMore(bottomBookId: bottomBookId!)
+        }
+        
         return cell
+    }
+    
+    func loadMore(bottomBookId: String){
+        print("BookTableVC>> load more...")
+        
+        // don't bother doing another db query if already have everything
+        guard !self.reachedEndOfItems else {
+            return
+        }
+        
+        // query the db on a background thread
+        DispatchQueue.global(qos: .background).async {
+            
+            // determine the range of data items to fetch
+//            var thisBatchOfItems: [Book]?
+            
+            // query the database...
+            loadBooks(bottomBookId: bottomBookId, completion: {(booksNew: [Book]) -> () in
+                print("BookTableViewController>> callback")
+                self.books.append(contentsOf: booksNew)
+              
+                // update UITableView with new batch of items on main thread after query finishes
+                DispatchQueue.main.async {
+//                    if let newItems = thisBatchOfItems {
+                        // append the new items to the data source for the table view
+//                        self.books.append(contentsOf: newItems)
+                        // reload the table view
+                        self.tableView.reloadData()
+                        // check if this was the last of the data
+                        if booksNew.count == 0 {
+                            self.reachedEndOfItems = true
+                            print("reached end of data. ")
+                        }
+//                    }
+                }
+            })
+        }
     }
     
 
