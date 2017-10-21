@@ -17,7 +17,7 @@ var logger = new (winston.Logger)({
 // CLIENT FACING FUNCTION
 // Parameter:
 //	skip 	# of first results to skip, default is 0
-//	limit 	# of results to return, default is 20
+//	limit 	# of results to return
 // 	gtid	great than the given object id
 //	ltid	less than the given object id
 exports.books = function(req, db, callback){
@@ -29,14 +29,14 @@ exports.books = function(req, db, callback){
 	  skip = parseInt(req.query.skip, 10);
   logger.info("booksUtil>> skip: " + skip);
 
-  var limit = 20;
+  var limit = 5;   //default return # books
   if (req.query.limit != null)
 	   limit = parseInt(req.query.limit, 10);
   logger.info("booksUtil>> limit: " + limit);
 
   var gtid = req.query.gtid;
   var ltid = req.query.ltid;
-  
+
   var condition = [];
   if (gtid != null){
 	  var gtoid = new ObjectId(gtid);
@@ -46,7 +46,7 @@ exports.books = function(req, db, callback){
 	  var ltoid = new ObjectId(ltid);
 	  condition.push({_id: {$lt: ltoid}});
   }
-  
+
   var query = {};
   if (condition.length > 0)
 	query = {$and: condition};

@@ -30,6 +30,8 @@ class BookTableViewController: UIViewController, UITableViewDataSource, UITableV
     // a flag for when all database items have already been loaded
     var reachedEndOfItems = false
     
+    var refreshControl: UIRefreshControl!
+
     //MARK: Private Methods
     
     override func viewDidLoad() {
@@ -66,8 +68,42 @@ class BookTableViewController: UIViewController, UITableViewDataSource, UITableV
         // get user
         let srTableBarController = self.tabBarController as! SRTabBarController
         user = srTableBarController.user
+        
+        // pull to refresh
+        refreshControl = UIRefreshControl()
+        refreshControl.attributedTitle = NSAttributedString(string: "加載最新圖書...")
+        refreshControl.addTarget(self, action: #selector(self.refresh), for: UIControlEvents.valueChanged)
+        tableView.addSubview(refreshControl) // not required when using UITableViewController
     }
     
+    func refresh(sender: AnyObject) {
+        // Code to refresh table view
+        print("BookTableVC>> refresh...")
+        
+        //do something here...
+        self.loadLatest(topBookId: topBookId!)
+
+        refreshControl.endRefreshing()
+    }
+    
+    func loadLatest(topBookId: String){
+        print("BookTableVC>> load latest...")
+        
+        // query the db on a background thread
+        DispatchQueue.global(qos: .background).async {
+            loadBooks(topBookId: topBookId, completion: {(booksNew: [Book]) -> () in
+                print("BookTableViewController>> callback")
+                self.books.insert(contentsOf: booksNew, at: 0)
+                
+                // update UITableView with new batch of items on main thread after query finishes
+                DispatchQueue.main.async {
+                    // reload the table view
+                    self.tableView.reloadData()
+                    self.refreshControl.endRefreshing()
+                }
+            })
+        }
+    }
     
     // number of rows in table view
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -116,6 +152,10 @@ class BookTableViewController: UIViewController, UITableViewDataSource, UITableV
         }
         if indexPath.row == self.books.count - 1 {
             self.loadMore(bottomBookId: bottomBookId!)
+        }
+        
+        if topBookId == nil || book.mongoObjectId! > topBookId! {
+            topBookId = book.mongoObjectId
         }
         
         return cell

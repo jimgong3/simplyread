@@ -179,11 +179,14 @@ func register(username: String, password: String, fullname: String, email: Strin
 //}
 
 
-func loadBooks(bottomBookId: String? = nil, completion: @escaping (_ books: [Book]) -> ()){
+func loadBooks(bottomBookId: String? = nil, topBookId: String? = nil, completion: @escaping (_ books: [Book]) -> ()){
  
     var parameters: [String] = []
     if bottomBookId != nil {
         parameters.append("ltid="+bottomBookId!)
+    }
+    if topBookId != nil {
+        parameters.append("gtid="+topBookId!)
     }
     
     var urlStr = "http://" + SERVER_IP + ":" + PORT + "/books"
