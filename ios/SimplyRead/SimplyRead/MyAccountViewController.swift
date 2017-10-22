@@ -65,7 +65,21 @@ class MyAccountViewController: UIViewController, UITextFieldDelegate {
         self.isEditingProfile = false;
         
         fullnameText.delegate = self
+        emailText.delegate = self
+        phoneText.delegate = self
+        settleF2fDetailsText.delegate = self
+        settleSfAddressText.delegate = self
     }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        fullnameText.resignFirstResponder()
+        emailText.resignFirstResponder()
+        phoneText.resignFirstResponder()
+        settleF2fDetailsText.resignFirstResponder()
+        settleSfAddressText.resignFirstResponder()
+        return true
+    }
+
     
     func showEditing(_ sender: UIBarButtonItem)
     {
@@ -75,7 +89,9 @@ class MyAccountViewController: UIViewController, UITextFieldDelegate {
             fullnameText.isEnabled = false
             emailText.isEnabled = false
             phoneText.isEnabled = false
+            settleF2fSwitch.isEnabled = false
             settleF2fDetailsText.isEnabled = false
+            settleSfSwitch.isEnabled = false
             settleSfAddressText.isEnabled = false
             self.navigationItem.rightBarButtonItem?.title = "編輯"
             
@@ -111,7 +127,9 @@ class MyAccountViewController: UIViewController, UITextFieldDelegate {
             fullnameText.isEnabled = true
             emailText.isEnabled = true
             phoneText.isEnabled = true
+            settleF2fSwitch.isEnabled = true
             settleF2fDetailsText.isEnabled = true
+            settleSfSwitch.isEnabled = true
             settleSfAddressText.isEnabled = true
             self.navigationItem.rightBarButtonItem?.title = "完成"
         }
