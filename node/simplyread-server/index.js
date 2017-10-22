@@ -668,3 +668,22 @@ app.post('/updateUserProfile', function (req, res) {
 	});
 })
 
+app.get('/balances', function (req, res) {
+	logger.info("index>> GET /balances");
+	ordersUtil.balances(req, db, function(docs) {
+		logger.info("index>> callback from ordersUtil...");
+//		logger.info(docs);
+		res.json(docs)
+		logger.info("index>> balances done");
+	});
+})
+
+app.get('/cashbook', function (req, res) {
+	logger.info("index>> GET /cashbook");
+	ordersUtil.cashbook(req, db, function(docs) {
+		logger.info("index>> callback from ordersUtil...");
+//		logger.info(docs);
+		res.json(docs)
+		logger.info("index>> cashbook done");
+	});
+})

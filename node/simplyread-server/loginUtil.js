@@ -71,6 +71,8 @@ exports.register = function(req, db, callback){
   		  callback(result);
 
         sendEmailRegisterSuccess(username, fullname, email);
+
+        createCashAccount(username, db);
   	  });
   	}
   });
@@ -107,6 +109,19 @@ function sendEmailRegisterSuccess(username, fullname, email){
   });
 }
 
+function createCashAccount(username, db){
+  logger.info("loginUtil>> createCashAccount start...");
+
+  var balJson = {};
+  balJson["username"] = username;
+  balJson["balance"] = 0;
+  balJson["update_date"] = new Date();
+
+  var collection = db.collection('balances');
+  collection.insert(balJson, function(err, result){
+    logger.info("loginUtil>> 1 record created in balances collection");
+  })
+}
 
 // CLIENT FACING FUNCTION
 exports.updateUserProfile = function(req, db, callback){
