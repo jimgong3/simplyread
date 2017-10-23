@@ -714,3 +714,39 @@ func updateUserProfile(username: String, password: String, fullname: String, ema
 }
 
 
+func queryCashTxns(username: String, completion: @escaping (_ cashTxns: [CashTxn]) -> ()){
+    
+    var urlStr: String?
+    urlStr = "http://" + SERVER_IP + ":" + PORT + "/cashbook?username=" + username
+    let url = URL(string: urlStr!)
+    print("Query>> url: ")
+    print(url)
+    
+    Alamofire.request(url!).responseJSON { response in
+        print("Request: \(String(describing: response.request))")   // original url request
+        print("Response: \(String(describing: response.response))") // http url response
+        print("Result: \(response.result)")                         // response serialization result
+        
+        if let json = response.result.value {
+            print("JSON: \(json)") // serialized json response
+            
+            var cashTxns = [CashTxn]()
+            if let array = json as? [Any] {
+                if array.count>0 {
+                    for i in 0...array.count-1 {
+                        var json = array[i] as? [String: Any]
+                        let c = CashTxn(json: json!)
+                        cashTxns.append(c!)
+                    }
+                }
+                else{
+                    print("Query>> oops, no cash txn is found")
+                }
+            }
+            //now everything loaded
+            print ("Query>> \(cashTxns.count)" + " cash txn loaded, callback completion")
+            completion(cashTxns)
+        }
+    }
+}
+

@@ -80,7 +80,7 @@
                                 <rect key="frame" x="67" y="626" width="241" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                <state key="normal" title="Version 1.0.3 Build 20171021.2">
+                                <state key="normal" title="Version 1.0.3 Build 20171022.1">
                                     <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                             </button>
@@ -1102,6 +1102,9 @@
                                 <rect key="frame" x="197" y="256" width="81" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="查看詳情"/>
+                                <connections>
+                                    <segue destination="THc-xO-QFc" kind="show" id="plm-Er-cUW"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="預約面交圖書" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="enQ-ju-u5a">
                                 <rect key="frame" x="16" y="294" width="280" height="31"/>
@@ -1197,7 +1200,6 @@
                         <outlet property="settleSfAddressText" destination="TXo-E7-3MY" id="zVw-UV-s02"/>
                         <outlet property="settleSfSwitch" destination="qSw-BE-z9T" id="VXd-BG-GBS"/>
                         <outlet property="usernameText" destination="fpw-Xv-dtt" id="Bpf-IA-sLp"/>
-                        <segue destination="5aF-2e-UOu" kind="show" id="N8L-To-yFW"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eYp-q2-CZy" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1719,7 +1721,7 @@
             </objects>
             <point key="canvasLocation" x="7101.6000000000004" y="-743.47826086956525"/>
         </scene>
-        <!--帳戶增值辦法-->
+        <!--帳戶充值和提取-->
         <scene sceneID="Dey-sR-8Wy">
             <objects>
                 <viewController id="5aF-2e-UOu" sceneMemberID="viewController">
@@ -1811,11 +1813,99 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" title="帳戶增值辦法" id="UcD-Rb-KqW"/>
+                    <navigationItem key="navigationItem" title="帳戶充值和提取" id="UcD-Rb-KqW"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YXn-NE-5iX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4940" y="2482.3088455772117"/>
+            <point key="canvasLocation" x="5758" y="2483"/>
+        </scene>
+        <!--My Cashbook View Controller-->
+        <scene sceneID="Xhz-kB-x3s">
+            <objects>
+                <viewController id="THc-xO-QFc" customClass="MyCashbookViewController" customModule="SimplyRead" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="w3H-iZ-iwL"/>
+                        <viewControllerLayoutGuide type="bottom" id="s51-bl-wCo"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="T1r-la-Mwz">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="帳戶餘額 (HK$)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sxT-IH-rjg">
+                                <rect key="frame" x="16" y="76" width="121" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="6Xj-Lw-ch8">
+                                <rect key="frame" x="145" y="72" width="176" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="60" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="M4s-dh-Zwq">
+                                <rect key="frame" x="16" y="110" width="343" height="472"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="MyCashbookTableViewCell" id="EDd-OX-hBs" customClass="MyCashbookTableViewCell" customModule="SimplyRead" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="343" height="60"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="EDd-OX-hBs" id="tTE-wE-UB5">
+                                            <rect key="frame" x="0.0" y="0.0" width="343" height="60"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="yyyymmdd" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VcJ-Lf-Spe">
+                                                    <rect key="frame" x="8" y="8" width="244" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="$$" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nEi-mp-76R">
+                                                    <rect key="frame" x="270" y="8" width="65" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="description" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YLr-uL-rvv">
+                                                    <rect key="frame" x="8" y="30" width="327" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="amountLabel" destination="nEi-mp-76R" id="OLx-Hd-93V"/>
+                                            <outlet property="dateLabel" destination="VcJ-Lf-Spe" id="bbX-Yc-BOa"/>
+                                            <outlet property="descriptionLabel" destination="YLr-uL-rvv" id="vJx-CZ-Dao"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2kt-nr-2K6">
+                                <rect key="frame" x="112" y="585" width="150" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="充值／提取"/>
+                                <connections>
+                                    <segue destination="5aF-2e-UOu" kind="show" id="EGn-GS-Edz"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <connections>
+                        <outlet property="tableView" destination="M4s-dh-Zwq" id="lhh-64-4Vh"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="TCU-yw-x4g" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4813.6000000000004" y="2482.3088455772117"/>
         </scene>
         <!--悅讀-->
         <scene sceneID="Dm1-Pu-p1U">
@@ -2012,9 +2102,9 @@ AEEAAAAAAAAAAAAAAAAAABQQA
         </image>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="uwf-fT-fhP"/>
-        <segue reference="oLH-X5-D02"/>
+        <segue reference="OLx-G1-7B9"/>
+        <segue reference="QwS-ty-iVk"/>
+        <segue reference="fsA-Zx-Isz"/>
         <segue reference="hsB-JY-b6F"/>
-        <segue reference="NSE-w9-EiH"/>
     </inferredMetricsTieBreakers>
 </document>
