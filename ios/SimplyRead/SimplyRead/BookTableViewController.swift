@@ -81,9 +81,10 @@ class BookTableViewController: UIViewController, UITableViewDataSource, UITableV
         print("BookTableVC>> refresh...")
         
         //do something here...
-        self.loadLatest(topBookId: topBookId!)
-
-        refreshControl.endRefreshing()
+        if(idleBooksFromUser == nil){   //only need refresh when load all books (instead of from a specific user)
+            self.loadLatest(topBookId: topBookId!)
+            refreshControl.endRefreshing()
+        }
     }
     
     func loadLatest(topBookId: String){
@@ -151,7 +152,9 @@ class BookTableViewController: UIViewController, UITableViewDataSource, UITableV
             bottomBookId = book.mongoObjectId
         }
         if indexPath.row == self.books.count - 1 {
-            self.loadMore(bottomBookId: bottomBookId!)
+            if(idleBooksFromUser == nil){   //only need refresh when load all books (instead of from a specific user)
+                self.loadMore(bottomBookId: bottomBookId!)
+            }
         }
         
         if topBookId == nil || book.mongoObjectId! > topBookId! {
