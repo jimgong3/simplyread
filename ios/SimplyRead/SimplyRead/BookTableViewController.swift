@@ -49,6 +49,7 @@ class BookTableViewController: UIViewController, UITableViewDataSource, UITableV
             })
         } else {
             print("BookTableVC>> load idle books from user")
+            self.title = idleBooksFromUser! + "的書架"
             loadIdleBooksForUser(username: idleBooksFromUser!, completion: {(books: [Book]) -> () in
                 print("BookTableViewController>> callback")
                 self.books = books
