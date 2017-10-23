@@ -176,9 +176,11 @@ function updateBalances(transactions, db){
     var txn = transactions[i];
     logger.info("ordersUtil>> processing txn: " + JSON.stringify(txn));
     updateBalanceForTxn(txn, db);
+    updateUserProfileBalanceForTxn(txn, db);
   }
 }
 
+// Sub-function of processNewOrder
 function updateBalanceForTxn(txn, db){
   logger.info("ordersUtil>> updateBalanceForTxn start...");
 
@@ -190,18 +192,37 @@ function updateBalanceForTxn(txn, db){
     if(docs.length == 0) {
       logger.error("ordersUtil>> this shall not happen - each user should have a balance a/c in place: " + username);
     } else {
-      var balJson = docs[0];  //each user should have only one balance a/c
-      // var curUsername = balJson["username"];
-
       var amount = txn["amount"];
       var flag = amount[0]; //+/-
       var amountInt = parseInt(amount.substring(1), 10);
-      // var lastBalance = 0;
-      // if (balJson["balance"] != null)
-      //   lastBalance = balJson["balance"];
-      // var newBalance = lastBalance + amountInt
-      // if (flag = '-')
-      //   newBalance = lastBalance - amountInt;
+      if (flag == '-')
+        amountInt = 0 - amountInt;
+
+      var update = {$inc: {balance: amountInt}};
+      logger.info("ordersUtil>> txn: " + JSON.stringify(txn));          //for ref
+      logger.info("ordersUtil>> update: " + JSON.stringify(update));
+      collection.update(query, update, function(err, result){
+        logger.info("ordersUtil>> 1 record updated");
+      })
+    }
+  });
+}
+
+// Sub-function of processNewOrder
+function updateUserProfileBalanceForTxn(txn, db){
+  logger.info("ordersUtil>> updateUserProfileBalanceForTxn start...");
+
+  var username = txn["account"];
+  var query = {username: username};
+  var collection = db.collection("users");
+
+  collection.find(query).toArray(function(err, docs){
+    if(docs.length == 0) {
+      logger.error("ordersUtil>> this shall not happen - no username found: " + username);
+    } else {
+      var amount = txn["amount"];
+      var flag = amount[0]; //+/-
+      var amountInt = parseInt(amount.substring(1), 10);
       if (flag == '-')
         amountInt = 0 - amountInt;
 

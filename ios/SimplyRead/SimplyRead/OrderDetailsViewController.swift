@@ -51,7 +51,7 @@ class OrderDetailsViewController: UIViewController {
         grandTotalLabel.text = grandTotal.description
         
         //balance
-        userBalanceLabel.text = me?.balance
+        userBalanceLabel.text = me?.balance?.description
     }
 
     override func didReceiveMemoryWarning() {

@@ -13,7 +13,9 @@ class MyCashbookViewController: UIViewController, UITableViewDataSource, UITable
     var user: User?
     var cashTxns = [CashTxn]()
     
+    @IBOutlet weak var balanceText: UITextField!
     @IBOutlet weak var tableView: UITableView!
+    
     let cellReuseIdentifier = "cell"
     let cellIdentifier = "MyCashbookTableViewCell"
 
@@ -21,24 +23,24 @@ class MyCashbookViewController: UIViewController, UITableViewDataSource, UITable
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        user = Me.sharedInstance.user;
-        let username = user?.username;
-
         // Register the table view cell class and its reuse id
         self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellReuseIdentifier)
         
         // This view controller itself will provide the delegate methods and row data for the table view.
         tableView.delegate = self
         tableView.dataSource = self
-
-        queryCashTxns(username: username!, completion: {(cashTxns: [CashTxn]) -> () in
-            print("MyCashbookViewController>> callback")
-            self.cashTxns = cashTxns
-            DispatchQueue.main.async{
-                self.tableView.reloadData()
-            }
-        })
-
+        
+        user = Me.sharedInstance.user;
+        if user != nil {
+            balanceText.text = user?.balance?.description
+            queryCashTxns(username: (user?.username)!, completion: {(cashTxns: [CashTxn]) -> () in
+                print("MyCashbookViewController>> callback")
+                self.cashTxns = cashTxns
+                DispatchQueue.main.async{
+                    self.tableView.reloadData()
+                }
+            })
+        }
     }
 
     override func didReceiveMemoryWarning() {

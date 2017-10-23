@@ -30,7 +30,7 @@ class MyAccountTableViewController: UITableViewController {
             usernameText.text = user.username
             fullnameText.text = user.fullname
             postAddressText.text = user.post_address
-            balanceText.text = user.balance
+            balanceText.text = user.balance?.description
         }
 
         // Uncomment the following line to preserve selection between presentations

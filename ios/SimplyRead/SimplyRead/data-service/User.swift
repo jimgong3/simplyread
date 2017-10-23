@@ -17,7 +17,7 @@ class User {
     var email: String?
     var phone: String?
     var post_address: String?
-    var balance: String?
+    var balance: Double?
     
     var settleF2fEnable: String?
     var settleF2fDetails: String?
@@ -42,7 +42,7 @@ class User {
         self.email = json["email"] as? String
         self.phone = json["phone"] as? String
         self.post_address = json["post_address"] as? String
-        self.balance = json["balance"] as? String
+        self.balance = json["balance"] as? Double
         
         var settleF2f = json["settle_f2f"] as? [String: Any]
         self.settleF2fEnable = settleF2f?["enable"] as? String

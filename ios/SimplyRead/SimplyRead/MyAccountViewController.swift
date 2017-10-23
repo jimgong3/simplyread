@@ -20,7 +20,6 @@ class MyAccountViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var balanceText: UITextField!
     
-    
     @IBOutlet weak var settleF2fSwitch: UISwitch!
     @IBOutlet weak var settleF2fDetailsText: UITextField!
     @IBOutlet weak var settleSfSwitch: UISwitch!
@@ -44,7 +43,7 @@ class MyAccountViewController: UIViewController, UITextFieldDelegate {
 //            postAddressText.text = user.post_address
             emailText.text = user.email
             phoneText.text = user.phone
-            balanceText.text = user.balance
+            balanceText.text = user.balance?.description
             
             if user.settleF2fEnable == "true" {
                 settleF2fSwitch.isOn = true
