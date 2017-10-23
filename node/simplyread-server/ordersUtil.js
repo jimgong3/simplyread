@@ -72,7 +72,7 @@ exports.submitOrder = function(req, db, callback){
   var datetime = new Date()
   orderJson["date"] = datetime;
 
-  orderJson["status"] = "submitted";
+  orderJson["status"] = "submitted";	//initial status
 
   nextOrderId(db, function(orderId){
     orderJson["orderId"] = orderId;
@@ -110,130 +110,76 @@ function nextOrderId(db, callback){
 }
 
 // Sub-function of submitOrder
-function sendOrderConfirmation(email, orderJson){
-  var from = "simplyreadhk@gmail.com";
-  var to = email;
-  var cc = "simplyreadhk@gmail.com";
-  var subject = "SimplyRead: Order Confirmation";
-  var text = "";
-  text += "Dear Customer, \n\nThanks for submitting your order, below please find order details for your reference: "
-  text += "\n\nOrder ID: " + orderJson.orderId;
-  text += "\n\nSubmitted by: " + orderJson.username;
-  text += "\n\nEmail: " + orderJson.email;
-  text += "\n\nBooks: ";
-  if (orderJson.books != null){
-    for(var book of orderJson.books){
-      text += "\n\t";
-      text += book.title;
-    }
-  }
-  text += "\n\nTotal number of books: " + orderJson.num_books;
-  text += "\n\nTotal price: " + orderJson.sum_price;
-  text += "\n\nTotal deposit: " + orderJson.sum_deposit;
-  text += "\n\nTotal shipping fee: " + orderJson.shipping_fee;
-  text += "\n\nGrand Total: " + orderJson.total;
-  text += "\n\nThank you.";
-  text += "\n\nSimplyRead";
-
-  var mailOptions = {
-    from: from,
-    to: to,
-    subject: subject,
-    text: text
-  };
-
-  transporter.sendMail(mailOptions, function(error, info){
-    if (error) {
-      logger.info(error);
-    } else {
-      logger.info('ordersUtil>> Email sent: ' + info.response);
-    }
-  });
-}
-
-// Sub-function of submitOrder
 function processNewOrder(orderJson, db){
 	logger.info("ordersUtil>> processOrder start...");
 
-	logger.info("ordersUtil>> 1: generate cash transactions");
-  generateCashTxn(orderJson, db, function(transactions){
-    logger.info("ordersUtil>> callback from generateCashTxn...");
-    saveCashTxn(transactions, db, function(result){
-      logger.info("ordersUtil>> callback from saveCashTxn...")
-    })
+	//check user has sufficient funding for this order...
+	checkUserBalance(orderJson, db, function(isSufficient){
+		if(isSufficient){
+			logger.info("ordersUtil>> has sufficient funding, generate cash txn...");
+			
+			logger.info("ordersUtil>> 1: generate cash transactions");
+			generateCashTxn(orderJson, db, function(transactions){
+				logger.info("ordersUtil>> callback from generateCashTxn...");
+				saveCashTxn(transactions, db, function(result){
+				  logger.info("ordersUtil>> callback from saveCashTxn...")
+				})
 
-    logger.info("ordersUtil>> 2: update balances");
-    updateBalances(transactions, db);
-  });
-
+				logger.info("ordersUtil>> 2: update balances");
+				updateBalances(transactions, db);
+				
+				var status = "confirmed";
+				updateOrderStatus(orderJson, db, status);
+			});
+		} else {
+			logger.info("ordersUtil>> has no sufficient funding...");
+			var status = "pending";
+			updateOrderStatus(orderJson, db, status);
+		}
+	});
 	//AOB
 }
 
-function updateBalances(transactions, db){
-  logger.info("ordersUtil>> updateBalances start...");
-
-  for(var i=0; i<transactions.length; i++){
-    var txn = transactions[i];
-    logger.info("ordersUtil>> processing txn: " + JSON.stringify(txn));
-    updateBalanceForTxn(txn, db);
-    updateUserProfileBalanceForTxn(txn, db);
-  }
+function updateOrderStatus(orderJson, db, status){
+	logger.info("ordersUtil>> updateOrderStatus start...");
+	
+	var collection = db.collection("orders");
+	var orderId = orderJson["orderId"];
+	var query = {orderId: orderId};
+	var update = {$set: {orderId: orderId, status: status}};
+	logger.info("ordersUtil>> update: " + JSON.stringify(update));
+	
+	collection.update(query, update, function(err, result){
+		logger.info("ordersUtil>> 1 order status udpated");
+	});
 }
 
-// Sub-function of processNewOrder
-function updateBalanceForTxn(txn, db){
-  logger.info("ordersUtil>> updateBalanceForTxn start...");
-
-  var username = txn["account"];
-  var query = {username: username};
-  var collection = db.collection("balances");
-
-  collection.find(query).toArray(function(err, docs){
-    if(docs.length == 0) {
-      logger.error("ordersUtil>> this shall not happen - each user should have a balance a/c in place: " + username);
-    } else {
-      var amount = txn["amount"];
-      var flag = amount[0]; //+/-
-      var amountInt = parseInt(amount.substring(1), 10);
-      if (flag == '-')
-        amountInt = 0 - amountInt;
-
-      var update = {$inc: {balance: amountInt}};
-      logger.info("ordersUtil>> txn: " + JSON.stringify(txn));          //for ref
-      logger.info("ordersUtil>> update: " + JSON.stringify(update));
-      collection.update(query, update, function(err, result){
-        logger.info("ordersUtil>> 1 record updated");
-      })
-    }
-  });
-}
-
-// Sub-function of processNewOrder
-function updateUserProfileBalanceForTxn(txn, db){
-  logger.info("ordersUtil>> updateUserProfileBalanceForTxn start...");
-
-  var username = txn["account"];
-  var query = {username: username};
-  var collection = db.collection("users");
-
-  collection.find(query).toArray(function(err, docs){
-    if(docs.length == 0) {
-      logger.error("ordersUtil>> this shall not happen - no username found: " + username);
-    } else {
-      var amount = txn["amount"];
-      var flag = amount[0]; //+/-
-      var amountInt = parseInt(amount.substring(1), 10);
-      if (flag == '-')
-        amountInt = 0 - amountInt;
-
-      var update = {$inc: {balance: amountInt}};
-      logger.info("ordersUtil>> txn: " + JSON.stringify(txn));          //for ref
-      logger.info("ordersUtil>> update: " + JSON.stringify(update));
-      collection.update(query, update, function(err, result){
-        logger.info("ordersUtil>> 1 record updated");
-      })
-    }
-  });
+// Sub-function of submitOrder
+function checkUserBalance(orderJson, db, callback){
+	logger.info("ordersUtil>> checkUserBalance start...");
+	
+	var username = orderJson["username"];
+	var amount = orderJson["total"];
+	logger.info("ordersUtil>> username: " + username + ", order total: " + amount);
+	
+	var collection = db.collection('users');
+	var query = {username: username};
+	collection.find(query).toArray(function(err, docs){
+		if(docs.length == 0){
+			logger.error("ordersUtil>> no username found, shall not happen: " + username);
+		} else {
+			var user = docs[0];
+			logger.info("ordersUtil>> user balance: " + user["balance"]);
+			var curBalance = user["balance"];
+			if(curBalance>=amount){
+				logger.info("ordersUtil>> user balance >= order amount");
+				callback(true);
+			} else {
+				logger.info("ordersUtil>> user balance < order amount");
+				callback(false);				
+			}
+		}
+	});
 }
 
 // Sub-function of processNewOrder
@@ -324,6 +270,122 @@ function saveCashTxn(transactions, db, callback){
     logger.info("ordersUtil>> # of cash txn inserted: " + transactions.length);
     callback(result);
   })
+}
+
+
+function updateBalances(transactions, db){
+  logger.info("ordersUtil>> updateBalances start...");
+
+  for(var i=0; i<transactions.length; i++){
+    var txn = transactions[i];
+    logger.info("ordersUtil>> processing txn: " + JSON.stringify(txn));
+    updateBalanceForTxn(txn, db);
+    updateUserProfileBalanceForTxn(txn, db);
+  }
+}
+
+// Sub-function of processNewOrder
+function updateBalanceForTxn(txn, db){
+  logger.info("ordersUtil>> updateBalanceForTxn start...");
+
+  var username = txn["account"];
+  var query = {username: username};
+  var collection = db.collection("balances");
+
+  collection.find(query).toArray(function(err, docs){
+    if(docs.length == 0) {
+      logger.error("ordersUtil>> this shall not happen - each user should have a balance a/c in place: " + username);
+    } else {
+      var amount = txn["amount"];
+      var flag = amount[0]; //+/-
+      var amountInt = parseInt(amount.substring(1), 10);
+      if (flag == '-')
+        amountInt = 0 - amountInt;
+
+      var update = {$inc: {balance: amountInt}};
+      logger.info("ordersUtil>> txn: " + JSON.stringify(txn));          //for ref
+      logger.info("ordersUtil>> update: " + JSON.stringify(update));
+      collection.update(query, update, function(err, result){
+        logger.info("ordersUtil>> 1 record updated");
+      })
+    }
+  });
+}
+
+// Sub-function of processNewOrder
+function updateUserProfileBalanceForTxn(txn, db){
+  logger.info("ordersUtil>> updateUserProfileBalanceForTxn start...");
+
+  var username = txn["account"];
+  if(username.indexOf("simplyread")>-1){
+	  logger.info("ordersUtil>> system account, skip update user profile: " + username);
+	  return;
+  }
+  
+  var query = {username: username};
+  var collection = db.collection("users");
+
+  collection.find(query).toArray(function(err, docs){
+    if(docs.length == 0) {
+      logger.error("ordersUtil>> this shall not happen - no username found: " + username);
+    } else {
+      var amount = txn["amount"];
+      var flag = amount[0]; //+/-
+      var amountInt = parseInt(amount.substring(1), 10);
+      if (flag == '-')
+        amountInt = 0 - amountInt;
+
+      var update = {$inc: {balance: amountInt}};
+      logger.info("ordersUtil>> txn: " + JSON.stringify(txn));          //for ref
+      logger.info("ordersUtil>> update: " + JSON.stringify(update));
+      collection.update(query, update, function(err, result){
+        logger.info("ordersUtil>> 1 record updated");
+      })
+    }
+  });
+}
+
+
+// Sub-function of submitOrder
+function sendOrderConfirmation(email, orderJson){
+  var from = "simplyreadhk@gmail.com";
+  var to = email;
+  var cc = "simplyreadhk@gmail.com";
+  var subject = "SimplyRead: Order Confirmation";
+  var text = "";
+  text += "Dear Customer, \n\nThanks for submitting your order, below please find order details for your reference: "
+  text += "\n\nOrder ID: " + orderJson.orderId;
+  text += "\n\nSubmitted by: " + orderJson.username;
+  text += "\n\nEmail: " + orderJson.email;
+  text += "\n\nBooks: ";
+  if (orderJson.books != null){
+    for(var book of orderJson.books){
+      text += "\n\t";
+      text += book.title;
+    }
+  }
+  text += "\n\nTotal number of books: " + orderJson.num_books;
+  text += "\n\nTotal price: " + orderJson.sum_price;
+  text += "\n\nTotal deposit: " + orderJson.sum_deposit;
+  text += "\n\nTotal shipping fee: " + orderJson.shipping_fee;
+  text += "\n\nGrand Total: " + orderJson.total;
+  text += "\n\nThank you.";
+  text += "\n\nSimplyRead";
+
+  var mailOptions = {
+    from: from,
+    to: to,
+    subject: subject,
+    text: text
+  };
+
+  transporter.sendMail(mailOptions, function(error, info){
+    if (error) {
+      logger.info(error);
+    } else {
+      logger.info('ordersUtil>> Email sent: ' + info.response);
+    }
+  });
 }
 
 // CLIENT FACING FUNCTION
