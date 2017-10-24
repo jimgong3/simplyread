@@ -11,6 +11,7 @@ var booksUtil = require('./booksUtil');
 var pricing = require('./pricing');
 var shippingUtil = require('./shippingUtil');
 var ordersUtil = require('./ordersUtil');
+var ordersUtil2 = require('./ordersUtil2');
 
 var translator = require('./translator');
 var multiparty = require('multiparty');
@@ -566,7 +567,7 @@ app.get('/translateBooks', function (req, res) {
 
 app.get('/orders', function (req, res) {
 	logger.info("index>> GET /orders");
-	ordersUtil.orders(req, db, function(docs) {
+	ordersUtil2.orders(req, db, function(docs) {
 		logger.info("index>> callback from ordersUtil...");
 //		logger.info(docs);
 		res.json(docs)
@@ -685,5 +686,15 @@ app.get('/cashbook', function (req, res) {
 //		logger.info(docs);
 		res.json(docs)
 		logger.info("index>> cashbook done");
+	});
+})
+
+app.post('/orderDelivered', function (req, res) {
+	logger.info("index>> POST /orderDelivered");
+	ordersUtil2.orderDelivered(req, db, function(docs) {
+		logger.info("index>> callback from ordersUtil2...");
+//		logger.info(docs);
+		res.json(docs)
+		logger.info("index>> orderDelivered done");
 	});
 })
