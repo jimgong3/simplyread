@@ -750,3 +750,74 @@ func queryCashTxns(username: String, completion: @escaping (_ cashTxns: [CashTxn
     }
 }
 
+func queryBuyOrders(username: String, completion: @escaping (_ orders: [Order]) -> ()){
+    
+    var urlStr: String?
+    urlStr = "http://" + SERVER_IP + ":" + PORT + "/orders?username=" + username
+    let url = URL(string: urlStr!)
+    print("Query>> url: ")
+    print(url)
+    
+    Alamofire.request(url!).responseJSON { response in
+        print("Request: \(String(describing: response.request))")   // original url request
+        print("Response: \(String(describing: response.response))") // http url response
+        print("Result: \(response.result)")                         // response serialization result
+        
+        if let json = response.result.value {
+            print("JSON: \(json)") // serialized json response
+            
+            var orders = [Order]()
+            if let array = json as? [Any] {
+                if array.count>0 {
+                    for i in 0...array.count-1 {
+                        var json = array[i] as? [String: Any]
+                        let o = Order(json: json!)
+                        orders.append(o!)
+                    }
+                }
+                else{
+                    print("Query>> oops, no order is found")
+                }
+            }
+            //now everything loaded
+            print ("Query>> \(orders.count)" + " order loaded, callback completion")
+            completion(orders)
+        }
+    }
+}
+
+func queryDeliverOrders(hold_by: String, completion: @escaping (_ orders: [Order]) -> ()){
+    
+    var urlStr: String?
+    urlStr = "http://" + SERVER_IP + ":" + PORT + "/orders?hold_by=" + hold_by
+    let url = URL(string: urlStr!)
+    print("Query>> url: ")
+    print(url)
+    
+    Alamofire.request(url!).responseJSON { response in
+        print("Request: \(String(describing: response.request))")   // original url request
+        print("Response: \(String(describing: response.response))") // http url response
+        print("Result: \(response.result)")                         // response serialization result
+        
+        if let json = response.result.value {
+            print("JSON: \(json)") // serialized json response
+            
+            var orders = [Order]()
+            if let array = json as? [Any] {
+                if array.count>0 {
+                    for i in 0...array.count-1 {
+                        var json = array[i] as? [String: Any]
+                        let o = Order(json: json!)
+                        orders.append(o!)
+                    }
+                }
+                else{
+                    print("Query>> oops, no order is found")
+                }
+            }
+            //now everything loaded
+            print ("Query>> \(orders.count)" + " order loaded, callback completion")
+            completion(orders)
+        }
+    }
+}

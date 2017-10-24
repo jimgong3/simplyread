@@ -26,13 +26,16 @@ exports.orders = function(req, db, callback){
   var orderId;
   if (req.query.orderId != null)
 	  orderId = parseInt(req.query.orderId, 10);
-  logger.info("ordersUtil>> username: " + username + ", orderId: " + orderId);
+  var hold_by = req.query.hold_by;
+  // logger.info("ordersUtil>> username: " + username + ", orderId: " + orderId);
 
   var condition = [];
   if (username != null)
 	  condition.push({username: username});
   if (orderId != null)
 	  condition.push({orderId: orderId});
+  if (hold_by != null)
+    condition.push({"books.hold_by": hold_by});
 
   var query = {};
   if (condition.length>0)
@@ -117,7 +120,7 @@ function processNewOrder(orderJson, db){
 	checkUserBalance(orderJson, db, function(isSufficient){
 		if(isSufficient){
 			logger.info("ordersUtil>> has sufficient funding, generate cash txn...");
-			
+
 			logger.info("ordersUtil>> 1: generate cash transactions");
 			generateCashTxn(orderJson, db, function(transactions){
 				logger.info("ordersUtil>> callback from generateCashTxn...");
@@ -127,7 +130,7 @@ function processNewOrder(orderJson, db){
 
 				logger.info("ordersUtil>> 2: update balances");
 				updateBalances(transactions, db);
-				
+
 				var status = "confirmed";
 				updateOrderStatus(orderJson, db, status);
 			});
@@ -142,13 +145,13 @@ function processNewOrder(orderJson, db){
 
 function updateOrderStatus(orderJson, db, status){
 	logger.info("ordersUtil>> updateOrderStatus start...");
-	
+
 	var collection = db.collection("orders");
 	var orderId = orderJson["orderId"];
 	var query = {orderId: orderId};
 	var update = {$set: {orderId: orderId, status: status}};
 	logger.info("ordersUtil>> update: " + JSON.stringify(update));
-	
+
 	collection.update(query, update, function(err, result){
 		logger.info("ordersUtil>> 1 order status udpated");
 	});
@@ -157,11 +160,11 @@ function updateOrderStatus(orderJson, db, status){
 // Sub-function of submitOrder
 function checkUserBalance(orderJson, db, callback){
 	logger.info("ordersUtil>> checkUserBalance start...");
-	
+
 	var username = orderJson["username"];
 	var amount = orderJson["total"];
 	logger.info("ordersUtil>> username: " + username + ", order total: " + amount);
-	
+
 	var collection = db.collection('users');
 	var query = {username: username};
 	collection.find(query).toArray(function(err, docs){
@@ -176,7 +179,7 @@ function checkUserBalance(orderJson, db, callback){
 				callback(true);
 			} else {
 				logger.info("ordersUtil>> user balance < order amount");
-				callback(false);				
+				callback(false);
 			}
 		}
 	});
@@ -321,7 +324,7 @@ function updateUserProfileBalanceForTxn(txn, db){
 	  logger.info("ordersUtil>> system account, skip update user profile: " + username);
 	  return;
   }
-  
+
   var query = {username: username};
   var collection = db.collection("users");
 

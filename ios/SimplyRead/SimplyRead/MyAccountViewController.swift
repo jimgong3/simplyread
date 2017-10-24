@@ -26,6 +26,9 @@ class MyAccountViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var settleSfAddressText: UITextField!
     
     var isEditingProfile: Bool?
+    
+    var isBuyOrders: Bool?
+    var isDeliverOrders: Bool?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -141,14 +144,36 @@ class MyAccountViewController: UIViewController, UITextFieldDelegate {
     }
     
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        if let myOrdersViewController = segue.destination as? MyOrdersViewController {
+            if self.isBuyOrders! {
+                myOrdersViewController.isBuyOrders = true
+            } else if self.isDeliverOrders! {
+                myOrdersViewController.isDeliverOrders = true
+            }
+        }
+
     }
-    */
+    
+    @IBAction func buyOrders(_ sender: Any) {
+        print("MyAccountViewController>> view buy orders")
+        self.isBuyOrders = true
+        self.isDeliverOrders = true
+        self.performSegue(withIdentifier: "MyOrders", sender: self)
+    }
+    
+    @IBAction func deliverOrders(_ sender: Any) {
+        print("MyAccountViewController>> view deliver orders")
+        self.isBuyOrders = false
+        self.isDeliverOrders = true
+        self.performSegue(withIdentifier: "MyOrders", sender: self)
+    }
+
 
 }
