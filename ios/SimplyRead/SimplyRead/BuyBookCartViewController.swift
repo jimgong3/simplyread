@@ -141,7 +141,61 @@ class BuyBookCartViewController: UIViewController, UITableViewDataSource, UITabl
         self.performSegue(withIdentifier: "donateSelectComplete1", sender: self)
     }
 
-
+    @IBAction func submitOrder(_ sender: Any) {
+        print("BuyBookCartVC>> submit order start...")
+        
+        let me = Me.sharedInstance.user
+        
+        var bookArray = [Any]()
+        for i in 0...books.count-1 {
+            let book = books[i]
+            let bookJson: [String: Any] = [
+                "title": book.title,
+                "owner": book.currentCopy!.owner,
+                "price": book.currentCopy!.price ?? 0,
+                "deposit": book.currentCopy!.deposit ?? 0,
+                "hold_by": book.currentCopy!.hold_by ?? "n/a"
+            ]
+            bookArray.append(bookJson)
+        }
+        
+        let orderJson: [String: Any] = [
+            "username": me?.username ?? "n/a",
+            "email": me?.email,
+            "books": bookArray,
+            "num_books": books.count.description,
+            "sum_deposit": BuyBookCart.sharedInstance.totalDeposit.description,
+            "sum_price": BuyBookCart.sharedInstance.totalPrice.description,
+            "shipping_fee": BuyBookCart.sharedInstance.totalShippingFee,
+            "total": BuyBookCart.sharedInstance.total
+        ]
+        print("BuyBookCartVC>> orderJson: ")
+        var details = jsonToString(json: orderJson as AnyObject)
+        
+        SimplyRead.submitOrder(details: details, completion: {(result: String) -> () in
+            print("BuyBookCartVC>>> callback...")
+            let alert = UIAlertController(title: "提示", message: "訂單已提交。", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: NSLocalizedString("好", comment: "Default action"), style: .`default`, handler: { _ in
+                NSLog("The \"OK\" alert occured.")
+            }))
+            self.present(alert, animated: true, completion: nil)
+        })
+    }
+    
+    func jsonToString(json: AnyObject) -> String {
+        do {
+            let data1 =  try JSONSerialization.data(withJSONObject: json, options: JSONSerialization.WritingOptions.prettyPrinted) // first of all convert json to the data
+            let convertedString = String(data: data1, encoding: String.Encoding.utf8) // the data will be converted to the string
+            print(convertedString ?? "defaultvalue")
+            var result = convertedString ?? "defaultvalue"
+            return result
+        } catch let myJSONError {
+            print(myJSONError)
+            return "error"
+        }
+        
+    }
+    
     /*
     // MARK: - Navigation
 

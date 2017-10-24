@@ -11,6 +11,7 @@ import UIKit
 class BookCopy {
     var owner: String
     var price: String?
+    var deposit: String?
     var hold_by: String?
     var status: String?
     
@@ -21,6 +22,7 @@ class BookCopy {
     init?(json: [String: Any]){
         self.owner = (json["owner"] as? String)!
         self.price = json["price"] as? String
+        self.deposit = json["deposit"] as? String
         self.hold_by = json["hold_by"] as? String
         self.status = json["status"] as? String
     }

@@ -16,6 +16,7 @@ class BuyBookCart {
     var totalPrice = 0.0
     var totalDeposit = 0.0
     var totalShippingFee = 0.0
+    var total = 0.0
     
     var orders = [String: Int]()            //number of books for each holder
     var shippingFees = [String: Double]()   //shipping fee by holder
@@ -46,6 +47,8 @@ class BuyBookCart {
                 totalShippingFee += shippingFees[holder!]!
             }
         }
+        
+        total = totalPrice + totalDeposit + totalShippingFee
         
 //        if book.shipping_fee != nil && book.shipping_fee != "NaN"{
 //            totalShippingFee += Int(book.shipping_fee!)!
@@ -98,6 +101,8 @@ class BuyBookCart {
                 totalShippingFee += shippingFees[holder!]!
             }
         }
+    
+        total = totalPrice + totalDeposit + totalShippingFee
     }
 }
 

@@ -558,6 +558,7 @@ exports.bookshelves = function(req, db, callback){
 
 // CLIENT FACING FUNCTION
 // Find idle books from the bookshelf of a specific user
+// Return all such books without limit result number
 exports.idleBooks = function(req, db, callback){
 	logger.info("booksUtil>> idleBooks start...");
 

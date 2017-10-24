@@ -821,3 +821,32 @@ func queryDeliverOrders(hold_by: String, completion: @escaping (_ orders: [Order
         }
     }
 }
+
+// Add a new book whose information cannot be found in database or web,
+// Book details are manually input by user
+func submitOrder(details: String, completion: @escaping (_ result: String) -> ()){
+    print("Query>> submit order start...")
+    
+    var urlStr: String?
+    urlStr = "http://" + SERVER_IP + ":" + PORT + "/submitOrder"
+    let url = URL(string: urlStr!)
+    print("Query>> url: ")
+    print(url!)
+    
+    let parameters: Parameters = [
+        "details": details
+    ]
+    
+    Alamofire.request(url!, method: .post, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+        print("Query>> Request: \(String(describing: response.request))")   // original url request
+        print("Query>> Response: \(String(describing: response.response))") // http url response
+        print("Query>> Result: \(response.result)")                         // response serialization result
+        
+        if let json = response.result.value {
+            print("JSON: \(json)") // serialized json response
+            
+            var result = "result"
+            completion(result)
+        }
+    }
+}

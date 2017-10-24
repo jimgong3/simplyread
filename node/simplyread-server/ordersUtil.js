@@ -15,6 +15,8 @@ var transporter = nodemailer.createTransport({
   }
 });
 
+var ObjectId = require('mongodb').ObjectId;
+
 // CLIENT FACING FUNCTION
 // Parameters:
 //	- username
@@ -23,9 +25,7 @@ exports.orders = function(req, db, callback){
   logger.info("ordersUtil>> orders start...");
 
   var username = req.query.username;
-  var orderId;
-  if (req.query.orderId != null)
-	  orderId = parseInt(req.query.orderId, 10);
+  var orderId = req.query.orderId;
   var hold_by = req.query.hold_by;
   // logger.info("ordersUtil>> username: " + username + ", orderId: " + orderId);
 
@@ -42,8 +42,11 @@ exports.orders = function(req, db, callback){
 	  query = {$and: condition};
   logger.info("ordersUtil>> query: " + JSON.stringify(query));
 
+  var order = {_id: -1};
+  logger.info("ordersUtil>> order: " + JSON.stringify(order));
+
   var collection = db.collection('orders');
-  collection.find(query).toArray(function(err, docs) {
+  collection.find(query).sort(order).toArray(function(err, docs) {
     logger.info("ordersUtil>> # of result: " + docs.length);
 //    logger.info(docs);
     callback(docs);
@@ -75,7 +78,7 @@ exports.submitOrder = function(req, db, callback){
   var datetime = new Date()
   orderJson["date"] = datetime;
 
-  orderJson["status"] = "submitted";	//initial status
+  orderJson["status"] = "已提交";	//initial status
 
   nextOrderId(db, function(orderId){
     orderJson["orderId"] = orderId;
@@ -131,12 +134,12 @@ function processNewOrder(orderJson, db){
 				logger.info("ordersUtil>> 2: update balances");
 				updateBalances(transactions, db);
 
-				var status = "confirmed";
+				var status = "已確認";
 				updateOrderStatus(orderJson, db, status);
 			});
 		} else {
 			logger.info("ordersUtil>> has no sufficient funding...");
-			var status = "pending";
+			var status = "待付款";
 			updateOrderStatus(orderJson, db, status);
 		}
 	});
@@ -428,5 +431,75 @@ exports.cashbook = function(req, db, callback){
 		logger.info("ordersUtil>> # of results: " + docs.length);
 //		logger.info(docs);
 		callback(docs);
+	});
+}
+
+// CLIENT FACING FUNCTION
+// Parameters:
+// 	- orderId
+exports.orderDelivered = function(req, db, callback){
+  logger.info("ordersUtil>> orderDelivered start...");
+
+  var orderId = req.body.orderId;
+  logger.info("ordersUtil>> orderId: " + orderId);
+
+  var collection = db.collection('orders');
+  var query = {orderId: orderId};
+  logger.info("ordersUtil>> query: " + JSON.stringify(query));
+
+  var status = "已送出";
+  var update = {$set: {status: status}};
+  logger.info("ordersUtil>> udpate: " + JSON.stringify(update));
+
+  collection.update(query, update, function(err, docs) {
+    logger.info("ordersUtil>> 1 order status updated" );
+    callback(docs);
+
+	removeBooksFromHolderBookshelf(orderId, db)
+  });
+}
+
+// Sub-function of orderDelivered
+// After the order is marked as delivered, remove the book from the holder's bookshelf
+// which will be added to the next reader's bookshelf upon he receives
+function removeBooksFromHolderBookshelf(orderId, db){
+	logger.info("ordersUtil>> removeBooksFromHolderBookshelf start...");
+
+	var collection = db.collection('orders');
+	var query = {orderId: orderId};
+	collection.find(query).toArray(function(err, docs){
+		if(docs.length == 0){
+			logger.info("ordersUtil>> this shall not happen, orderId not found: " + orderId);
+		} else {
+			var order = docs[0];
+			logger.info("ordersUtil>> order: " + JSON.stringify(order));
+
+			var books = order["books"];
+			logger.info("ordersUtil>> # of books in order: " + books.length);
+
+			for(var i=0; i<books.length; i++){
+				logger.info("ordersUtil>> found book id: " + books[i]["book_id"]);
+				var curBookId = books[i]["book_id"];
+				var hold_by = books[i]["hold_by"];
+
+				var collectionBooks = db.collection('books');
+				var query2 = {_id: ObjectId(curBookId)};
+				logger.info("ordersUtil>> query2: " + JSON.stringify(query2));
+
+				collectionBooks.find(query2).toArray(function(err, docs){
+					var book = docs[0]; 	//should return only one book
+					var book_copies = book["book_copies"];
+					var status = "已送出";
+					book_copies[0]["status"] = status;
+
+					var update = {$set: {book_copies: book_copies}};
+					logger.info("ordersUtil>> update: " + JSON.stringify(update));
+					collectionBooks.update(query2, update, function(err, docs){
+						logger.info("ordersUtil>> 1 book removed from holder's bookshelf");
+						logger.info("ordersUtil>> result: " + JSON.stringify(docs));
+					});
+				});
+			}
+		}
 	});
 }

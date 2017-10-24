@@ -79,7 +79,10 @@ class MyOrdersViewController: UIViewController, UITableViewDataSource, UITableVi
         //        print ("BookTableViewController>> set table cell: " + "(\(book.title))")
         
         // set details
-        cell.dateLabel.text = order.date
+        let dateStr = order.date!
+        let index = dateStr.index(dateStr.startIndex, offsetBy: 10) //show yyyy-mm-dd, 10 digits
+        let dateStr2 = dateStr.substring(to: index)
+        cell.dateLabel.text = dateStr2
         cell.statusLabel.text = order.status
         cell.listOfBooksLabel.text = order.listOfBooks
         
