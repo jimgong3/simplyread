@@ -106,21 +106,13 @@ app.get('/books', function (req, res) {
 	});
 })
 
-app.get('/book', function (req, res) {
-	logger.info("app>> get book by isbn");
-
-	const {headers, method, url} = req;
-	logger.info("app>> method: " + method);
-	logger.info("app>> url: " + url);
-
-	var isbn = req.query.isbn;
-	logger.info("app>> isbn: " + isbn);
-
-	mongoQuery.queryBook(db, isbn, function(docs) {
-		logger.info("app>> callback from queryBook");
+app.get('/search', function (req, res) {
+	logger.info("index>> GET /search");
+	booksUtil.search(req, db, function(docs) {
+		logger.info("index>> callback from booksUtil, # of books: " + docs.length);
 		// logger.info(docs);
 		res.json(docs)
-		logger.info("app>> book by isbn done");
+		logger.info("index>> search done");
 	});
 })
 

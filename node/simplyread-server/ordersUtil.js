@@ -19,8 +19,9 @@ var ObjectId = require('mongodb').ObjectId;
 
 // CLIENT FACING FUNCTION
 // Parameters:
-//	- username
-// 	- orderId
+// 	- orderId		orderId
+//	- username		orders submitted by user
+//  - hold_by		orders hold by user
 exports.orders = function(req, db, callback){
   logger.info("ordersUtil>> orders start...");
 

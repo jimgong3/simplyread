@@ -53,6 +53,7 @@ exports.queryBooks = function(db, callback){
   });
 }
 
+//Obsolete, replaced by booksUtil.books
 exports.queryBook = function(db, isbn, callback){
   logger.info("mongoQuery>> queryBook");
 

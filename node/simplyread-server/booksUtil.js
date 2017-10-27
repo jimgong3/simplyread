@@ -21,7 +21,7 @@ var logger = new (winston.Logger)({
 // 	gtid	great than the given object id
 //	ltid	less than the given object id
 exports.books = function(req, db, callback){
-  logger.info("booksUtil>> queryBooks");
+  logger.info("booksUtil>> books start...");
   var collection = db.collection('books');
 
   var skip = 0;
@@ -36,6 +36,8 @@ exports.books = function(req, db, callback){
 
   var gtid = req.query.gtid;
   var ltid = req.query.ltid;
+  
+  var isbn = req.query.isbn;
 
   var condition = [];
   if (gtid != null){
@@ -46,6 +48,9 @@ exports.books = function(req, db, callback){
 	  var ltoid = new ObjectId(ltid);
 	  condition.push({_id: {$lt: ltoid}});
   }
+  if (isbn != null){
+	  condition.push({$or:[{isbn10: isbn}, {isbn13: isbn}]});
+  }
 
   var query = {};
   if (condition.length > 0)
@@ -53,7 +58,7 @@ exports.books = function(req, db, callback){
   logger.info("booksUtil>> query: " + JSON.stringify(query));
 
   var order = {_id: -1};
-  logger.info("mongoQuer>> order: " + JSON.stringify(order));
+  logger.info("booksUtil>> order: " + JSON.stringify(order));
 
   collection.find(query).sort(order).skip(skip).limit(limit).toArray(function(err, docs) {
     logger.info("booksUtil>> # of result: " + docs.length);
@@ -62,6 +67,39 @@ exports.books = function(req, db, callback){
   });
 }
 
+// CLIENT FACING FUNCTION
+// Parameter:
+//	q 		search keyword in title and author
+exports.search = function(req, db, callback){
+  logger.info("booksUtil>> search start...");
+  var collection = db.collection('books');
+  
+  var keyword = req.query.q;
+  keyword = translator.translate2(keyword);
+  var regexStr = ".*" + keyword + ".*";
+
+  var condition = [];
+  if (keyword != null){
+	  condition.push({$or:[
+						{"title": {$regex: regexStr}},
+						{"author": {$elemMatch: {$regex: regexStr}}}
+					]});
+  }
+
+  var query = {};
+  if (condition.length > 0)
+	query = {$and: condition};
+  logger.info("booksUtil>> query: " + JSON.stringify(query));
+
+  var order = {_id: -1};
+  logger.info("booksUtil>> order: " + JSON.stringify(order));
+
+  collection.find(query).sort(order).toArray(function(err, docs) {
+    logger.info("booksUtil>> # of result: " + docs.length);
+//    logger.info(docs);
+    callback(docs);
+  });
+}
 
 // CLIENT FACING FUNCTION
 // Used when user upload a book, add book info with copies info to database
