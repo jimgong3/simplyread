@@ -9,13 +9,16 @@
 import UIKit
 import os.log
 
-class BookTableViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class BookTableViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate {
     
     //MARK: Properties
     var books = [Book]()
     var user: User?
     
     @IBOutlet var tableView: UITableView!
+    @IBOutlet weak var searchBar: UISearchBar!
+    var isSearchingMode = false
+    var isTypingMode = false
     
     let cellReuseIdentifier = "cell"
     let cellIdentifier = "BookTableViewCell"
@@ -65,6 +68,7 @@ class BookTableViewController: UIViewController, UITableViewDataSource, UITableV
         // This view controller itself will provide the delegate methods and row data for the table view.
         tableView.delegate = self
         tableView.dataSource = self
+        searchBar.delegate = self
         
         // get user
         let srTableBarController = self.tabBarController as! SRTabBarController
@@ -152,8 +156,8 @@ class BookTableViewController: UIViewController, UITableViewDataSource, UITableV
         if bottomBookId == nil || book.mongoObjectId! < bottomBookId! {
             bottomBookId = book.mongoObjectId
         }
-        if indexPath.row == self.books.count - 1 {
-            if(idleBooksFromUser == nil){   //only need refresh when load all books (instead of from a specific user)
+        if indexPath.row == self.books.count - 1 {  //if reach bottom
+            if idleBooksFromUser == nil && !isSearchingMode {   //only need refresh when load all books (instead of from a specific user) and not in searching mode
                 self.loadMore(bottomBookId: bottomBookId!)
             }
         }
@@ -208,8 +212,6 @@ class BookTableViewController: UIViewController, UITableViewDataSource, UITableV
         // Dispose of any resources that can be recreated.
     }
     
-
-    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -236,5 +238,49 @@ class BookTableViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
     // MARK: Restful
-  
+      
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar){
+        print("BookTableVC>> search button clicked...")
+        searchBar.resignFirstResponder()
+        self.isSearchingMode = true
+        
+        let keyword = searchBar.text
+        print("BookTableVC>> search keyword: " + keyword!)
+        
+        search(keyword: keyword, completion: {(books: [Book]) -> () in
+            print("BookTableViewController>> callback from search...")
+            self.books = books
+            DispatchQueue.main.async{
+                self.tableView.reloadData()
+            }
+        })
+    }
+    
+//    func searchBarCancelButtonClicked(_ searchBar: UISearchBar){
+//        print("BookTableVC>> cancel button clicked...")
+//        searchBar.resignFirstResponder()
+//        self.isSearchingMode = false
+//        searchBar.text = ""
+//    }
+
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        print("BookTableVC>> text did change start...")
+        self.isTypingMode = true
+        
+        if searchBar.text == "" {    //tap "clear"
+            print("BookTableVC>> user tap clear...")
+            self.isSearchingMode = false
+            self.isTypingMode = false
+
+            loadBooks(completion: {(books: [Book]) -> () in
+                print("BookTableViewController>> callback")
+                self.books = books
+                DispatchQueue.main.async{
+                    self.tableView.reloadData()
+                }
+            })
+        }
+    }
+
 }
+

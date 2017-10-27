@@ -256,6 +256,65 @@ func loadBooks(bottomBookId: String? = nil, topBookId: String? = nil, completion
     //end
 }
 
+func search(keyword: String? = nil, completion: @escaping (_ books: [Book]) -> ()){
+    print("Query>> search start...")
+    var parameters: [String] = []
+    if keyword != nil {
+        parameters.append("q="+keyword!)
+    }
+    
+    var urlStr = "http://" + SERVER_IP + ":" + PORT + "/search"
+    if parameters.count>0 {
+        urlStr += "?"
+        urlStr += (parameters[0])
+        
+        if (parameters.count)>1 {
+            for i in 1...(parameters.count)-1 {
+                urlStr += "&"
+                urlStr += (parameters[i])
+            }
+        }
+    }
+    
+//    let url = URL(string: urlStr)
+    var url: URL?   //handle possible special charctor in tag
+    if let encoded = urlStr.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed), let url = URL(string: encoded) {
+    
+        print("Query>> search url: ")
+        print(url)
+        
+        Alamofire.request(url).responseJSON { response in
+            //        print("Request: \(String(describing: response.request))")   // original url request
+            //        print("Response: \(String(describing: response.response))") // http url response
+            //        print("Result: \(response.result)")                         // response serialization result
+            
+            if let json = response.result.value {
+                //            print("JSON: \(json)") // serialized json response
+                
+                var books = [Book]()
+                if let array = json as? [Any] {
+                    if array.count>0 {
+                        for i in 0...array.count-1 {
+                            var bookJson = array[i] as? [String: Any]
+                            let b = Book(json: bookJson!)
+                            if b?.currentCopy != nil {
+                                books.append(b!)
+                            }
+                        }
+                    }
+                    else{
+                        print("Query>> oops, no book is found")
+                    }
+                }
+                //now all books loaded
+                print ("Query>> \(books.count)" + " books loaded, callback completion")
+                completion(books)
+            }
+        }
+    }
+}
+
+
 func loadBooksForTag(tag: String, completion: @escaping (_ books: [Book]) -> ()){
     
     var urlStr: String?
