@@ -427,8 +427,11 @@ exports.cashbook = function(req, db, callback){
     query = {account: username};
 	logger.info("ordersUtil>> query: " + JSON.stringify(query));
 
+	var order = {_id: -1};
+	logger.info("ordersUtil>> order: " + JSON.stringify(order));
+
 	var collection = db.collection('cashbook');
-	collection.find(query).toArray(function(err, docs) {
+	collection.find(query).sort(order).toArray(function(err, docs) {
 		logger.info("ordersUtil>> # of results: " + docs.length);
 //		logger.info(docs);
 		callback(docs);
@@ -456,7 +459,7 @@ exports.orderDelivered = function(req, db, callback){
     logger.info("ordersUtil>> 1 order status updated" );
     callback(docs);
 
-	removeBooksFromHolderBookshelf(orderId, db)
+	removeBooksFromHolderBookshelf(orderId, db);
   });
 }
 
@@ -497,6 +500,78 @@ function removeBooksFromHolderBookshelf(orderId, db){
 					logger.info("ordersUtil>> update: " + JSON.stringify(update));
 					collectionBooks.update(query2, update, function(err, docs){
 						logger.info("ordersUtil>> 1 book removed from holder's bookshelf");
+						logger.info("ordersUtil>> result: " + JSON.stringify(docs));
+					});
+				});
+			}
+		}
+	});
+}
+
+
+// CLIENT FACING FUNCTION
+// Parameters:
+// 	- orderId
+exports.orderReceived = function(req, db, callback){
+  logger.info("ordersUtil>> orderDelivered start...");
+
+  var orderId = req.body.orderId;
+  logger.info("ordersUtil>> orderId: " + orderId);
+
+  var collection = db.collection('orders');
+  var query = {orderId: orderId};
+  logger.info("ordersUtil>> query: " + JSON.stringify(query));
+
+  var status = "已收到";
+  var update = {$set: {status: status}};
+  logger.info("ordersUtil>> udpate: " + JSON.stringify(update));
+
+  collection.update(query, update, function(err, docs) {
+    logger.info("ordersUtil>> 1 order status updated" );
+    callback(docs);
+
+	addBooksToBorrowerBookshelf(orderId, db);
+  });
+}
+
+
+// Sub-function of orderDelivered
+function addBooksToBorrowerBookshelf(orderId, db){
+	logger.info("ordersUtil>> addBooksToBorrowerBookshelf start...");
+
+	var collection = db.collection('orders');
+	var query = {orderId: orderId};
+	collection.find(query).toArray(function(err, docs){
+		if(docs.length == 0){
+			logger.info("ordersUtil>> this shall not happen, orderId not found: " + orderId);
+		} else {
+			var order = docs[0];
+			logger.info("ordersUtil>> order: " + JSON.stringify(order));
+			
+			var username = order.username;
+			var books = order["books"];
+			logger.info("ordersUtil>> # of books in order: " + books.length);
+
+			for(var i=0; i<books.length; i++){
+				logger.info("ordersUtil>> found book id: " + books[i]["book_id"]);
+				var curBookId = books[i]["book_id"];
+
+				var collectionBooks = db.collection('books');
+				var query2 = {_id: ObjectId(curBookId)};
+				logger.info("ordersUtil>> query2: " + JSON.stringify(query2));
+
+				collectionBooks.find(query2).toArray(function(err, docs){
+					var book = docs[0]; 	//should return only one book
+					var book_copies = book["book_copies"];
+					var status = "閱讀中";
+					book_copies[0]["status"] = status;
+					book_copies[0]["hold_by"] = username;
+
+					var update = {$set: {book_copies: book_copies}};
+					logger.info("ordersUtil>> update: " + JSON.stringify(update));
+					
+					collectionBooks.update(query2, update, function(err, docs){
+						logger.info("ordersUtil>> 1 book received");
 						logger.info("ordersUtil>> result: " + JSON.stringify(docs));
 					});
 				});

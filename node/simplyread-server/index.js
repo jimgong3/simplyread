@@ -689,3 +689,14 @@ app.post('/orderDelivered', function (req, res) {
 		logger.info("index>> orderDelivered done");
 	});
 })
+
+app.post('/orderReceived', function (req, res) {
+	logger.info("index>> POST /orderReceived");
+	ordersUtil.orderReceived(req, db, function(docs) {
+		logger.info("index>> callback from ordersUtil...");
+//		logger.info(docs);
+		res.json(docs)
+		logger.info("index>> orderReceived done");
+	});
+})
+
