@@ -14,8 +14,12 @@ exports.getDeposit = function(originalPrice, callback){
   var deposit = "100";  //default deposit
 
   //get original ccy
-  var originalCcy = "HKD";  //default HKD  
+  var originalCcy = "HKD";  //default HKD
   if(originalPrice.indexOf("NT")>-1){
+    logger.info("pricing>>  original ccy: NT")
+    originalCcy = "NT";
+  }
+  else if(originalPrice.indexOf("新台幣")>-1){
     logger.info("pricing>>  original ccy: NT")
     originalCcy = "NT";
   }
@@ -23,11 +27,22 @@ exports.getDeposit = function(originalPrice, callback){
     logger.info("pricing>>  original ccy: CNY")
     originalCcy = "CNY";
   }
+  else if(originalPrice.indexOf("TWD")>-1){
+    logger.info("pricing>>  original ccy: NT")
+    originalCcy = "NT";
+  }
+  else if(originalPrice.indexOf("NTD")>-1){
+    logger.info("pricing>>  original ccy: NT")
+    originalCcy = "NT";
+  }
 
   //get original amount
   var originalAmt = originalPrice;
+  originalAmt = originalAmt.replace("新台幣","");
   originalAmt = originalAmt.replace("HKD","");
+  originalAmt = originalAmt.replace("TWD","");
   originalAmt = originalAmt.replace("HK","");
+  originalAmt = originalAmt.replace("NTD","");
   originalAmt = originalAmt.replace("NT","");
   originalAmt = originalAmt.replace("元","");
   originalAmt = originalAmt.replace("$","");
@@ -42,10 +57,9 @@ exports.getDeposit = function(originalPrice, callback){
 
   //float to int
   var result = parseInt(deposit, 10);
+  if (result == NaN)
+    result = 100;     //default deposit 100
 
   logger.info("get deposit: " + result);
   return result.toString();
-} 
-
-
-
+}
