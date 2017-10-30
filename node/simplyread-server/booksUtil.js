@@ -20,6 +20,7 @@ var logger = new (winston.Logger)({
 //	limit 	# of results to return
 // 	gtid	great than the given object id
 //	ltid	less than the given object id
+//	owner	owner of book
 exports.books = function(req, db, callback){
   logger.info("booksUtil>> books start...");
   var collection = db.collection('books');
@@ -38,6 +39,8 @@ exports.books = function(req, db, callback){
   var ltid = req.query.ltid;
   
   var isbn = req.query.isbn;
+  
+  var owner = req.query.owner;
 
   var condition = [];
   if (gtid != null){
@@ -50,6 +53,9 @@ exports.books = function(req, db, callback){
   }
   if (isbn != null){
 	  condition.push({$or:[{isbn10: isbn}, {isbn13: isbn}]});
+  }
+  if (owner != null){
+	  condition.push({"book_copies.owner": owner});
   }
 
   var query = {};
@@ -464,7 +470,7 @@ function addNewBookToOwnersBookshelf(db, username, book_id){
     } else {
       logger.info("booksUtil>> existing bookshelf found for user: " + username);
 
-      var bookshelfJson = docs[0];  // assme each user has at most one bookshelf
+      var bookshelfJson = docs[0];  // assume each user has at most one bookshelf
       var book_ids_idle = bookshelfJson["book_ids_idle"];
       var found = false;
       for(var i=0; i<book_ids_idle.length; i++){
@@ -637,7 +643,11 @@ exports.idleBooks = function(req, db, callback){
 			var collectionBook = db.collection('books');
 			var query_b = {_id: {$in: idle_book_ids_array}};
 			logger.info("booksUtil>> query: " + JSON.stringify(query_b));
-			collectionBook.find(query_b).toArray(function(err, docs){
+			
+			var order = {_id: -1};
+			logger.info("booksUtil>> order: " + JSON.stringify(order));
+
+			collectionBook.find(query_b).sort(order).toArray(function(err, docs){
 //				logger.info("booksUtil>> found books: " + JSON.stringify(docs));
 				logger.info("booksUtil>> found books: " + docs.length);
 				callback(docs);
