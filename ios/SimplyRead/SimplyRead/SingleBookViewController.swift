@@ -76,9 +76,9 @@ class SingleBookViewController: UIViewController {
             publisherLabel.text = publisherStr
             
             // show prices
-            priceLabel.text = book.price
+            priceLabel.text = "原價 " + book.price!
 //            ourPriceLabel.text = book.our_price_hkd?.description
-            ourPriceLabel.text = book.currentCopy?.price
+            ourPriceLabel.text = book.sr_price!
             
             // show summary
             summaryText.text = book.summary
@@ -138,7 +138,7 @@ class SingleBookViewController: UIViewController {
             self.scrollView.contentSize = contentRect.size;
 
             //set bookshelf name
-            bookshelfButton.setTitle((book.currentCopy?.hold_by)! + "的書架", for: .normal)
+            bookshelfButton.setTitle((book.hold_by)! + "的書架", for: .normal)
         }
     }
     
@@ -195,7 +195,7 @@ class SingleBookViewController: UIViewController {
 
         if let bookTableViewController = segue.destination as? BookTableViewController {
             print("BookCategoriesVC>> dest: book table")
-            bookTableViewController.idleBooksFromUser = self.book?.currentCopy?.hold_by
+            bookTableViewController.idleBooksFromUser = self.book?.hold_by
         }
 
     }
@@ -218,7 +218,7 @@ class SingleBookViewController: UIViewController {
 
     @IBAction func bookshelf(_ sender: Any) {
         print("SingleBookViewController>> choose bookshelf ")
-        let username = self.book?.currentCopy?.hold_by
+        let username = self.book?.hold_by
         if username != nil {
             self.performSegue(withIdentifier: "ViewIdleBooksForUser", sender: self)
         } else {

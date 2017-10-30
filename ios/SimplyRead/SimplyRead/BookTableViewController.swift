@@ -146,11 +146,11 @@ class BookTableViewController: UIViewController, UITableViewDataSource, UITableV
         cell.summaryLabel.text = book.summary
         // set our price
 //        cell.ourPriceLabel.text = book.our_price_hkd
-        cell.ourPriceLabel.text = book.currentCopy?.price   //price of each copy
+        cell.ourPriceLabel.text = book.sr_price!   //price of each copy
         
         //set holder
 //        cell.holderLabel.text = (book.currentCopy?.hold_by)!
-        cell.holderLabel.text = book.currentCopy?.hold_by
+        cell.holderLabel.text = book.hold_by
         
         // Check if the last row number is the same as the last current data element
         if bottomBookId == nil || book.mongoObjectId! < bottomBookId! {
@@ -269,6 +269,7 @@ class BookTableViewController: UIViewController, UITableViewDataSource, UITableV
         
         if searchBar.text == "" {    //tap "clear"
             print("BookTableVC>> user tap clear...")
+            searchBar.resignFirstResponder()
             self.isSearchingMode = false
             self.isTypingMode = false
 

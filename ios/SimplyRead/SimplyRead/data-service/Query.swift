@@ -225,9 +225,7 @@ func loadBooks(bottomBookId: String? = nil, topBookId: String? = nil, completion
                 //                        fatalError("unable to initiate book")
                 //                    }
                                     let b = Book(json: bookJson!)
-                                    if b?.currentCopy != nil {
-                                        books.append(b!)
-                                    }
+                                    books.append(b!)
 //                                    if let count = b?.num_copies {
 //                                        for k in 0...count-1 {
 //                                            let bb = Book(json: bookJson!)
@@ -297,9 +295,7 @@ func search(keyword: String? = nil, completion: @escaping (_ books: [Book]) -> (
                         for i in 0...array.count-1 {
                             var bookJson = array[i] as? [String: Any]
                             let b = Book(json: bookJson!)
-                            if b?.currentCopy != nil {
-                                books.append(b!)
-                            }
+                            books.append(b!)
                         }
                     }
                     else{
@@ -339,9 +335,7 @@ func loadBooksForTag(tag: String, completion: @escaping (_ books: [Book]) -> ())
                         for i in 0...array.count-1 {
                             var bookJson = array[i] as? [String: Any]
                             let b = Book(json: bookJson!)
-                            if b?.currentCopy != nil {
-                                books.append(b!)
-                            }
+                            books.append(b!)
                         }
                     }
                     else{
@@ -381,9 +375,7 @@ func loadBooksForCategory(category: String, completion: @escaping (_ books: [Boo
                         for i in 0...array.count-1 {
                             var bookJson = array[i] as? [String: Any]
                             let b = Book(json: bookJson!)
-                            if b?.currentCopy != nil {
-                                books.append(b!)
-                            }
+                            books.append(b!)
                         }
                     }
                     else{
@@ -403,7 +395,6 @@ func loadIdleBooksForUser(username: String, completion: @escaping (_ books: [Boo
     var urlStr: String?
     urlStr = "http://" + SERVER_IP + ":" + PORT + "/idleBooks?username=" + username
     
-    var url: URL?   //handle possible special charctor in tag
     if let encoded = urlStr?.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed), let url = URL(string: encoded) {
         print("Query>> load books by category url: ")
         print(url)
@@ -420,11 +411,9 @@ func loadIdleBooksForUser(username: String, completion: @escaping (_ books: [Boo
                 if let array = json as? [Any] {
                     if array.count>0 {
                         for i in 0...array.count-1 {
-                            var bookJson = array[i] as? [String: Any]
+                            let bookJson = array[i] as? [String: Any]
                             let b = Book(json: bookJson!)
-                            if b?.currentCopy != nil {
-                                books.append(b!)
-                            }
+                            books.append(b!)
                         }
                     }
                     else{

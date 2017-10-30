@@ -27,24 +27,43 @@ class BuyBookCart {
         print("BuyBookCart>> book added to cart, # of books: \(books.count)")
         
         numBooks += 1
-        totalPrice += Double((book.currentCopy?.price)!)!
-        if book.deposit != nil && book.deposit != "NaN"{
-            totalDeposit += Double(book.deposit!)!
+        if book.sr_price != nil {
+            totalPrice += Double((book.sr_price)!)!
         }
+//        else {
+//            totalPrice += Double((book.currentCopy?.price)!)!
+//        }
         
-        var holder = book.currentCopy?.hold_by
-        if orders[holder!] == nil {
-            orders[holder!] = 1
-            shippingFees[holder!] = 18.0
-            totalShippingFee += shippingFees[holder!]!
+        if book.sr_deposit != nil {
+            totalDeposit += Double(book.sr_deposit!)!
+        }
+//        else {
+//            totalDeposit += Double((book.currentCopy?.deposit!)!)!
+//        }
+//        if book.deposit != nil && book.deposit != "NaN"{
+//            totalDeposit += Double(book.deposit!)!
+//        }
+        
+        var holder = ""
+        if book.hold_by != nil {
+            holder = book.hold_by!
+        }
+//        else {
+//            holder = (book.currentCopy?.hold_by)!
+//        }
+        
+        if orders[holder] == nil {
+            orders[holder] = 1
+            shippingFees[holder] = 18.0
+            totalShippingFee += shippingFees[holder]!
         } else {
-            orders[holder!] = orders[holder!]! + 1
-            if orders[holder!]! <= 2 {
-                shippingFees[holder!] = 18.0
+            orders[holder] = orders[holder]! + 1
+            if orders[holder]! <= 2 {
+                shippingFees[holder] = 18.0
             } else {
-                totalShippingFee -= shippingFees[holder!]!
-                shippingFees[holder!] = Double(18 + 7 * (orders[holder!]! - 2))
-                totalShippingFee += shippingFees[holder!]!
+                totalShippingFee -= shippingFees[holder]!
+                shippingFees[holder] = Double(18 + 7 * (orders[holder]! - 2))
+                totalShippingFee += shippingFees[holder]!
             }
         }
         
@@ -67,8 +86,8 @@ class BuyBookCart {
         print("BuyBookCart>> drop book")
         for i in 0...books.count-1 {
             if books[i].isbn! == book.isbn
-                && books[i].currentCopy?.owner == book.currentCopy?.owner
-                && books[i].currentCopy?.price == book.currentCopy?.price {
+                && books[i].owner == book.owner
+                && books[i].sr_price == book.sr_price {
                 books.remove(at: i)
                 break
             }
@@ -76,29 +95,33 @@ class BuyBookCart {
         print("BuyBookCart>> book dropped from cart, # of books: \(books.count)")
         
         numBooks -= 1
-        totalPrice -= Double((book.currentCopy?.price)!)!
-        if book.deposit != nil && book.deposit != "NaN"{
-            totalDeposit -= Double(book.deposit!)!
+        totalPrice -= Double((book.sr_price)!)!
+        if book.sr_deposit != nil && book.sr_deposit != "NaN"{
+            totalDeposit -= Double(book.sr_deposit!)!
         }
         
-        var holder = book.currentCopy?.hold_by
-        if orders[holder!] == nil {
+        var holder = ""
+        if book.hold_by != nil {
+           holder = book.hold_by!
+            
+        }
+        if orders[holder] == nil {
             //shall not happen
         } else {
-            orders[holder!] = orders[holder!]! - 1
-            if orders[holder!]! == 0 {
-                shippingFees[holder!] = 0.0
+            orders[holder] = orders[holder]! - 1
+            if orders[holder]! == 0 {
+                shippingFees[holder] = 0.0
                 totalShippingFee -= 18.0
-            } else if orders[holder!]! == 1 {
-                shippingFees[holder!] = 18.0
+            } else if orders[holder]! == 1 {
+                shippingFees[holder] = 18.0
                 totalShippingFee -= 0.0
-            } else if orders[holder!]! == 2 {
-                shippingFees[holder!] = 18.0
+            } else if orders[holder]! == 2 {
+                shippingFees[holder] = 18.0
                 totalShippingFee -= 18.0
             } else {
-                totalShippingFee -= shippingFees[holder!]!
-                shippingFees[holder!] = Double(18 + 7 * (orders[holder!]! - 2))
-                totalShippingFee += shippingFees[holder!]!
+                totalShippingFee -= shippingFees[holder]!
+                shippingFees[holder] = Double(18 + 7 * (orders[holder]! - 2))
+                totalShippingFee += shippingFees[holder]!
             }
         }
     

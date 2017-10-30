@@ -8,25 +8,26 @@
 
 import UIKit
 
-class BookCopy {
-    var owner: String
-    var price: String?
-    var deposit: String?
-    var hold_by: String?
-    var status: String?
-    
-    init?(owner: String){
-        self.owner = owner
-    }
-    
-    init?(json: [String: Any]){
-        self.owner = (json["owner"] as? String)!
-        self.price = json["price"] as? String
-        self.deposit = json["deposit"] as? String
-        self.hold_by = json["hold_by"] as? String
-        self.status = json["status"] as? String
-    }
-}
+//obsolete, keep temporary for downward compatible
+//class BookCopy {
+//    var owner: String
+//    var price: String?
+//    var deposit: String?
+//    var hold_by: String?
+//    var status: String?
+//    
+//    init?(owner: String){
+//        self.owner = owner
+//    }
+//    
+//    init?(json: [String: Any]){
+//        self.owner = (json["owner"] as? String)!
+//        self.price = json["price"] as? String
+//        self.deposit = json["deposit"] as? String
+//        self.hold_by = json["hold_by"] as? String
+//        self.status = json["status"] as? String
+//    }
+//}
 
 class Book {
     
@@ -56,20 +57,27 @@ class Book {
 //    var num_copies: Int?
 //    var bookCopies: [BookCopy]?
 //    var holder: String?     //the user who currently holds this book
-    var currentCopy: BookCopy?
+//    var currentCopy: BookCopy?
     
     var category: String?
     var tags: [Tag]?
     
     var mongoObjectId: String?
+    
+    var owner: String?
+    var sr_price: String?
+    var hold_by: String?
+    var status: String?
+    var sr_deposit: String?
+
 
     init?(title: String){
         self.title = title
     }
     
     init?(json: [String: Any]) {
-//        print("Book>> create book from json...")
-//        print(json)
+        print("Book>> create book from json...")
+        print(json)
         
         // get title
         let title = json["title"] as? String
@@ -140,18 +148,18 @@ class Book {
 
 //        print ("Book>> parse book complete for " + "(\title)")
         
-        // get number of copies
+        // get number of copies - obsolete, keep temporary for downward compatible
 //        self.num_copies = json["num_copies"] as? Int
-        var bookCopies = json["book_copies"] as? [Any]
-        var copies = [BookCopy]()
-        if bookCopies != nil && (bookCopies?.count)!>0 {    // shall have at most one copy
-            for i in 0...(bookCopies?.count)!-1 {
-                var copyJson = bookCopies?[i] as? [String: Any]
-                var bookCopy = BookCopy(json: copyJson!)
-                copies.append(bookCopy!)
-                currentCopy = bookCopy
-            }
-        }
+//        var bookCopies = json["book_copies"] as? [Any]
+//        var copies = [BookCopy]()
+//        if bookCopies != nil && (bookCopies?.count)!>0 {    // shall have at most one copy
+//            for i in 0...(bookCopies?.count)!-1 {
+//                var copyJson = bookCopies?[i] as? [String: Any]
+//                var bookCopy = BookCopy(json: copyJson!)
+//                copies.append(bookCopy!)
+//                currentCopy = bookCopy
+//            }
+//        }
 //        self.bookCopies = copies
         
         // get category
@@ -182,6 +190,13 @@ class Book {
             self.mongoObjectId = json["_id"] as! String
         }
         
+        // get book copy details
+        self.owner = json["owner"] as? String
+        self.sr_price = json["sr_price"] as? String
+        self.hold_by = json["hold_by"] as? String
+        self.status = json["status"] as? String
+        self.sr_deposit = json["sr_deposit"] as? String
+
     }
 
     

@@ -37,9 +37,9 @@ exports.books = function(req, db, callback){
 
   var gtid = req.query.gtid;
   var ltid = req.query.ltid;
-  
+
   var isbn = req.query.isbn;
-  
+
   var owner = req.query.owner;
 
   var condition = [];
@@ -79,7 +79,7 @@ exports.books = function(req, db, callback){
 exports.search = function(req, db, callback){
   logger.info("booksUtil>> search start...");
   var collection = db.collection('books');
-  
+
   var keyword = req.query.q;
   keyword = translator.translate2(keyword);
   var regexStr = ".*" + keyword + ".*";
@@ -144,7 +144,7 @@ exports.addBook = function(req, db, callback){
 // Sub-function of addBook.
 // Search book info for the given isbn, then add the found book (if any)
 // into database, update tags as well
-function searchAddBookFromWeb(isbn, category, owner, price, db, callback){
+function searchAddBookFromWeb(isbn, category, owner, price, deposit, db, callback){
   logger.info("booksUtil>> searchAddBookFromWeb start...");
 
   var request = require('request');
@@ -203,20 +203,31 @@ function addCopyToExistingBook(isbn, category, owner, price, deposit, docs, db, 
   // delete newBookJson.category;
   newBookJson["category"] = category;
 
-  var newCopy = {};
-  newCopy["owner"] = owner;
-  newCopy["price"] = price;
-  newCopy["hold_by"] = owner;
-  newCopy["status"] = "idle";
+  //////////////////////////////////////////////////////////////////
+  //below are obsolete, keep it temporary for downward compatible
+  // var newCopy = {};
+  // newCopy["owner"] = owner;
+  // newCopy["price"] = price;
+  // newCopy["hold_by"] = owner;
+  // newCopy["status"] = "idle";
+  // if (deposit != null)
+  // 	newCopy["deposit"] = deposit;
+  // else
+  // 	newCopy["deposit"] = newBookJson["deposit"];
+  // var bookCopies = [];
+  // bookCopies.push(newCopy);
+  // newBookJson["book_copies"] = bookCopies;
+  // newBookJson["num_copies"] = 1;
+  //////////////////////////////////////////////////////////////////
+  newBookJson["owner"] = owner;
+  newBookJson["sr_price"] = price;
+  newBookJson["hold_by"] = owner;
+  newBookJson["status"] = "idle";
   if (deposit != null)
-  	newCopy["deposit"] = deposit;
+    newBookJson["sr_deposit"] = deposit;
   else
-  	newCopy["deposit"] = newBookJson["deposit"];
-
-  var bookCopies = [];
-  bookCopies.push(newCopy);
-  newBookJson["book_copies"] = bookCopies;
-  newBookJson["num_copies"] = 1;
+    newBookJson["deposit"] = newBookJson["deposit"];
+  //////////////////////////////////////////////////////////////////
 
   var datetime = new Date()
   newBookJson["add_date"] = datetime;
@@ -252,26 +263,38 @@ function createBookJsonFromDoubanResponse(body, category, owner, price, deposit)
   var bookJson = JSON.parse(body);
 
   //add customized fields
-  bookJson["our_price_hkd"] = "0";		//obsolete
-  bookJson["deposit"] = pricing.getDeposit(bookJson.price).toString();
-  bookJson["shipping_fee"] = "0";			//obsolete
-  bookJson["num_total"] = "0"				//obsolete
-  bookJson["num_onshelf"] = "0"			//obsolete
+  // bookJson["our_price_hkd"] = "0";		//obsolete
+  // bookJson["deposit"] = pricing.getDeposit(bookJson.price).toString();
+  // bookJson["shipping_fee"] = "0";			//obsolete
+  // bookJson["num_total"] = "0"				//obsolete
+  // bookJson["num_onshelf"] = "0"			//obsolete
   bookJson["category"] = category;
 
-  bookJson["num_copies"] = 1;
-  var bookCopies = [];
-  var bookCopy = {};
-  bookCopy["owner"] = owner
-  bookCopy["price"] = price;		//user chosen price
-  bookCopy["hold_by"] = owner;
-  bookCopy["status"] = "idle";
+  //////////////////////////////////////////////////////////////////
+  //below are obsolete, keep it temporary for downward compatible
+  // bookJson["num_copies"] = 1;
+  // var bookCopies = [];
+  // var bookCopy = {};
+  // bookCopy["owner"] = owner
+  // bookCopy["price"] = price;		//user chosen price
+  // bookCopy["hold_by"] = owner;
+  // bookCopy["status"] = "idle";
+  // if (deposit != null)
+  // 	bookCopy["deposit"] = deposit;
+  // else
+  // 	bookCopy["deposit"] = bookJson["deposit"];
+  // bookCopies.push(bookCopy);
+  // bookJson["book_copies"] = bookCopies;
+  //////////////////////////////////////////////////////////////////
+  bookJson["owner"] = owner;
+  bookJson["sr_price"] = price;
+  bookJson["hold_by"] = owner;
+  bookJson["status"] = "idle";
   if (deposit != null)
-  	bookCopy["deposit"] = deposit;
+  	bookJson["sr_deposit"] = deposit;
   else
-  	bookCopy["deposit"] = bookJson["deposit"];
-  bookCopies.push(bookCopy);
-  bookJson["book_copies"] = bookCopies;
+  	bookJson["sr_deposit"] = pricing.getDeposit(bookJson.price).toString();
+  //////////////////////////////////////////////////////////////////
 
   var datetime = new Date()
   bookJson["add_date"] = datetime;
@@ -564,11 +587,11 @@ function createBookJsonFromDoubanResponseNoCopy(body){
   var bookJson = JSON.parse(body);
 
   //add customized fields
-  bookJson["our_price_hkd"] = "0";		//obsolete
-  bookJson["deposit"] = pricing.getDeposit(bookJson.price).toString();
-  bookJson["shipping_fee"] = "0";			//obsolete
-  bookJson["num_total"] = "0"				//obsolete
-  bookJson["num_onshelf"] = "0"			//obsolete
+  // bookJson["our_price_hkd"] = "0";		//obsolete
+  // bookJson["deposit"] = pricing.getDeposit(bookJson.price).toString();  //obsolete
+  // bookJson["shipping_fee"] = "0";			  //obsolete
+  // bookJson["num_total"] = "0"				    //obsolete
+  // bookJson["num_onshelf"] = "0"			    //obsolete
 
   var datetime = new Date()
   bookJson["add_date"] = datetime;
@@ -643,7 +666,7 @@ exports.idleBooks = function(req, db, callback){
 			var collectionBook = db.collection('books');
 			var query_b = {_id: {$in: idle_book_ids_array}};
 			logger.info("booksUtil>> query: " + JSON.stringify(query_b));
-			
+
 			var order = {_id: -1};
 			logger.info("booksUtil>> order: " + JSON.stringify(order));
 

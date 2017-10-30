@@ -79,7 +79,7 @@ class BooksForCategoryViewController: UIViewController, UITableViewDataSource, U
         cell.ourPriceLabel.text = book.our_price_hkd
         
         //set holder
-        cell.holderLabel.text = book.currentCopy?.hold_by
+        cell.holderLabel.text = book.hold_by
         
         return cell
     }

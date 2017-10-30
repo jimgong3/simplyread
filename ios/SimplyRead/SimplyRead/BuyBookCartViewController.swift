@@ -114,7 +114,7 @@ class BuyBookCartViewController: UIViewController, UITableViewDataSource, UITabl
             cell.photoImageView.image = book.photo
         }
         else if (book.image_medium_url != nil) {
-            var url = URL(string: book.image_medium_url!)
+            let url = URL(string: book.image_medium_url!)
             getDataFromUrl(url: url!) { (data, response, error) in
                 guard let data = data, error == nil else { return }
                 //                print(response?.suggestedFilename ?? url?.lastPathComponent)
@@ -125,12 +125,11 @@ class BuyBookCartViewController: UIViewController, UITableViewDataSource, UITabl
             }
         }
         // set price
-        cell.ourPriceLabel.text = book.currentCopy?.price
-        cell.depositLabel.text = book.deposit
+        cell.ourPriceLabel.text = book.sr_price
+        cell.depositLabel.text = book.sr_deposit
         
         //set holder
-        var holder = book.currentCopy?.hold_by
-        cell.holderLabel.text = book.currentCopy?.hold_by
+        cell.holderLabel.text = book.hold_by
         
         return cell
     }
@@ -151,10 +150,10 @@ class BuyBookCartViewController: UIViewController, UITableViewDataSource, UITabl
             let book = books[i]
             let bookJson: [String: Any] = [
                 "title": book.title,
-                "owner": book.currentCopy!.owner,
-                "price": book.currentCopy!.price ?? 0,
-                "deposit": book.currentCopy!.deposit ?? 0,
-                "hold_by": book.currentCopy!.hold_by ?? "n/a"
+                "owner": book.owner,
+                "price": book.sr_price ?? 0,
+                "deposit": book.sr_deposit ?? 0,
+                "hold_by": book.hold_by ?? "n/a"
             ]
             bookArray.append(bookJson)
         }
