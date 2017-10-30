@@ -55,7 +55,7 @@ exports.books = function(req, db, callback){
 	  condition.push({$or:[{isbn10: isbn}, {isbn13: isbn}]});
   }
   if (owner != null){
-	  condition.push({"book_copies.owner": owner});
+	  condition.push({"owner": owner});
   }
 
   var query = {};
@@ -222,7 +222,7 @@ function addCopyToExistingBook(isbn, category, owner, price, deposit, docs, db, 
   newBookJson["owner"] = owner;
   newBookJson["sr_price"] = price;
   newBookJson["hold_by"] = owner;
-  newBookJson["status"] = "idle";
+  newBookJson["status"] = "可借閱";
   if (deposit != null)
     newBookJson["sr_deposit"] = deposit;
   else

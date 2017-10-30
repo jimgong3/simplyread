@@ -9,11 +9,18 @@
 import UIKit
 //import BarcodeScanner
 
-class DonateBookViewController: UIViewController {
+class DonateBookViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     var isbn: String?
     var book: Book?
     var user: User?
+
+    var books = [Book]()
+    
+    @IBOutlet var tableView: UITableView!
+    
+    let cellReuseIdentifier = "cell"
+    let cellIdentifier = "BookTableViewCell"
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,8 +28,27 @@ class DonateBookViewController: UIViewController {
         // Do any additional setup after loading the view.
         
         // get user
-        let srTableBarController = self.tabBarController as! SRTabBarController
-        user = srTableBarController.user
+        user = Me.sharedInstance.user
+        
+        // Register the table view cell class and its reuse id
+        self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellReuseIdentifier)
+        
+        // This view controller itself will provide the delegate methods and row data for the table view.
+        tableView.delegate = self
+        tableView.dataSource = self
+
+        print("BookTabelViewControler>> start loadBooks")
+        print("BookTableVC>> load all books")
+        if user != nil {
+            loadBooks(owner: user?.username, completion: {(books: [Book]) -> () in
+                print("BookTableViewController>> callback")
+                self.books = books
+                DispatchQueue.main.async{
+                    self.tableView.reloadData()
+                }
+            })
+        }
+
     }
 
     override func didReceiveMemoryWarning() {
@@ -30,6 +56,49 @@ class DonateBookViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    
+    // number of rows in table view
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return self.books.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? BookTableViewCell else {
+            fatalError("the dequeued cell is not an instance of BookTableViewCell")
+        }
+        
+        let book = books[indexPath.row]
+        //        print ("BookTableViewController>> set table cell: " + "(\(book.title))")
+        
+        // set title
+        cell.titleLabel.text = book.title
+        // set authors
+        cell.authorLabel.text = book.authorsText
+        // set images
+        if (book.image_url != nil) {
+            //            var url = URL(string: book.image_medium_url!)
+            let url = URL(string: book.image_url!)
+            getDataFromUrl(url: url!) { (data, response, error) in
+                guard let data = data, error == nil else { return }
+                //                print(response?.suggestedFilename ?? url?.lastPathComponent)
+                //                print("BookTableViewController>> image download Finished")
+                DispatchQueue.main.async() { () -> Void in
+                    cell.photoImageView.image = UIImage(data: data)
+                }
+            }
+        }
+        // set our price
+        cell.ourPriceLabel.text = book.sr_price!   //price of each copy
+        cell.depositLabel.text = book.sr_deposit!   //price of each copy
+        
+        
+        //set status
+        cell.statusLabel.text = book.status
+        
+        return cell
+    }
+
 
     
     // MARK: - Navigation
