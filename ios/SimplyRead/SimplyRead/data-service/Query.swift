@@ -179,7 +179,8 @@ func register(username: String, password: String, fullname: String, email: Strin
 //}
 
 
-func loadBooks(bottomBookId: String? = nil, topBookId: String? = nil, owner: String? = nil, completion: @escaping (_ books: [Book]) -> ()){
+func loadBooks(bottomBookId: String? = nil, topBookId: String? = nil, owner: String? = nil, isIdle: String? = nil,
+               completion: @escaping (_ books: [Book]) -> ()){
  
     var parameters: [String] = []
     if bottomBookId != nil {
@@ -190,6 +191,9 @@ func loadBooks(bottomBookId: String? = nil, topBookId: String? = nil, owner: Str
     }
     if owner != nil {
         parameters.append("owner="+owner!)
+    }
+    if isIdle != nil {
+        parameters.append("isIdle="+isIdle!)
     }
     
     var urlStr = "http://" + SERVER_IP + ":" + PORT + "/books"
@@ -395,43 +399,43 @@ func loadBooksForCategory(category: String, completion: @escaping (_ books: [Boo
 
 
 // Obsolete, replaced by loadIdleBooksForUser2 and GET /books
-func loadIdleBooksForUser(username: String, completion: @escaping (_ books: [Book]) -> ()){
-    
-    var urlStr: String?
-    urlStr = "http://" + SERVER_IP + ":" + PORT + "/idleBooks?username=" + username
-    
-    if let encoded = urlStr?.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed), let url = URL(string: encoded) {
-        print("Query>> load books by category url: ")
-        print(url)
-        
-        Alamofire.request(url).responseJSON { response in
-            print("Request: \(String(describing: response.request))")   // original url request
-            print("Response: \(String(describing: response.response))") // http url response
-            print("Result: \(response.result)")                         // response serialization result
-            
-            if let json = response.result.value {
-                print("JSON: \(json)") // serialized json response
-                
-                var books = [Book]()
-                if let array = json as? [Any] {
-                    if array.count>0 {
-                        for i in 0...array.count-1 {
-                            let bookJson = array[i] as? [String: Any]
-                            let b = Book(json: bookJson!)
-                            books.append(b!)
-                        }
-                    }
-                    else{
-                        print("Query>> oops, no book is found")
-                    }
-                }
-                //now all books loaded
-                print ("Query>> \(books.count)" + " books loaded, callback completion")
-                completion(books)
-            }
-        }
-    }
-}
+//func loadIdleBooksForUser(username: String, completion: @escaping (_ books: [Book]) -> ()){
+//    
+//    var urlStr: String?
+//    urlStr = "http://" + SERVER_IP + ":" + PORT + "/idleBooks?username=" + username
+//    
+//    if let encoded = urlStr?.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed), let url = URL(string: encoded) {
+//        print("Query>> load books by category url: ")
+//        print(url)
+//        
+//        Alamofire.request(url).responseJSON { response in
+//            print("Request: \(String(describing: response.request))")   // original url request
+//            print("Response: \(String(describing: response.response))") // http url response
+//            print("Result: \(response.result)")                         // response serialization result
+//            
+//            if let json = response.result.value {
+//                print("JSON: \(json)") // serialized json response
+//                
+//                var books = [Book]()
+//                if let array = json as? [Any] {
+//                    if array.count>0 {
+//                        for i in 0...array.count-1 {
+//                            let bookJson = array[i] as? [String: Any]
+//                            let b = Book(json: bookJson!)
+//                            books.append(b!)
+//                        }
+//                    }
+//                    else{
+//                        print("Query>> oops, no book is found")
+//                    }
+//                }
+//                //now all books loaded
+//                print ("Query>> \(books.count)" + " books loaded, callback completion")
+//                completion(books)
+//            }
+//        }
+//    }
+//}
 
 func loadIdleBooksForUser2(username: String, completion: @escaping (_ books: [Book]) -> ()){
     
@@ -941,3 +945,88 @@ func submitOrder(details: String, completion: @escaping (_ result: String) -> ()
         }
     }
 }
+
+
+
+func confirmOrderDelivered(orderId: String, completion: @escaping (_ result: String) -> ()){
+    print("Query>> confirmOrderDelivered start...")
+    
+    var urlStr: String?
+    urlStr = "http://" + SERVER_IP + ":" + PORT + "/orderDelivered"
+    let url = URL(string: urlStr!)
+    print("Query>> url: ")
+    print(url!)
+    
+    let parameters: Parameters = [
+        "orderId": orderId
+    ]
+    
+    Alamofire.request(url!, method: .post, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+        print("Query>> Request: \(String(describing: response.request))")   // original url request
+        print("Query>> Response: \(String(describing: response.response))") // http url response
+        print("Query>> Result: \(response.result)")                         // response serialization result
+        
+        if let json = response.result.value {
+            print("JSON: \(json)") // serialized json response
+            
+            var result = "result"
+            completion(result)
+        }
+    }
+}
+
+func confirmOrderReceived(orderId: String, completion: @escaping (_ result: String) -> ()){
+    print("Query>> confirmOrderReceived start...")
+    
+    var urlStr: String?
+    urlStr = "http://" + SERVER_IP + ":" + PORT + "/orderReceived"
+    let url = URL(string: urlStr!)
+    print("Query>> url: ")
+    print(url!)
+    
+    let parameters: Parameters = [
+        "orderId": orderId
+    ]
+    
+    Alamofire.request(url!, method: .post, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+        print("Query>> Request: \(String(describing: response.request))")   // original url request
+        print("Query>> Response: \(String(describing: response.response))") // http url response
+        print("Query>> Result: \(response.result)")                         // response serialization result
+        
+        if let json = response.result.value {
+            print("JSON: \(json)") // serialized json response
+            
+            var result = "result"
+            completion(result)
+        }
+    }
+}
+
+func confirmOrderClosed(orderId: String, completion: @escaping (_ result: String) -> ()){
+    print("Query>> confirmOrderClosed start...")
+    
+    var urlStr: String?
+    urlStr = "http://" + SERVER_IP + ":" + PORT + "/orderClosed"
+    let url = URL(string: urlStr!)
+    print("Query>> url: ")
+    print(url!)
+    
+    let parameters: Parameters = [
+        "orderId": orderId
+    ]
+    
+    Alamofire.request(url!, method: .post, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+        print("Query>> Request: \(String(describing: response.request))")   // original url request
+        print("Query>> Response: \(String(describing: response.response))") // http url response
+        print("Query>> Result: \(response.result)")                         // response serialization result
+        
+        if let json = response.result.value {
+            print("JSON: \(json)") // serialized json response
+            
+            var result = "result"
+            completion(result)
+        }
+    }
+}
+
+

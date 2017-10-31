@@ -606,27 +606,29 @@ app.post('/submitOrder', function (req, res) {
 	});
 })
 
+// Obsolete
 // Find all bookshelves or the bookshelf for specific user
-app.get('/bookshelves', function (req, res) {
-	logger.info("index>> GET /bookshelves");
-	booksUtil.bookshelves(req, db, function(docs) {
-		logger.info("index>> callback from booksUtil...");
-//		logger.info(docs);
-		res.json(docs)
-		logger.info("index>> bookshelves done");
-	});
-})
+// app.get('/bookshelves', function (req, res) {
+// 	logger.info("index>> GET /bookshelves");
+// 	booksUtil.bookshelves(req, db, function(docs) {
+// 		logger.info("index>> callback from booksUtil...");
+// //		logger.info(docs);
+// 		res.json(docs)
+// 		logger.info("index>> bookshelves done");
+// 	});
+// })
 
+// Obsolete, replaced bo GET /books
 // Find idle books from the bookshelf of a specific user
-app.get('/idleBooks', function (req, res) {
-	logger.info("index>> GET /idleBooks");
-	booksUtil.idleBooks(req, db, function(docs) {
-		logger.info("index>> callback from booksUtil...");
-//		logger.info(docs);
-		res.json(docs)
-		logger.info("index>> idleBooks done");
-	});
-})
+// app.get('/idleBooks', function (req, res) {
+// 	logger.info("index>> GET /idleBooks");
+// 	booksUtil.idleBooks(req, db, function(docs) {
+// 		logger.info("index>> callback from booksUtil...");
+// //		logger.info(docs);
+// 		res.json(docs)
+// 		logger.info("index>> idleBooks done");
+// 	});
+// })
 
 
 // Add a sf-express shop
@@ -701,3 +703,12 @@ app.post('/orderReceived', function (req, res) {
 	});
 })
 
+app.post('/orderClosed', function (req, res) {
+	logger.info("index>> POST /orderClosed");
+	ordersUtil.orderClosed(req, db, function(docs) {
+		logger.info("index>> callback from ordersUtil...");
+//		logger.info(docs);
+		res.json(docs)
+		logger.info("index>> orderClosed done");
+	});
+})

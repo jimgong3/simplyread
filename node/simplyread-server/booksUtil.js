@@ -66,7 +66,9 @@ exports.books = function(req, db, callback){
 	  condition.push({"hold_by": hold_by});
   }
   if (isIdle != null){
-	  condition.push({"status": "可借閱"})
+    // 			var query_b = {_id: {$in: idle_book_ids_array}};
+    var idleStatus = ["可借閱", "idle"];
+	  condition.push({"status": {$in: idleStatus}});
   }
 
   var query = {};
@@ -635,61 +637,62 @@ exports.bookshelves = function(req, db, callback){
 	});
 }
 
+// Obsolete, replaced by GET /books
 // CLIENT FACING FUNCTION
 // Find idle books from the bookshelf of a specific user
 // Return all such books without limit result number
-exports.idleBooks = function(req, db, callback){
-	logger.info("booksUtil>> idleBooks start...");
-
-	var username = req.query.username;
-	logger.info("booksUtil>> username: " + username);
-
-	var query = {};
-	if (username != null)
-		query = {username: username};
-	else
-		logger.error("booksUtil>> username cannot be empty");
-	logger.info("booksUtil>> query: " + JSON.stringify(query));
-
-  var order = {_id: -1};
-  logger.info("booksUtil>> order: " + JSON.stringify(order));
-
-	var collection = db.collection('bookshelves');
-	collection.find(query).sort(order).toArray(function(err, docs) {
-		logger.info("booksUtil>> result: " + JSON.stringify(docs));
-		if (docs.length == 0){
-			logger.info("bookUtil>> bookshelf not found for user: " + username);
-			var empty = [];
-			callback(empty);
-		} else {
-      var bookshelf = docs[0];    // assume each user has at most one bookshelf
-			var idle_book_ids = new HashSet();
-			var book_ids = bookshelf.book_ids_idle;
-			for(var j=0; j<book_ids.length; j++){
-				if(!idle_book_ids.contains(book_ids[j])){
-					logger.info("booksUtil>> add book id: " + book_ids[j]);
-					idle_book_ids.add(book_ids[j]);
-				} else {
-					logger.info("booksUtil>> skip duplicate (shall not happen) book ids: " + book_ids[j]);
-				}
-			}
-
-			var idle_book_ids_array = idle_book_ids.toArray();
-//			logger.info("booksUtil>> idle book ids: " + JSON.stringify(idle_book_ids_array));
-			logger.info("booksUtil>> idle book ids: " + idle_book_ids_array.length);
-
-			var collectionBook = db.collection('books');
-			var query_b = {_id: {$in: idle_book_ids_array}};
-			logger.info("booksUtil>> query: " + JSON.stringify(query_b));
-
-			var order = {_id: -1};
-			logger.info("booksUtil>> order: " + JSON.stringify(order));
-
-			collectionBook.find(query_b).sort(order).toArray(function(err, docs){
-//				logger.info("booksUtil>> found books: " + JSON.stringify(docs));
-				logger.info("booksUtil>> found books: " + docs.length);
-				callback(docs);
-			});
-		}
-	});
-}
+// exports.idleBooks = function(req, db, callback){
+// 	logger.info("booksUtil>> idleBooks start...");
+//
+// 	var username = req.query.username;
+// 	logger.info("booksUtil>> username: " + username);
+//
+// 	var query = {};
+// 	if (username != null)
+// 		query = {username: username};
+// 	else
+// 		logger.error("booksUtil>> username cannot be empty");
+// 	logger.info("booksUtil>> query: " + JSON.stringify(query));
+//
+//   var order = {_id: -1};
+//   logger.info("booksUtil>> order: " + JSON.stringify(order));
+//
+// 	var collection = db.collection('bookshelves');
+// 	collection.find(query).sort(order).toArray(function(err, docs) {
+// 		logger.info("booksUtil>> result: " + JSON.stringify(docs));
+// 		if (docs.length == 0){
+// 			logger.info("bookUtil>> bookshelf not found for user: " + username);
+// 			var empty = [];
+// 			callback(empty);
+// 		} else {
+//       var bookshelf = docs[0];    // assume each user has at most one bookshelf
+// 			var idle_book_ids = new HashSet();
+// 			var book_ids = bookshelf.book_ids_idle;
+// 			for(var j=0; j<book_ids.length; j++){
+// 				if(!idle_book_ids.contains(book_ids[j])){
+// 					logger.info("booksUtil>> add book id: " + book_ids[j]);
+// 					idle_book_ids.add(book_ids[j]);
+// 				} else {
+// 					logger.info("booksUtil>> skip duplicate (shall not happen) book ids: " + book_ids[j]);
+// 				}
+// 			}
+//
+// 			var idle_book_ids_array = idle_book_ids.toArray();
+// //			logger.info("booksUtil>> idle book ids: " + JSON.stringify(idle_book_ids_array));
+// 			logger.info("booksUtil>> idle book ids: " + idle_book_ids_array.length);
+//
+// 			var collectionBook = db.collection('books');
+// 			var query_b = {_id: {$in: idle_book_ids_array}};
+// 			logger.info("booksUtil>> query: " + JSON.stringify(query_b));
+//
+// 			var order = {_id: -1};
+// 			logger.info("booksUtil>> order: " + JSON.stringify(order));
+//
+// 			collectionBook.find(query_b).sort(order).toArray(function(err, docs){
+// //				logger.info("booksUtil>> found books: " + JSON.stringify(docs));
+// 				logger.info("booksUtil>> found books: " + docs.length);
+// 				callback(docs);
+// 			});
+// 		}
+// 	});
+// }

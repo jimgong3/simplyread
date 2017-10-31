@@ -43,7 +43,7 @@ class BookTableViewController: UIViewController, UITableViewDataSource, UITableV
         print("BookTabelViewControler>> start loadBooks")
         if(idleBooksFromUser == nil){
             print("BookTableVC>> load all books")
-            loadBooks(completion: {(books: [Book]) -> () in
+            loadBooks(isIdle: "Yes", completion: {(books: [Book]) -> () in
                 print("BookTableViewController>> callback")
                 self.books = books
                 DispatchQueue.main.async{
@@ -97,7 +97,7 @@ class BookTableViewController: UIViewController, UITableViewDataSource, UITableV
         
         // query the db on a background thread
         DispatchQueue.global(qos: .background).async {
-            loadBooks(topBookId: topBookId, completion: {(booksNew: [Book]) -> () in
+            loadBooks(topBookId: topBookId, isIdle: "Yes", completion: {(booksNew: [Book]) -> () in
                 print("BookTableViewController>> callback")
                 self.books.insert(contentsOf: booksNew, at: 0)
                 
@@ -184,7 +184,7 @@ class BookTableViewController: UIViewController, UITableViewDataSource, UITableV
 //            var thisBatchOfItems: [Book]?
             
             // query the database...
-            loadBooks(bottomBookId: bottomBookId, completion: {(booksNew: [Book]) -> () in
+            loadBooks(bottomBookId: bottomBookId, isIdle: "Yes", completion: {(booksNew: [Book]) -> () in
                 print("BookTableViewController>> callback")
                 self.books.append(contentsOf: booksNew)
               
@@ -274,7 +274,7 @@ class BookTableViewController: UIViewController, UITableViewDataSource, UITableV
             self.isSearchingMode = false
             self.isTypingMode = false
 
-            loadBooks(completion: {(books: [Book]) -> () in
+            loadBooks(isIdle: "Yes", completion: {(books: [Book]) -> () in
                 print("BookTableViewController>> callback")
                 self.books = books
                 DispatchQueue.main.async{

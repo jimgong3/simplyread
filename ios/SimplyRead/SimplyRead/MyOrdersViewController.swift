@@ -101,7 +101,6 @@ class MyOrdersViewController: UIViewController, UITableViewDataSource, UITableVi
         super.prepare(for: segue, sender: sender)
 
         if let myOrderDetailsViewController = segue.destination as? MyOrderDetailsViewController {
-            print("MyOdersVC>> dest is invalid")
             let selectedCell = sender as? MyOrdersTableViewCell
             let indexPath = buyOrdersTableView.indexPath(for: selectedCell!)
             let orderClicked = buyOrders[(indexPath?.row)!]

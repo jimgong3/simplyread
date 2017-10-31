@@ -80,7 +80,7 @@
                                 <rect key="frame" x="67" y="625" width="241" height="24"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                <state key="normal" title="Version 1.0.5 Build 20171031.1">
+                                <state key="normal" title="Version 1.0.5 Build 20171031.2">
                                     <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                             </button>
@@ -2292,10 +2292,13 @@
                                 <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tme-TW-SSr">
-                                <rect key="frame" x="264" y="534" width="95" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gsF-EW-9i9">
+                                <rect key="frame" x="253" y="585" width="80" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="確認漂出"/>
+                                <state key="normal" title="閱讀完成"/>
+                                <connections>
+                                    <action selector="confirmOrderClosed:" destination="oaY-3P-u6z" eventType="touchUpInside" id="OCS-OT-kcx"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="合計" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wgi-94-gQS">
                                 <rect key="frame" x="18" y="594" width="42" height="21"/>
@@ -2304,16 +2307,28 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Y34-B1-9kc">
-                                <rect key="frame" x="264" y="566" width="95" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tme-TW-SSr">
+                                <rect key="frame" x="227" y="547" width="62" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="確認收到"/>
+                                <state key="normal" title="已漂出"/>
+                                <connections>
+                                    <action selector="confirmOrderDelivered:" destination="oaY-3P-u6z" eventType="touchUpInside" id="edt-sr-bFx"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Y34-B1-9kc">
+                                <rect key="frame" x="297" y="547" width="62" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="已收到"/>
+                                <connections>
+                                    <action selector="confirmOrderReceived:" destination="oaY-3P-u6z" eventType="touchUpInside" id="ftR-Fs-6fE"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="訂單詳情" id="iy5-nD-1ls"/>
                     <connections>
+                        <outlet property="confirmClosed" destination="gsF-EW-9i9" id="UVi-gC-u8R"/>
                         <outlet property="confirmDelivered" destination="Tme-TW-SSr" id="Vyi-lJ-wNH"/>
                         <outlet property="confirmReceived" destination="Y34-B1-9kc" id="nJY-wB-UND"/>
                         <outlet property="numBooks" destination="rDJ-C7-6SN" id="8YO-sS-TFE"/>
@@ -2326,7 +2341,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wab-PQ-KYW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5988" y="2975"/>
+            <point key="canvasLocation" x="5988" y="2974.362818590705"/>
         </scene>
         <!--悅讀-->
         <scene sceneID="Dm1-Pu-p1U">

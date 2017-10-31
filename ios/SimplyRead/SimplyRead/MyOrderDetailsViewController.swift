@@ -28,6 +28,7 @@ class MyOrderDetailsViewController: UIViewController, UITableViewDataSource, UIT
     
     @IBOutlet weak var confirmDelivered: UIButton!
     @IBOutlet weak var confirmReceived: UIButton!
+    @IBOutlet weak var confirmClosed: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -116,5 +117,45 @@ class MyOrderDetailsViewController: UIViewController, UITableViewDataSource, UIT
         // Pass the selected object to the new view controller.
     }
     */
+    
+    @IBAction func confirmOrderDelivered(_ sender: Any) {
+        let orderId = order?.orderId
+        SimplyRead.confirmOrderDelivered(orderId: orderId!, completion: {(result: String) -> () in
+            print("MyOrderDetailsVC>> callback: ")
+            
+            let alert = UIAlertController(title: "提示", message: "訂單已確認。", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: NSLocalizedString("好", comment: "Default action"), style: .`default`, handler: { _ in
+                NSLog("The \"OK\" alert occured.")
+            }))
+            self.present(alert, animated: true, completion: nil)
+        })
+    }
+    
+    @IBAction func confirmOrderReceived(_ sender: Any) {
+        let orderId = order?.orderId
+        SimplyRead.confirmOrderReceived(orderId: orderId!, completion: {(result: String) -> () in
+            print("MyOrderDetailsVC>> callback: ")
+            
+            let alert = UIAlertController(title: "提示", message: "訂單已確認。", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: NSLocalizedString("好", comment: "Default action"), style: .`default`, handler: { _ in
+                NSLog("The \"OK\" alert occured.")
+            }))
+            self.present(alert, animated: true, completion: nil)
+        })
+    }
 
+    
+    @IBAction func confirmOrderClosed(_ sender: Any) {
+        let orderId = order?.orderId
+        SimplyRead.confirmOrderClosed(orderId: orderId!, completion: {(result: String) -> () in
+            print("MyOrderDetailsVC>> callback: ")
+            
+            let alert = UIAlertController(title: "提示", message: "已收到確認。", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: NSLocalizedString("好", comment: "Default action"), style: .`default`, handler: { _ in
+                NSLog("The \"OK\" alert occured.")
+            }))
+            self.present(alert, animated: true, completion: nil)
+        })
+    }
+    
 }
