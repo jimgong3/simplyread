@@ -149,10 +149,16 @@ class BuyBookCartViewController: UIViewController, UITableViewDataSource, UITabl
         for i in 0...books.count-1 {
             let book = books[i]
             let bookJson: [String: Any] = [
+				"_id": book.mongoObjectId,
                 "title": book.title,
+				"author": book.author,
+				"image_url": book.image_url,
+				"image_small_url": book.image_small_url,
+				"image_medium_url": book.image_medium_url,
+				"image_large_url": book.image_large_url,
+                "sr_price": book.sr_price ?? 0,
+                "sr_deposit": book.sr_deposit ?? 0,
                 "owner": book.owner,
-                "price": book.sr_price ?? 0,
-                "deposit": book.sr_deposit ?? 0,
                 "hold_by": book.hold_by ?? "n/a"
             ]
             bookArray.append(bookJson)
