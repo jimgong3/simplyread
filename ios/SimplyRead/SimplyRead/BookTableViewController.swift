@@ -270,6 +270,7 @@ class BookTableViewController: UIViewController, UITableViewDataSource, UITableV
         if searchBar.text == "" {    //tap "clear"
             print("BookTableVC>> user tap clear...")
             searchBar.resignFirstResponder()
+            searchBar.perform(#selector(self.resignFirstResponder), with: nil, afterDelay: 0.1)
             self.isSearchingMode = false
             self.isTypingMode = false
 
