@@ -393,6 +393,8 @@ func loadBooksForCategory(category: String, completion: @escaping (_ books: [Boo
     }
 }
 
+
+// Obsolete, replaced by loadIdleBooksForUser2 and GET /books
 func loadIdleBooksForUser(username: String, completion: @escaping (_ books: [Book]) -> ()){
     
     var urlStr: String?
@@ -400,6 +402,44 @@ func loadIdleBooksForUser(username: String, completion: @escaping (_ books: [Boo
     
     if let encoded = urlStr?.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed), let url = URL(string: encoded) {
         print("Query>> load books by category url: ")
+        print(url)
+        
+        Alamofire.request(url).responseJSON { response in
+            print("Request: \(String(describing: response.request))")   // original url request
+            print("Response: \(String(describing: response.response))") // http url response
+            print("Result: \(response.result)")                         // response serialization result
+            
+            if let json = response.result.value {
+                print("JSON: \(json)") // serialized json response
+                
+                var books = [Book]()
+                if let array = json as? [Any] {
+                    if array.count>0 {
+                        for i in 0...array.count-1 {
+                            let bookJson = array[i] as? [String: Any]
+                            let b = Book(json: bookJson!)
+                            books.append(b!)
+                        }
+                    }
+                    else{
+                        print("Query>> oops, no book is found")
+                    }
+                }
+                //now all books loaded
+                print ("Query>> \(books.count)" + " books loaded, callback completion")
+                completion(books)
+            }
+        }
+    }
+}
+
+func loadIdleBooksForUser2(username: String, completion: @escaping (_ books: [Book]) -> ()){
+    
+    var urlStr: String?
+    urlStr = "http://" + SERVER_IP + ":" + PORT + "/books?username=" + username + "&isIdle"
+    
+    if let encoded = urlStr?.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed), let url = URL(string: encoded) {
+        print("Query>> load idle books for user url: ")
         print(url)
         
         Alamofire.request(url).responseJSON { response in

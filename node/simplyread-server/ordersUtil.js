@@ -459,8 +459,46 @@ exports.orderDelivered = function(req, db, callback){
     logger.info("ordersUtil>> 1 order status updated" );
     callback(docs);
 
-	removeBooksFromHolderBookshelf(orderId, db);
+//	removeBooksFromHolderBookshelf(orderId, db);
+	updateBookStatusDelivered(orderId, db);
   });
+}
+
+
+// Sub-function of orderDelivered
+function updateBookStatusDelivered(orderId, db){
+	logger.info("ordersUtil>> updateBookStatusDelivered start...");
+
+	var collection = db.collection('orders');
+	var query = {orderId: orderId};
+	collection.find(query).toArray(function(err, docs){
+		if(docs.length == 0){
+			logger.info("ordersUtil>> this shall not happen, orderId not found: " + orderId);
+		} else {
+			var order = docs[0];
+			logger.info("ordersUtil>> order: " + JSON.stringify(order));
+
+			var books = order["books"];
+			logger.info("ordersUtil>> # of books in order: " + books.length);
+
+			for(var i=0; i<books.length; i++){
+				logger.info("ordersUtil>> found book id: " + books[i]["book_id"]);
+				var curBookId = books[i]["_id"];
+				var query2 = {_id: ObjectId(curBookId)};
+				logger.info("ordersUtil>> query2: " + JSON.stringify(query2));
+				
+				var hold_by = "N/A";
+				var status = "已送出";
+				var update = {$set: {hold_by: hold_by, status: status}};
+				logger.info("ordersUtil>> update: " + JSON.stringify(update));
+
+				var collectionBooks = db.collection('books');
+				collectionBooks.update(query2, update, function(err, docs){
+					logger.info("ordersUtil>> book status updated: " + curBookId);
+				});
+			}
+		}
+	});
 }
 
 // Sub-function of orderDelivered

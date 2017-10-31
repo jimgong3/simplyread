@@ -16,11 +16,13 @@ var logger = new (winston.Logger)({
 
 // CLIENT FACING FUNCTION
 // Parameter:
-//	skip 	# of first results to skip, default is 0
-//	limit 	# of results to return
-// 	gtid	great than the given object id
-//	ltid	less than the given object id
-//	owner	owner of book
+//	skip 		# of first results to skip, default is 0
+//	limit 		# of results to return
+// 	gtid		great than the given object id
+//	ltid		less than the given object id
+//	owner		owner of book
+// 	hold_by		holder of book
+// 	isIdle		whether book status is idle
 exports.books = function(req, db, callback){
   logger.info("booksUtil>> books start...");
   var collection = db.collection('books');
@@ -41,6 +43,9 @@ exports.books = function(req, db, callback){
   var isbn = req.query.isbn;
 
   var owner = req.query.owner;
+  var hold_by = req.query.hold_by;
+  var isIdle = req.query.isIdle;
+//  logger.info("booksUtil>> isIdle: " + isIdle);
 
   var condition = [];
   if (gtid != null){
@@ -56,6 +61,12 @@ exports.books = function(req, db, callback){
   }
   if (owner != null){
 	  condition.push({"owner": owner});
+  }
+  if (hold_by != null){
+	  condition.push({"hold_by": hold_by});
+  }
+  if (isIdle != null){
+	  condition.push({"status": "可借閱"})
   }
 
   var query = {};
