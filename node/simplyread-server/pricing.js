@@ -57,8 +57,10 @@ exports.getDeposit = function(originalPrice, callback){
 
   //float to int
   var result = parseInt(deposit, 10);
-  if (result == NaN)
+  if (result == null || isNaN(result)) {
+    logger.error("pricing>> original price not found, use default deposit");
     result = 100;     //default deposit 100
+  }
 
   logger.info("get deposit: " + result);
   return result.toString();
