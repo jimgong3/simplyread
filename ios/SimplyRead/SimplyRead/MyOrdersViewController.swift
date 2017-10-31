@@ -82,6 +82,7 @@ class MyOrdersViewController: UIViewController, UITableViewDataSource, UITableVi
         let dateStr = order.date!
         let index = dateStr.index(dateStr.startIndex, offsetBy: 10) //show yyyy-mm-dd, 10 digits
         let dateStr2 = dateStr.substring(to: index)
+        
         cell.dateLabel.text = dateStr2
         cell.statusLabel.text = order.status
         cell.listOfBooksLabel.text = order.listOfBooks
@@ -90,14 +91,30 @@ class MyOrdersViewController: UIViewController, UITableViewDataSource, UITableVi
     }
 
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        super.prepare(for: segue, sender: sender)
+
+        if let myOrderDetailsViewController = segue.destination as? MyOrderDetailsViewController {
+            print("MyOdersVC>> dest is invalid")
+            let selectedCell = sender as? MyOrdersTableViewCell
+            let indexPath = buyOrdersTableView.indexPath(for: selectedCell!)
+            let orderClicked = buyOrders[(indexPath?.row)!]
+            myOrderDetailsViewController.order = orderClicked
+            
+            if isBuyOrders != nil && isBuyOrders! {
+                myOrderDetailsViewController.isBuyOrder = true
+            } else if isDeliverOrders != nil && isDeliverOrders! {
+                myOrderDetailsViewController.isDeliverOrder = true
+            }
+        }
+
     }
-    */
+    
 
 }

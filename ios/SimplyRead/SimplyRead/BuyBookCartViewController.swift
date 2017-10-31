@@ -113,8 +113,8 @@ class BuyBookCartViewController: UIViewController, UITableViewDataSource, UITabl
         if (book.photo != nil){
             cell.photoImageView.image = book.photo
         }
-        else if (book.image_medium_url != nil) {
-            let url = URL(string: book.image_medium_url!)
+        else if (book.image_url != nil) {
+            let url = URL(string: book.image_url!)
             getDataFromUrl(url: url!) { (data, response, error) in
                 guard let data = data, error == nil else { return }
                 //                print(response?.suggestedFilename ?? url?.lastPathComponent)
@@ -151,16 +151,15 @@ class BuyBookCartViewController: UIViewController, UITableViewDataSource, UITabl
             let bookJson: [String: Any] = [
 				"_id": book.mongoObjectId,
                 "title": book.title,
-				"author": book.author,
-				"image_url": book.image_url,
-				"image_small_url": book.image_small_url,
-				"image_medium_url": book.image_medium_url,
-				"image_large_url": book.image_large_url,
+				"author": book.authors,
+				"image": book.image_url,
                 "sr_price": book.sr_price ?? 0,
                 "sr_deposit": book.sr_deposit ?? 0,
                 "owner": book.owner,
                 "hold_by": book.hold_by ?? "n/a"
             ]
+            print("BuyBookCartVC>> bookJson: ")
+            print(bookJson);
             bookArray.append(bookJson)
         }
         
@@ -171,8 +170,8 @@ class BuyBookCartViewController: UIViewController, UITableViewDataSource, UITabl
             "num_books": books.count.description,
             "sum_deposit": BuyBookCart.sharedInstance.totalDeposit.description,
             "sum_price": BuyBookCart.sharedInstance.totalPrice.description,
-            "shipping_fee": BuyBookCart.sharedInstance.totalShippingFee,
-            "total": BuyBookCart.sharedInstance.total
+            "shipping_fee": BuyBookCart.sharedInstance.totalShippingFee.description,
+            "total": BuyBookCart.sharedInstance.total.description
         ]
         print("BuyBookCartVC>> orderJson: ")
         var details = jsonToString(json: orderJson as AnyObject)

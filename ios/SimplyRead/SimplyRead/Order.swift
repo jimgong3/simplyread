@@ -20,9 +20,12 @@ class Order{
     var shipping_fee: String?
     var total: String?
     var status: String?
-    var orderId: Int?
+    var orderId: String?
     
     init?(json: [String: Any]){
+        print("Order>> json: ")
+        print(json)
+        
         self.date = json["date"] as? String
         self.username = json["username"] as? String
         self.email = json["email"] as? String
@@ -50,7 +53,7 @@ class Order{
         self.shipping_fee = json["shipping_fee"] as? String
         self.total = json["total"] as? String
         self.status = json["status"] as? String
-        self.orderId = json["orderId"] as? Int
+        self.orderId = json["orderId"] as? String
    }
 
 }

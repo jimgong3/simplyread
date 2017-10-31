@@ -64,7 +64,12 @@ class MyCashbookViewController: UIViewController, UITableViewDataSource, UITable
         //        print ("BookTableViewController>> set table cell: " + "(\(book.title))")
         
         // set details
-        cell.dateLabel.text = cashTxn.date
+
+        let dateStr = cashTxn.date!
+        let index = dateStr.index(dateStr.startIndex, offsetBy: 10) //show yyyy-mm-dd, 10 digits
+        let dateStr2 = dateStr.substring(to: index)
+
+        cell.dateLabel.text = dateStr2
         cell.amountLabel.text = cashTxn.amount
         cell.descriptionLabel.text = cashTxn.description
         

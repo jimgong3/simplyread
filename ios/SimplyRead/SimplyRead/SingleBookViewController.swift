@@ -22,6 +22,8 @@ class SingleBookViewController: UIViewController {
     @IBOutlet weak var publisherLabel: UILabel!
     @IBOutlet weak var priceLabel: UILabel!
     @IBOutlet weak var ourPriceLabel: UILabel!
+    @IBOutlet weak var depositLabel: UILabel!
+    
 //    @IBOutlet weak var summaryText: UITextView!
 //    @IBOutlet weak var summaryText: UILabel!
     @IBOutlet weak var summaryText: UITextView!
@@ -79,6 +81,10 @@ class SingleBookViewController: UIViewController {
             priceLabel.text = "原價 " + book.price!
 //            ourPriceLabel.text = book.our_price_hkd?.description
             ourPriceLabel.text = book.sr_price!
+            
+            //show deposit
+            depositLabel.text = "按金 " + book.sr_deposit!
+
             
             // show summary
             summaryText.text = book.summary

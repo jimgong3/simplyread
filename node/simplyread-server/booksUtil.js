@@ -225,8 +225,9 @@ function addCopyToExistingBook(isbn, category, owner, price, deposit, docs, db, 
   newBookJson["status"] = "可借閱";
   if (deposit != null)
     newBookJson["sr_deposit"] = deposit;
-  else
-    newBookJson["deposit"] = newBookJson["deposit"];
+  else {
+    logger.info("booksUtil>> user does not specify deposit, use existing deposit (shall not happen)");
+  }
   //////////////////////////////////////////////////////////////////
 
   var datetime = new Date()
@@ -639,8 +640,11 @@ exports.idleBooks = function(req, db, callback){
 		logger.error("booksUtil>> username cannot be empty");
 	logger.info("booksUtil>> query: " + JSON.stringify(query));
 
+  var order = {_id: -1};
+  logger.info("booksUtil>> order: " + JSON.stringify(order));
+
 	var collection = db.collection('bookshelves');
-	collection.find(query).toArray(function(err, docs) {
+	collection.find(query).sort(order).toArray(function(err, docs) {
 		logger.info("booksUtil>> result: " + JSON.stringify(docs));
 		if (docs.length == 0){
 			logger.info("bookUtil>> bookshelf not found for user: " + username);
