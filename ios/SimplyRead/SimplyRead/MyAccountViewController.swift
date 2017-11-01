@@ -62,7 +62,7 @@ class MyAccountViewController: UIViewController, UITextFieldDelegate {
             settleSfAddressText.text = user.settleSfAddress
         }
         
-        var rightButton = UIBarButtonItem(title: "編輯", style: UIBarButtonItemStyle.plain, target: self, action: Selector(("showEditing:")))
+        let rightButton = UIBarButtonItem(title: "編輯", style: UIBarButtonItemStyle.plain, target: self, action: Selector(("showEditing:")))
         self.navigationItem.rightBarButtonItem = rightButton
         self.isEditingProfile = false;
         

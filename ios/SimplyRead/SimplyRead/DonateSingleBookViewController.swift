@@ -102,6 +102,7 @@ class DonateSingleBookViewController: UIViewController, UITextFieldDelegate, UIP
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         rentText.resignFirstResponder()
+        depositText.resignFirstResponder()
         return true
     }
 

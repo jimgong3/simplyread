@@ -170,7 +170,7 @@ class Book {
         if let tagsArray = json["tags"] as? [Any] {
             if tagsArray.count>0 {
                 for i in 0...tagsArray.count-1 {
-                    var tagJson = tagsArray[i] as? [String: Any]
+                    let tagJson = tagsArray[i] as? [String: Any]
                     let t = Tag(json: tagJson!)
                     tags.append(t!)
                 }
@@ -180,14 +180,14 @@ class Book {
         
         // get isbn
         if json["isbn10"] != nil {
-            self.isbn = json["isbn10"] as! String
+            self.isbn = json["isbn10"] as? String
         } else if json["isbn13"] != nil {
-            self.isbn = json["isbn13"] as! String
+            self.isbn = json["isbn13"] as? String
         }
         
         // get mongo object id
         if json["_id"] != nil {
-            self.mongoObjectId = json["_id"] as! String
+            self.mongoObjectId = json["_id"] as? String
         }
         
         // get book copy details

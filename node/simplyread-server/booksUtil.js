@@ -85,9 +85,12 @@ exports.books = function(req, db, callback){
     condition.push({"tags.name": tag});
   }
 
+  logger.info("booksUtil>> skip books without owner");
+  condition.push({"owner": {$exists: true}});
+
   var query = {};
   if (condition.length > 0)
-	query = {$and: condition};
+	   query = {$and: condition};
   logger.info("booksUtil>> query: " + JSON.stringify(query));
 
   var order = {_id: -1};
@@ -103,27 +106,38 @@ exports.books = function(req, db, callback){
 // CLIENT FACING FUNCTION
 // Parameter:
 //	q 		search keyword in title and author
+// 	isIdle		whether book status is idle
 // Note: currently no limit on search result, i.e. return all matched books
 exports.search = function(req, db, callback){
   logger.info("booksUtil>> search start...");
   var collection = db.collection('books');
+  var condition = [];
 
   var keyword = req.query.q;
-  keyword = translator.translate2(keyword);
-  var regexStr = ".*" + keyword + ".*";
-
-  var condition = [];
   if (keyword != null){
+    keyword = translator.translate2(keyword);
+    var regexStr = ".*" + keyword + ".*";
 	  condition.push({$or:[
 						{"title": {$regex: regexStr}},
 						{"author": {$elemMatch: {$regex: regexStr}}}
 					]});
   }
 
+  var isIdle = req.query.isIdle;
+//  logger.info("booksUtil>> isIdle: " + isIdle);
+  if (isIdle != null){
+    // 			var query_b = {_id: {$in: idle_book_ids_array}};
+    var idleStatus = ["可借閱", "idle"];
+    condition.push({"status": {$in: idleStatus}});
+  }
+
+  logger.info("booksUtil>> skip books without owner");
+  condition.push({"owner": {$exists: true}});
+
   var query = {};
   if (condition.length > 0)
-	query = {$and: condition};
-  logger.info("booksUtil>> query: " + JSON.stringify(query));
+	   query = {$and: condition};
+     logger.info("booksUtil>> query: " + JSON.stringify(query));
 
   var order = {_id: -1};
   logger.info("booksUtil>> order: " + JSON.stringify(order));

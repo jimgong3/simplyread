@@ -255,7 +255,7 @@ class BookTableViewController: UIViewController, UITableViewDataSource, UITableV
         let keyword = searchBar.text
         print("BookTableVC>> search keyword: " + keyword!)
         
-        search(keyword: keyword, completion: {(books: [Book]) -> () in
+        search(keyword: keyword, isIdle: "Yes", completion: {(books: [Book]) -> () in
             print("BookTableViewController>> callback from search...")
             self.books = books
             DispatchQueue.main.async{

@@ -52,7 +52,7 @@ class BuyBookCartViewController: UIViewController, UITableViewDataSource, UITabl
         tableView.delegate = self
         tableView.dataSource = self
         
-        var rightButton = UIBarButtonItem(title: "編輯", style: UIBarButtonItemStyle.plain, target: self, action: Selector(("showEditing:")))
+        let rightButton = UIBarButtonItem(title: "編輯", style: UIBarButtonItemStyle.plain, target: self, action: Selector(("showEditing:")))
         self.navigationItem.rightBarButtonItem = rightButton
     }
 
@@ -149,13 +149,13 @@ class BuyBookCartViewController: UIViewController, UITableViewDataSource, UITabl
         for i in 0...books.count-1 {
             let book = books[i]
             let bookJson: [String: Any] = [
-				"_id": book.mongoObjectId,
+				"_id": book.mongoObjectId!,
                 "title": book.title,
-				"author": book.authors,
-				"image": book.image_url,
+				"author": book.authors!,
+				"image": book.image_url!,
                 "sr_price": book.sr_price ?? 0,
                 "sr_deposit": book.sr_deposit ?? 0,
-                "owner": book.owner,
+                "owner": book.owner!,
                 "hold_by": book.hold_by ?? "n/a"
             ]
             print("BuyBookCartVC>> bookJson: ")
@@ -165,7 +165,7 @@ class BuyBookCartViewController: UIViewController, UITableViewDataSource, UITabl
         
         let orderJson: [String: Any] = [
             "username": me?.username ?? "n/a",
-            "email": me?.email,
+            "email": me?.email!,
             "books": bookArray,
             "num_books": books.count.description,
             "sum_deposit": BuyBookCart.sharedInstance.totalDeposit.description,
@@ -174,7 +174,7 @@ class BuyBookCartViewController: UIViewController, UITableViewDataSource, UITabl
             "total": BuyBookCart.sharedInstance.total.description
         ]
         print("BuyBookCartVC>> orderJson: ")
-        var details = jsonToString(json: orderJson as AnyObject)
+        let details = jsonToString(json: orderJson as AnyObject)
         
         SimplyRead.submitOrder(details: details, completion: {(result: String) -> () in
             print("BuyBookCartVC>>> callback...")
@@ -191,7 +191,7 @@ class BuyBookCartViewController: UIViewController, UITableViewDataSource, UITabl
             let data1 =  try JSONSerialization.data(withJSONObject: json, options: JSONSerialization.WritingOptions.prettyPrinted) // first of all convert json to the data
             let convertedString = String(data: data1, encoding: String.Encoding.utf8) // the data will be converted to the string
             print(convertedString ?? "defaultvalue")
-            var result = convertedString ?? "defaultvalue"
+            let result = convertedString ?? "defaultvalue"
             return result
         } catch let myJSONError {
             print(myJSONError)

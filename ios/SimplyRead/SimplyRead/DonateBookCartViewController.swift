@@ -64,7 +64,7 @@ class DonateBookCartViewController: UIViewController, UITableViewDataSource, UIT
             cell.photoImageView.image = book.photo
         }
         else if (book.image_medium_url != nil) {
-            var url = URL(string: book.image_medium_url!)
+            let url = URL(string: book.image_medium_url!)
             getDataFromUrl(url: url!) { (data, response, error) in
                 guard let data = data, error == nil else { return }
                 //                print(response?.suggestedFilename ?? url?.lastPathComponent)

@@ -34,7 +34,7 @@ class Order{
         let bookArray = json["books"] as? [Any]
         if (bookArray?.count)!>0 {
             for i in 0...(bookArray?.count)!-1 {
-                var bookJson = bookArray?[i] as? [String: Any]
+                let bookJson = bookArray?[i] as? [String: Any]
                 let b = Book(json: bookJson!)
                 books.append(b!)
                 

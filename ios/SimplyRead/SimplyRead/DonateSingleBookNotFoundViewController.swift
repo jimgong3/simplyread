@@ -107,7 +107,7 @@ class DonateSingleBookNotFoundViewController: UIViewController,
         print("DonateSingleBookNotFoundViewController>> add to donate book cart ")
         
         //construct the book object
-        var book = Book(title: titleText.text!)
+        let book = Book(title: titleText.text!)
         book?.authors = [String]()
         book?.authors?.append(authorText.text!)
         book?.authorsText = authorText.text!

@@ -282,11 +282,14 @@ func loadBooks(bottomBookId: String? = nil, topBookId: String? = nil,
 	}
 }
 
-func search(keyword: String? = nil, completion: @escaping (_ books: [Book]) -> ()){
+func search(keyword: String? = nil, isIdle: String? = nil, completion: @escaping (_ books: [Book]) -> ()){
     print("Query>> search start...")
     var parameters: [String] = []
     if keyword != nil {
         parameters.append("q="+keyword!)
+    }
+    if isIdle != nil {
+        parameters.append("isIdle="+isIdle!)
     }
     
     var urlStr = "http://" + SERVER_IP + ":" + PORT + "/search"
