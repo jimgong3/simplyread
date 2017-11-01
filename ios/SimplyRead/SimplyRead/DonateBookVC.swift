@@ -21,6 +21,9 @@ class DonateBookViewController: UIViewController, UITableViewDataSource, UITable
     
     let cellReuseIdentifier = "cell"
     let cellIdentifier = "BookTableViewCell"
+	
+	var topBookId: String?
+	var refreshControl: UIRefreshControl!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,6 +52,39 @@ class DonateBookViewController: UIViewController, UITableViewDataSource, UITable
             })
         }
 
+		 // pull to refresh
+        refreshControl = UIRefreshControl()
+        refreshControl.attributedTitle = NSAttributedString(string: "加載最新圖書...")
+        refreshControl.addTarget(self, action: #selector(self.refresh), for: UIControlEvents.valueChanged)
+        tableView.addSubview(refreshControl) // not required when using UITableViewController
+    }
+	
+	
+    func refresh(sender: AnyObject) {
+        // Code to refresh table view
+        print("DonateBookVC>> refresh...")
+        
+        self.loadLatest(topBookId: topBookId!)
+        refreshControl.endRefreshing()
+    }
+    
+    func loadLatest(topBookId: String){
+        print("DonateBookVC>> load latest...")
+        
+        // query the db on a background thread
+        DispatchQueue.global(qos: .background).async {
+            loadBooks(topBookId: topBookId, owner: user?.username, completion: {(booksNew: [Book]) -> () in
+                print("DonateBookVC>> callback")
+                self.books.insert(contentsOf: booksNew, at: 0)
+                
+                // update UITableView with new batch of items on main thread after query finishes
+                DispatchQueue.main.async {
+                    // reload the table view
+                    self.tableView.reloadData()
+                    self.refreshControl.endRefreshing()
+                }
+            })
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -92,10 +128,13 @@ class DonateBookViewController: UIViewController, UITableViewDataSource, UITable
         cell.ourPriceLabel.text = book.sr_price!   //price of each copy
         cell.depositLabel.text = book.sr_deposit!   //price of each copy
         
-        
         //set status
         cell.statusLabel.text = book.status
         
+		if topBookId == nil || book.mongoObjectId! > topBookId! {
+            topBookId = book.mongoObjectId
+        }
+		
         return cell
     }
 
