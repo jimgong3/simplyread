@@ -179,7 +179,7 @@ func register(username: String, password: String, fullname: String, email: Strin
 //}
 
 
-func loadBooks(bottomBookId: String? = nil, topBookId: String? = nil, owner: String? = nil, isIdle: String? = nil,
+func loadBooks(bottomBookId: String? = nil, topBookId: String? = nil, owner: String? = nil, hold_by: String? = nil, isIdle: String? = nil,
                completion: @escaping (_ books: [Book]) -> ()){
  
     var parameters: [String] = []
@@ -192,6 +192,9 @@ func loadBooks(bottomBookId: String? = nil, topBookId: String? = nil, owner: Str
     if owner != nil {
         parameters.append("owner="+owner!)
     }
+	if hold_by != nil {
+		parameters.append("hold_by="+hold_by!)
+	}
     if isIdle != nil {
         parameters.append("isIdle="+isIdle!)
     }
@@ -437,10 +440,11 @@ func loadBooksForCategory(category: String, completion: @escaping (_ books: [Boo
 //    }
 //}
 
+/* Obsolete, replaced by loadBooks
 func loadIdleBooksForUser2(username: String, completion: @escaping (_ books: [Book]) -> ()){
     
     var urlStr: String?
-    urlStr = "http://" + SERVER_IP + ":" + PORT + "/books?username=" + username + "&isIdle"
+    urlStr = "http://" + SERVER_IP + ":" + PORT + "/books?hold_by=" + username + "&isIdle"
     
     if let encoded = urlStr?.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed), let url = URL(string: encoded) {
         print("Query>> load idle books for user url: ")
@@ -474,6 +478,7 @@ func loadIdleBooksForUser2(username: String, completion: @escaping (_ books: [Bo
         }
     }
 }
+*/
 
 // This function is obsolete, for testing only.
 func searchAddBook(isbn: String, completion: @escaping (_ book: Book) -> ()){
