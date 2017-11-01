@@ -173,7 +173,15 @@ class DonateSingleBookViewController: UIViewController, UITextFieldDelegate, UIP
         let price = Int(rentText.text!)
         let deposit = Int(depositText.text!)
         
-        if price == nil || deposit == nil {
+		var user = Me.sharedInstance.user;
+		if user == nil || user.username == "" {
+            let alert = UIAlertController(title: "提示", message: "請先登錄。", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: NSLocalizedString("好", comment: "Default action"), style: .`default`, handler: { _ in
+                NSLog("The \"OK\" alert occured.")
+            }))
+            self.present(alert, animated: true, completion: nil)		
+		}
+        else if price == nil || deposit == nil {
             let alert = UIAlertController(title: "提示", message: "按金和借閱價須為整數。", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: NSLocalizedString("好", comment: "Default action"), style: .`default`, handler: { _ in
                 NSLog("The \"OK\" alert occured.")
