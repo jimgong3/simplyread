@@ -88,8 +88,7 @@ exports.submitOrder = function(req, db, callback){
   		logger.info("ordersUtil>> 1 order insert complete");
   		callback(orderJson);
 
-      processNewOrder(orderJson, db);
-      updateBookStatusOrdered(orderId, db);
+		processNewOrder(orderJson, db);
       
   		if(orderJson.email != null) {
   		  logger.info("ordersUtil>> send email order confirmation to: " + orderJson.email);
@@ -138,6 +137,9 @@ function processNewOrder(orderJson, db){
 
 				var status = "已確認";
 				updateOrderStatus(orderJson, db, status);
+				
+				var orderId = orderJson["orderId"];
+				updateBookStatusOrdered(orderId, db);
 			});
 		} else {
 			logger.info("ordersUtil>> has no sufficient funding...");
