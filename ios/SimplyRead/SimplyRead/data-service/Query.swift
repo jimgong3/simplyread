@@ -11,6 +11,7 @@ import Alamofire
 import Crypto
 
 // This function is obsolete (due to using URLSession), replaced by login3
+/*
 func login(username: String, password: String, completion: @escaping (_ user: User) -> ()){
     print("Query>> login username: " + username + ", password: " + password)
     let queryStr = "?username="+username+"&password="+password
@@ -49,7 +50,9 @@ func login(username: String, password: String, completion: @escaping (_ user: Us
     }
     task.resume()
 }
+*/
 
+/*
 // This function is obsolete (due to using GET), replaced by login3
 func login2(username: String, password: String, completion: @escaping (_ user: User) -> ()){
     
@@ -80,6 +83,7 @@ func login2(username: String, password: String, completion: @escaping (_ user: U
         }
     }
 }
+*/
 
 func login3(username: String, password: String, completion: @escaping (_ user: User) -> ()){
     

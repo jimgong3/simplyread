@@ -30,17 +30,28 @@ class MyCashbookViewController: UIViewController, UITableViewDataSource, UITable
         tableView.delegate = self
         tableView.dataSource = self
         
-        user = Me.sharedInstance.user;
-        if user != nil {
-            balanceText.text = user?.balance?.description
-            queryCashTxns(username: (user?.username)!, completion: {(cashTxns: [CashTxn]) -> () in
-                print("MyCashbookViewController>> callback")
-                self.cashTxns = cashTxns
-                DispatchQueue.main.async{
-                    self.tableView.reloadData()
-                }
-            })
-        }
+		let username = UserDefaults.standard.string(forKey: "username")
+        let password = UserDefaults.standard.string(forKey: "password")
+		
+		print("MyCashBookVC>> login again to get the latest balance... ")
+		login3(username: username!, password: password!, completion: {(user: User) -> () in
+            print("MyCashBookVC>> callback, username: ")
+            print(user.username)
+            if user.username == "" {
+                print("MyCashBookVC>> login fail")                
+            } else {
+                Me.sharedInstance.user = user
+                // set attributes
+					balanceText.text = user?.balance?.description
+					queryCashTxns(username: (user?.username)!, completion: {(cashTxns: [CashTxn]) -> () in
+						print("MyCashbookViewController>> callback")
+						self.cashTxns = cashTxns
+						DispatchQueue.main.async{
+							self.tableView.reloadData()
+						}
+					})
+            }
+        })
     }
 
     override func didReceiveMemoryWarning() {
