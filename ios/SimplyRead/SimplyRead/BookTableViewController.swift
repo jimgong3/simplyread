@@ -43,7 +43,7 @@ class BookTableViewController: UIViewController, UITableViewDataSource, UITableV
         print("BookTabelViewControler>> start loadBooks")
 //        if(idleBooksFromUser == nil){
             print("BookTableVC>> load all books")
-            loadBooks(hold_by: idleBooksFromUser!, isIdle: "Yes", completion: {(books: [Book]) -> () in
+            loadBooks(hold_by: idleBooksFromUser, isIdle: "Yes", completion: {(books: [Book]) -> () in
                 print("BookTableViewController>> callback")
                 self.books = books
                 DispatchQueue.main.async{
@@ -98,7 +98,7 @@ class BookTableViewController: UIViewController, UITableViewDataSource, UITableV
         
         // query the db on a background thread
         DispatchQueue.global(qos: .background).async {
-            loadBooks(topBookId: topBookId, hold_by: self.idleBooksFromUser!, isIdle: "Yes", completion: {(booksNew: [Book]) -> () in
+            loadBooks(topBookId: topBookId, hold_by: self.idleBooksFromUser, isIdle: "Yes", completion: {(booksNew: [Book]) -> () in
                 print("BookTableViewController>> callback")
                 self.books.insert(contentsOf: booksNew, at: 0)
                 
@@ -185,7 +185,7 @@ class BookTableViewController: UIViewController, UITableViewDataSource, UITableV
 //            var thisBatchOfItems: [Book]?
             
             // query the database...
-            loadBooks(bottomBookId: bottomBookId, hold_by: self.idleBooksFromUser!, isIdle: "Yes", completion: {(booksNew: [Book]) -> () in
+            loadBooks(bottomBookId: bottomBookId, hold_by: self.idleBooksFromUser, isIdle: "Yes", completion: {(booksNew: [Book]) -> () in
                 print("BookTableViewController>> callback")
                 self.books.append(contentsOf: booksNew)
               

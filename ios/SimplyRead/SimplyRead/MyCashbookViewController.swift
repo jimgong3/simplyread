@@ -42,8 +42,8 @@ class MyCashbookViewController: UIViewController, UITableViewDataSource, UITable
             } else {
                 Me.sharedInstance.user = user
                 // set attributes
-					balanceText.text = user?.balance?.description
-					queryCashTxns(username: (user?.username)!, completion: {(cashTxns: [CashTxn]) -> () in
+					self.balanceText.text = user.balance?.description
+					queryCashTxns(username: (user.username), completion: {(cashTxns: [CashTxn]) -> () in
 						print("MyCashbookViewController>> callback")
 						self.cashTxns = cashTxns
 						DispatchQueue.main.async{

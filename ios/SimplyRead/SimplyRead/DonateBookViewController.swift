@@ -47,7 +47,7 @@ class DonateBookViewController: UIViewController, UITableViewDataSource, UITable
         print("BookTableVC>> load all books")
         if user != nil {
             loadBooks(owner: user?.username, completion: {(books: [Book]) -> () in
-                print("BookTableViewController>> callback")
+//                print("BookTableViewController>> callback")
                 self.books = books
                 DispatchQueue.main.async{
                     self.tableView.reloadData()
@@ -77,7 +77,7 @@ class DonateBookViewController: UIViewController, UITableViewDataSource, UITable
         // query the db on a background thread
         DispatchQueue.global(qos: .background).async {
             loadBooks(topBookId: topBookId, owner: self.user?.username, completion: {(booksNew: [Book]) -> () in
-                print("DonateBookVC>> callback")
+//                print("DonateBookVC>> callback")
                 self.books.insert(contentsOf: booksNew, at: 0)
                 
                 // update UITableView with new batch of items on main thread after query finishes
@@ -163,7 +163,7 @@ class DonateBookViewController: UIViewController, UITableViewDataSource, UITable
             
             // query the database...
             loadBooks(bottomBookId: bottomBookId, owner: self.user?.username, completion: {(booksNew: [Book]) -> () in
-                print("DonateBookVC>> callback")
+//                print("DonateBookVC>> callback")
                 self.books.append(contentsOf: booksNew)
                 
                 // update UITableView with new batch of items on main thread after query finishes

@@ -220,10 +220,10 @@ func loadBooks(bottomBookId: String? = nil, topBookId: String? = nil, owner: Str
     print("Query>> load books url: ")
     print(urlStr)
     
-	var url: URL?   //handle possible special charctor in tag
+//	var url: URL?   //handle possible special charctor in tag
 	if let encoded = urlStr.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed), let url = URL(string: encoded) {
 	
-		Alamofire.request(url!).responseJSON { response in
+		Alamofire.request(url).responseJSON { response in
 	//        print("Request: \(String(describing: response.request))")   // original url request
 	//        print("Response: \(String(describing: response.response))") // http url response
 	//        print("Result: \(response.result)")                         // response serialization result
@@ -235,7 +235,7 @@ func loadBooks(bottomBookId: String? = nil, topBookId: String? = nil, owner: Str
 							if let array = json as? [Any] {
 								if array.count>0 {
 									for i in 0...array.count-1 {
-										var bookJson = array[i] as? [String: Any]
+										let bookJson = array[i] as? [String: Any]
 		//                                var title = bookJson?["title"]
 					//                    print ("Query>> receive book json:\n " + "\(bookJson)")
 					//                    guard let b = Book(title:title as! String) else {
@@ -293,7 +293,7 @@ func search(keyword: String? = nil, completion: @escaping (_ books: [Book]) -> (
     }
     
 //    let url = URL(string: urlStr)
-    var url: URL?   //handle possible special charctor in tag
+//    var url: URL?   //handle possible special charctor in tag
     if let encoded = urlStr.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed), let url = URL(string: encoded) {
     
         print("Query>> search url: ")
@@ -311,7 +311,7 @@ func search(keyword: String? = nil, completion: @escaping (_ books: [Book]) -> (
                 if let array = json as? [Any] {
                     if array.count>0 {
                         for i in 0...array.count-1 {
-                            var bookJson = array[i] as? [String: Any]
+                            let bookJson = array[i] as? [String: Any]
                             let b = Book(json: bookJson!)
                             books.append(b!)
                         }
