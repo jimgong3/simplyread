@@ -41,26 +41,27 @@ class BookTableViewController: UIViewController, UITableViewDataSource, UITableV
         super.viewDidLoad()
         
         print("BookTabelViewControler>> start loadBooks")
-        if(idleBooksFromUser == nil){
+//        if(idleBooksFromUser == nil){
             print("BookTableVC>> load all books")
-            loadBooks(isIdle: "Yes", completion: {(books: [Book]) -> () in
+            loadBooks(hold_by: idleBooksFromUser!, isIdle: "Yes", completion: {(books: [Book]) -> () in
                 print("BookTableViewController>> callback")
                 self.books = books
                 DispatchQueue.main.async{
                     self.tableView.reloadData()
                 }
             })
-        } else {
-            print("BookTableVC>> load idle books from user")
-            self.title = idleBooksFromUser! + "的書架"
-            loadIdleBooksForUser2(username: idleBooksFromUser!, completion: {(books: [Book]) -> () in
-                print("BookTableViewController>> callback")
-                self.books = books
-                DispatchQueue.main.async{
-                    self.tableView.reloadData()
-                }
-            })
-        }
+//        } else {
+//            print("BookTableVC>> load idle books from user")
+//            self.title = idleBooksFromUser! + "的書架"
+//            loadIdleBooksForUser2(username: idleBooksFromUser!, completion: {(books: [Book]) -> () in
+//			loadBooks(hold_by: idleBooksFromUser!, isIdle: "Yes", completion: {(books: [Book]) -> () in
+//                print("BookTableViewController>> callback")
+//                self.books = books
+//                DispatchQueue.main.async{
+//                    self.tableView.reloadData()
+//                }
+//            })
+//        }
 
         // Register the table view cell class and its reuse id
         self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellReuseIdentifier)
@@ -97,7 +98,7 @@ class BookTableViewController: UIViewController, UITableViewDataSource, UITableV
         
         // query the db on a background thread
         DispatchQueue.global(qos: .background).async {
-            loadBooks(topBookId: topBookId, isIdle: "Yes", completion: {(booksNew: [Book]) -> () in
+            loadBooks(topBookId: topBookId, hold_by: idleBooksFromUser!, isIdle: "Yes", completion: {(booksNew: [Book]) -> () in
                 print("BookTableViewController>> callback")
                 self.books.insert(contentsOf: booksNew, at: 0)
                 
@@ -184,7 +185,7 @@ class BookTableViewController: UIViewController, UITableViewDataSource, UITableV
 //            var thisBatchOfItems: [Book]?
             
             // query the database...
-            loadBooks(bottomBookId: bottomBookId, isIdle: "Yes", completion: {(booksNew: [Book]) -> () in
+            loadBooks(bottomBookId: bottomBookId, hold_by: idleBooksFromUser!, isIdle: "Yes", completion: {(booksNew: [Book]) -> () in
                 print("BookTableViewController>> callback")
                 self.books.append(contentsOf: booksNew)
               
