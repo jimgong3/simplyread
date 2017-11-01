@@ -152,7 +152,7 @@ class SingleBookViewController: UIViewController {
         print("BookCategoriesViewController>> tag tapped")
         var tag = sender.titleLabel?.text
         tag?.remove(at: (tag?.startIndex)!)
-        print("tag: \(tag)")
+        print("tag: \(String(describing: tag))")
         
         self.tagClicked = tag
         self.performSegue(withIdentifier: "booksForTag", sender: self)

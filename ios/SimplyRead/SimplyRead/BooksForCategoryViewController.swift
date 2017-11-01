@@ -16,6 +16,10 @@ class BooksForCategoryViewController: UIViewController, UITableViewDataSource, U
     @IBOutlet weak var categoryLabel: UINavigationItem!
     @IBOutlet var tableView: UITableView!
 
+    var bottomBookId: String?
+    var reachedEndOfItems = false
+    var refreshControl: UIRefreshControl!
+
     let cellReuseIdentifier = "cell"
     let cellIdentifier = "BookTableViewCell"
 
@@ -26,7 +30,8 @@ class BooksForCategoryViewController: UIViewController, UITableViewDataSource, U
         categoryLabel.title = "{" + category! + "}"
         
         print("BooksForCategoryViewControler>> start loadBooks")
-        loadBooksForCategory(category: category!, completion: {(books: [Book]) -> () in
+//        loadBooksForCategory(category: category!, completion: {(books: [Book]) -> () in
+        loadBooks(isIdle: "Yes", category: category!, completion: {(books: [Book]) -> () in
             print("BooksForCategoryViewControler>> callback")
             self.books = books
             DispatchQueue.main.async{
@@ -63,7 +68,7 @@ class BooksForCategoryViewController: UIViewController, UITableViewDataSource, U
         // set images
         if (book.image_url != nil) {
             //            var url = URL(string: book.image_medium_url!)
-            var url = URL(string: book.image_url!)
+            let url = URL(string: book.image_url!)
             getDataFromUrl(url: url!) { (data, response, error) in
                 guard let data = data, error == nil else { return }
                 //                print(response?.suggestedFilename ?? url?.lastPathComponent)
@@ -81,6 +86,15 @@ class BooksForCategoryViewController: UIViewController, UITableViewDataSource, U
         //set holder
         cell.holderLabel.text = book.hold_by
         
+        // Check if the last row number is the same as the last current data element
+        if bottomBookId == nil || book.mongoObjectId! < bottomBookId! {
+            bottomBookId = book.mongoObjectId
+        }
+        if indexPath.row == self.books.count - 1 {  //if reach bottom
+            self.loadMore(bottomBookId: bottomBookId!)
+        }
+
+        
         return cell
     }
 
@@ -89,6 +103,29 @@ class BooksForCategoryViewController: UIViewController, UITableViewDataSource, U
         // Dispose of any resources that can be recreated.
     }
     
+    
+    func loadMore(bottomBookId: String){
+        print("BookTableVC>> load more...")
+        guard !self.reachedEndOfItems else {
+            return
+        }
+        
+        // query the db on a background thread
+        DispatchQueue.global(qos: .background).async {
+            // query the database...
+            loadBooks(bottomBookId: bottomBookId, isIdle: "Yes", category: self.category, completion: {(booksNew: [Book]) -> () in
+                self.books.append(contentsOf: booksNew)
+                // update UITableView with new batch of items on main thread after query finishes
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                    if booksNew.count == 0 {
+                        self.reachedEndOfItems = true
+                        print("reached end of data. ")
+                    }
+                }
+            })
+        }
+    }
 
     
     // MARK: - Navigation
@@ -104,7 +141,7 @@ class BooksForCategoryViewController: UIViewController, UITableViewDataSource, U
         }
         
         guard let selectedBookCell = sender as? BookTableViewCell else {
-            fatalError("unexpected sender: \(sender)")
+            fatalError("unexpected sender: \(String(describing: sender))")
         }
         
         guard let indexPath = tableView.indexPath(for: selectedBookCell) else {

@@ -183,7 +183,10 @@ func register(username: String, password: String, fullname: String, email: Strin
 //}
 
 
-func loadBooks(bottomBookId: String? = nil, topBookId: String? = nil, owner: String? = nil, hold_by: String? = nil, isIdle: String? = nil,
+func loadBooks(bottomBookId: String? = nil, topBookId: String? = nil,
+               owner: String? = nil, hold_by: String? = nil,
+               isIdle: String? = nil,
+               category: String? = nil, tag: String? = nil,
                completion: @escaping (_ books: [Book]) -> ()){
  
     var parameters: [String] = []
@@ -201,6 +204,12 @@ func loadBooks(bottomBookId: String? = nil, topBookId: String? = nil, owner: Str
 	}
     if isIdle != nil {
         parameters.append("isIdle="+isIdle!)
+    }
+    if category != nil {
+        parameters.append("category="+category!)
+    }
+    if tag != nil {
+        parameters.append("tag="+tag!)
     }
     
     var urlStr = "http://" + SERVER_IP + ":" + PORT + "/books"
@@ -328,85 +337,86 @@ func search(keyword: String? = nil, completion: @escaping (_ books: [Book]) -> (
     }
 }
 
+// Obsolete, replaced by books
+//func loadBooksForTag(tag: String, completion: @escaping (_ books: [Book]) -> ()){
+//    
+//    var urlStr: String?
+//    urlStr = "http://" + SERVER_IP + ":" + PORT + "/queryBookByTag?tag=" + tag
+//    
+//    var url: URL?   //handle possible special charctor in tag
+//    if let encoded = urlStr?.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed), let url = URL(string: encoded) {
+//        print("Query>> load books by tag url: ")
+//        print(url)
+//    
+//        Alamofire.request(url).responseJSON { response in
+//            print("Request: \(String(describing: response.request))")   // original url request
+//            print("Response: \(String(describing: response.response))") // http url response
+//            print("Result: \(response.result)")                         // response serialization result
+//            
+//            if let json = response.result.value {
+//                print("JSON: \(json)") // serialized json response
+//                
+//                var books = [Book]()
+//                if let array = json as? [Any] {
+//                    if array.count>0 {
+//                        for i in 0...array.count-1 {
+//                            var bookJson = array[i] as? [String: Any]
+//                            let b = Book(json: bookJson!)
+//                            books.append(b!)
+//                        }
+//                    }
+//                    else{
+//                        print("Query>> oops, no book is found")
+//                    }
+//                }
+//                //now all books loaded
+//                print ("Query>> \(books.count)" + " books loaded, callback completion")
+//                completion(books)
+//                
+//            }
+//        }
+//    }
+//}
 
-func loadBooksForTag(tag: String, completion: @escaping (_ books: [Book]) -> ()){
-    
-    var urlStr: String?
-    urlStr = "http://" + SERVER_IP + ":" + PORT + "/queryBookByTag?tag=" + tag
-    
-    var url: URL?   //handle possible special charctor in tag
-    if let encoded = urlStr?.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed), let url = URL(string: encoded) {
-        print("Query>> load books by tag url: ")
-        print(url)
-    
-        Alamofire.request(url).responseJSON { response in
-            print("Request: \(String(describing: response.request))")   // original url request
-            print("Response: \(String(describing: response.response))") // http url response
-            print("Result: \(response.result)")                         // response serialization result
-            
-            if let json = response.result.value {
-                print("JSON: \(json)") // serialized json response
-                
-                var books = [Book]()
-                if let array = json as? [Any] {
-                    if array.count>0 {
-                        for i in 0...array.count-1 {
-                            var bookJson = array[i] as? [String: Any]
-                            let b = Book(json: bookJson!)
-                            books.append(b!)
-                        }
-                    }
-                    else{
-                        print("Query>> oops, no book is found")
-                    }
-                }
-                //now all books loaded
-                print ("Query>> \(books.count)" + " books loaded, callback completion")
-                completion(books)
-                
-            }
-        }
-    }
-}
-
-func loadBooksForCategory(category: String, completion: @escaping (_ books: [Book]) -> ()){
-    
-    var urlStr: String?
-    urlStr = "http://" + SERVER_IP + ":" + PORT + "/queryBookByCategory?category=" + category
-    
-    var url: URL?   //handle possible special charctor in tag
-    if let encoded = urlStr?.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed), let url = URL(string: encoded) {
-        print("Query>> load books by category url: ")
-        print(url)
-        
-        Alamofire.request(url).responseJSON { response in
-            print("Request: \(String(describing: response.request))")   // original url request
-            print("Response: \(String(describing: response.response))") // http url response
-            print("Result: \(response.result)")                         // response serialization result
-            
-            if let json = response.result.value {
-                print("JSON: \(json)") // serialized json response
-                
-                var books = [Book]()
-                if let array = json as? [Any] {
-                    if array.count>0 {
-                        for i in 0...array.count-1 {
-                            var bookJson = array[i] as? [String: Any]
-                            let b = Book(json: bookJson!)
-                            books.append(b!)
-                        }
-                    }
-                    else{
-                        print("Query>> oops, no book is found")
-                    }
-                }
-                //now all books loaded
-                print ("Query>> \(books.count)" + " books loaded, callback completion")
-                completion(books)
-            }
-        }
-    }
-}
+// Obsolete, replaced by books
+//func loadBooksForCategory(category: String, completion: @escaping (_ books: [Book]) -> ()){
+//    
+//    var urlStr: String?
+//    urlStr = "http://" + SERVER_IP + ":" + PORT + "/queryBookByCategory?category=" + category
+//    
+////    var url: URL?   //handle possible special charctor in tag
+//    if let encoded = urlStr?.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed), let url = URL(string: encoded) {
+//        print("Query>> load books by category url: ")
+//        print(url)
+//        
+//        Alamofire.request(url).responseJSON { response in
+////            print("Request: \(String(describing: response.request))")   // original url request
+////            print("Response: \(String(describing: response.response))") // http url response
+////            print("Result: \(response.result)")                         // response serialization result
+//            
+//            if let json = response.result.value {
+////                print("JSON: \(json)") // serialized json response
+//                
+//                var books = [Book]()
+//                if let array = json as? [Any] {
+//                    if array.count>0 {
+//                        for i in 0...array.count-1 {
+//                            var bookJson = array[i] as? [String: Any]
+//                            let b = Book(json: bookJson!)
+//                            books.append(b!)
+//                        }
+//                    }
+//                    else{
+//                        print("Query>> oops, no book is found")
+//                    }
+//                }
+//                //now all books loaded
+//                print ("Query>> \(books.count)" + " books loaded, callback completion")
+//                completion(books)
+//            }
+//        }
+//    }
+//}
 
 
 // Obsolete, replaced by loadIdleBooksForUser2 and GET /books

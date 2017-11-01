@@ -41,15 +41,18 @@ class BookTableViewController: UIViewController, UITableViewDataSource, UITableV
         super.viewDidLoad()
         
         print("BookTabelViewControler>> start loadBooks")
-//        if(idleBooksFromUser == nil){
-            print("BookTableVC>> load all books")
-            loadBooks(hold_by: idleBooksFromUser, isIdle: "Yes", completion: {(books: [Book]) -> () in
-                print("BookTableViewController>> callback")
-                self.books = books
-                DispatchQueue.main.async{
-                    self.tableView.reloadData()
-                }
-            })
+        if(idleBooksFromUser != nil){
+            self.title = idleBooksFromUser! + "的書架"
+        }
+        
+        print("BookTableVC>> load all books")
+        loadBooks(hold_by: idleBooksFromUser, isIdle: "Yes", completion: {(books: [Book]) -> () in
+            print("BookTableViewController>> callback")
+            self.books = books
+            DispatchQueue.main.async{
+                self.tableView.reloadData()
+            }
+        })
 //        } else {
 //            print("BookTableVC>> load idle books from user")
 //            self.title = idleBooksFromUser! + "的書架"
@@ -158,7 +161,11 @@ class BookTableViewController: UIViewController, UITableViewDataSource, UITableV
             bottomBookId = book.mongoObjectId
         }
         if indexPath.row == self.books.count - 1 {  //if reach bottom
-            if idleBooksFromUser == nil && !isSearchingMode {   //only need refresh when load all books (instead of from a specific user) and not in searching mode
+            if isSearchingMode {
+                print("BookTableVC>> searching mode - all results already returned")
+                self.reachedEndOfItems = true
+            } else {
+                print("BookTableVC>> load more...")
                 self.loadMore(bottomBookId: bottomBookId!)
             }
         }
@@ -226,7 +233,7 @@ class BookTableViewController: UIViewController, UITableViewDataSource, UITableV
         }
         
         guard let selectedBookCell = sender as? BookTableViewCell else {
-            fatalError("unexpected sender: \(sender)")
+            fatalError("unexpected sender: \(String(describing: sender))")
         }
         
         guard let indexPath = tableView.indexPath(for: selectedBookCell) else {

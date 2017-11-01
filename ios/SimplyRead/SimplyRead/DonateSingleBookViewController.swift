@@ -79,7 +79,7 @@ class DonateSingleBookViewController: UIViewController, UITextFieldDelegate, UIP
         super.viewDidAppear(animated)
         
         // set default category
-        var cat = book?.category
+        let cat = book?.category
         var row = 0
         if cat != nil {
             for i in 0...categoryData.count-1 {

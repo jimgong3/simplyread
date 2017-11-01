@@ -18,14 +18,17 @@ var logger = new (winston.Logger)({
 // Parameter:
 //	skip 		# of first results to skip, default is 0
 //	limit 		# of results to return
-// 	gtid		great than the given object id
-//	ltid		less than the given object id
-//	owner		owner of book
+// 	gtid		  great than the given object id
+//	ltid		 less than the given object id
+//	owner		  owner of book
 // 	hold_by		holder of book
 // 	isIdle		whether book status is idle
+//  category  book category
+//  tag       book tag
 exports.books = function(req, db, callback){
   logger.info("booksUtil>> books start...");
   var collection = db.collection('books');
+  var condition = [];
 
   var skip = 0;
   if (req.query.skip != null)
@@ -38,37 +41,48 @@ exports.books = function(req, db, callback){
   logger.info("booksUtil>> limit: " + limit);
 
   var gtid = req.query.gtid;
-  var ltid = req.query.ltid;
-
-  var isbn = req.query.isbn;
-
-  var owner = req.query.owner;
-  var hold_by = req.query.hold_by;
-  var isIdle = req.query.isIdle;
-//  logger.info("booksUtil>> isIdle: " + isIdle);
-
-  var condition = [];
   if (gtid != null){
 	  var gtoid = new ObjectId(gtid);
 	  condition.push({_id: {$gt: gtoid}});
   }
+
+  var ltid = req.query.ltid;
   if (ltid != null){
 	  var ltoid = new ObjectId(ltid);
 	  condition.push({_id: {$lt: ltoid}});
   }
+
+  var isbn = req.query.isbn;
   if (isbn != null){
 	  condition.push({$or:[{isbn10: isbn}, {isbn13: isbn}]});
   }
+
+  var owner = req.query.owner;
   if (owner != null){
 	  condition.push({"owner": owner});
   }
+
+  var hold_by = req.query.hold_by;
   if (hold_by != null){
 	  condition.push({"hold_by": hold_by});
   }
+
+  var isIdle = req.query.isIdle;
+//  logger.info("booksUtil>> isIdle: " + isIdle);
   if (isIdle != null){
     // 			var query_b = {_id: {$in: idle_book_ids_array}};
     var idleStatus = ["可借閱", "idle"];
-	  condition.push({"status": {$in: idleStatus}});
+    condition.push({"status": {$in: idleStatus}});
+  }
+
+  var category = req.query.category;
+  if (category != null){
+    condition.push({"category": category});
+  }
+
+  var tag = req.query.tag;
+  if (tag != null){
+    condition.push({"tags.name": tag});
   }
 
   var query = {};
@@ -89,6 +103,7 @@ exports.books = function(req, db, callback){
 // CLIENT FACING FUNCTION
 // Parameter:
 //	q 		search keyword in title and author
+// Note: currently no limit on search result, i.e. return all matched books
 exports.search = function(req, db, callback){
   logger.info("booksUtil>> search start...");
   var collection = db.collection('books');
