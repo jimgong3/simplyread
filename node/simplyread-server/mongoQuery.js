@@ -80,70 +80,70 @@ exports.queryBook = function(db, isbn, callback){
 }
 
 // Obsolete, replaced by GET /books
-// exports.queryBookByTag = function(db, tag, callback){
-//   logger.info("mongoQuery>> query book by tag: " + tag);
-//
-//   var colTags = db.collection('tags');
-//   var queryTag = {name: tag};
-//   colTags.find(queryTag).toArray(function(err, docs) {
-//     assert.equal(err, null);
-//     logger.info("mongoQuery>> find tag result: ");
-//     logger.info(docs);
-//
-// 	if (docs.length == 0){
-// 		logger.info("Oops, tag not found")
-// 	} else {
-// 		var book_ids = docs[0].book_ids;
-//
-// 		var colBooks = db.collection('books');
-// 		var queryBooks = {_id: {$in: book_ids}};
-//
-//     var order = {add_date: -1};
-//     logger.info("mongoQuer>> order");
-//     logger.info(order);
-//
-// 		colBooks.find(queryBooks).sort(order).toArray(function(err, docs){
-// 			logger.info("mongoQuery>> find books by tag result: ")
-// 			logger.info(docs);
-// 			callback(docs);
-// 		});
-// 	}
-//   });
-// }
+exports.queryBookByTag = function(db, tag, callback){
+  logger.info("mongoQuery>> query book by tag: " + tag);
+
+  var colTags = db.collection('tags');
+  var queryTag = {name: tag};
+  colTags.find(queryTag).toArray(function(err, docs) {
+    assert.equal(err, null);
+    logger.info("mongoQuery>> find tag result: ");
+    logger.info(docs);
+
+	if (docs.length == 0){
+		logger.info("Oops, tag not found")
+	} else {
+		var book_ids = docs[0].book_ids;
+
+		var colBooks = db.collection('books');
+		var queryBooks = {_id: {$in: book_ids}};
+
+    var order = {add_date: -1};
+    logger.info("mongoQuer>> order");
+    logger.info(order);
+
+		colBooks.find(queryBooks).sort(order).toArray(function(err, docs){
+			logger.info("mongoQuery>> find books by tag result: ")
+			logger.info(docs);
+			callback(docs);
+		});
+	}
+  });
+}
 
 // Obsolete, replaced by GET /books
-// exports.queryBookByCategory = function(db, category, callback){
-//   logger.info("mongoQuery>> query book by category: " + category);
-//
-//   var colCategories = db.collection('categories');
-//   var queryCat = {name: category};
-//   colCategories.find(queryCat).toArray(function(err, docs) {
-//     assert.equal(err, null);
-//     logger.info("mongoQuery>> find category result: ");
-//     logger.info(docs);
-//
-// 	if (docs.length == 0){
-// 		logger.info("Oops, category not found");
-// 		var empty = [];
-// 		callback(empty);
-// 	} else {
-// 		var book_ids = docs[0].book_ids;
-//
-// 		var colBooks = db.collection('books');
-// 		var queryBooks = {_id: {$in: book_ids}};
-//
-//     var order = {add_date: -1};
-//     logger.info("mongoQuer>> order");
-//     logger.info(order);
-//
-// 		colBooks.find(queryBooks).sort(order).toArray(function(err, docs){
-// 			logger.info("mongoQuery>> find books by category result: ")
-// 			logger.info(docs);
-// 			callback(docs);
-// 		});
-// 	}
-//   });
-// }
+exports.queryBookByCategory = function(db, category, callback){
+  logger.info("mongoQuery>> query book by category: " + category);
+
+  var colCategories = db.collection('categories');
+  var queryCat = {name: category};
+  colCategories.find(queryCat).toArray(function(err, docs) {
+    assert.equal(err, null);
+    logger.info("mongoQuery>> find category result: ");
+    logger.info(docs);
+
+	if (docs.length == 0){
+		logger.info("Oops, category not found");
+		var empty = [];
+		callback(empty);
+	} else {
+		var book_ids = docs[0].book_ids;
+
+		var colBooks = db.collection('books');
+		var queryBooks = {_id: {$in: book_ids}};
+
+    var order = {add_date: -1};
+    logger.info("mongoQuer>> order");
+    logger.info(order);
+
+		colBooks.find(queryBooks).sort(order).toArray(function(err, docs){
+			logger.info("mongoQuery>> find books by category result: ")
+			logger.info(docs);
+			callback(docs);
+		});
+	}
+  });
+}
 
 exports.insertBook = function(db, bookJson, callback){
   logger.info("mongoQuery>> insert book by json");

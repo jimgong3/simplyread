@@ -117,42 +117,42 @@ app.get('/search', function (req, res) {
 })
 
 // Obsolete, replaced by GET /books
-// app.get('/queryBookByTag', function (req, res) {
-// 	logger.info("app>> query book by tag");
-//
-// 	const {headers, method, url} = req;
-// 	logger.info("app>> method: " + method);
-// 	logger.info("app>> url: " + url);
-//
-// 	var tag = req.query.tag;
-// 	logger.info("app>> tag: " + tag);
-//
-// 	mongoQuery.queryBookByTag(db, tag, function(docs) {
-// 		logger.info("app>> callback from book by tag: " + tag);
-// 		logger.info(docs);
-// 		res.json(docs)
-// 		logger.info("app>> book by tag done");
-// 	});
-// })
+app.get('/queryBookByTag', function (req, res) {
+	logger.info("app>> query book by tag");
+
+	const {headers, method, url} = req;
+	logger.info("app>> method: " + method);
+	logger.info("app>> url: " + url);
+
+	var tag = req.query.tag;
+	logger.info("app>> tag: " + tag);
+
+	mongoQuery.queryBookByTag(db, tag, function(docs) {
+		logger.info("app>> callback from book by tag: " + tag);
+		logger.info(docs);
+		res.json(docs)
+		logger.info("app>> book by tag done");
+	});
+})
 
 // Obsolete, replaced by GET /books
-// app.get('/queryBookByCategory', function (req, res) {
-// 	logger.info("app>> query book by category");
-//
-// 	const {headers, method, url} = req;
-// 	logger.info("app>> method: " + method);
-// 	logger.info("app>> url: " + url);
-//
-// 	var category = req.query.category;
-// 	logger.info("app>> category: " + category);
-//
-// 	mongoQuery.queryBookByCategory(db, category, function(docs) {
-// 		logger.info("app>> callback from book by category: " + category);
-// 		logger.info(docs);
-// 		res.json(docs)
-// 		logger.info("app>> book by category done");
-// 	});
-// })
+app.get('/queryBookByCategory', function (req, res) {
+	logger.info("app>> query book by category");
+
+	const {headers, method, url} = req;
+	logger.info("app>> method: " + method);
+	logger.info("app>> url: " + url);
+
+	var category = req.query.category;
+	logger.info("app>> category: " + category);
+
+	mongoQuery.queryBookByCategory(db, category, function(docs) {
+		logger.info("app>> callback from book by category: " + category);
+		logger.info(docs);
+		res.json(docs)
+		logger.info("app>> book by category done");
+	});
+})
 
 app.get('/searchAddBook', function (req, res) {
 	logger.info("app>> search and add book by isbn");
