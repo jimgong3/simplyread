@@ -23,6 +23,9 @@ class DonateBookViewController: UIViewController, UITableViewDataSource, UITable
     let cellIdentifier = "BookTableViewCell"
 	
 	var topBookId: String?
+    var bottomBookId: String?
+    var reachedEndOfItems = false
+
 	var refreshControl: UIRefreshControl!
 
     override func viewDidLoad() {
@@ -73,7 +76,7 @@ class DonateBookViewController: UIViewController, UITableViewDataSource, UITable
         
         // query the db on a background thread
         DispatchQueue.global(qos: .background).async {
-            loadBooks(topBookId: topBookId, owner: user?.username, completion: {(booksNew: [Book]) -> () in
+            loadBooks(topBookId: topBookId, owner: self.user?.username, completion: {(booksNew: [Book]) -> () in
                 print("DonateBookVC>> callback")
                 self.books.insert(contentsOf: booksNew, at: 0)
                 
@@ -131,6 +134,15 @@ class DonateBookViewController: UIViewController, UITableViewDataSource, UITable
         //set status
         cell.statusLabel.text = book.status
         
+        // Check if the last row number is the same as the last current data element
+        if bottomBookId == nil || book.mongoObjectId! < bottomBookId! {
+            bottomBookId = book.mongoObjectId
+        }
+        if indexPath.row == self.books.count - 1 {  //if reach bottom
+            self.loadMore(bottomBookId: bottomBookId!)
+        }
+
+        // update topBookId
 		if topBookId == nil || book.mongoObjectId! > topBookId! {
             topBookId = book.mongoObjectId
         }
@@ -138,6 +150,35 @@ class DonateBookViewController: UIViewController, UITableViewDataSource, UITable
         return cell
     }
 
+    func loadMore(bottomBookId: String){
+        print("BookTableVC>> load more...")
+        
+        // don't bother doing another db query if already have everything
+        guard !self.reachedEndOfItems else {
+            return
+        }
+        
+        // query the db on a background thread
+        DispatchQueue.global(qos: .background).async {
+            
+            // query the database...
+            loadBooks(bottomBookId: bottomBookId, owner: self.user?.username, completion: {(booksNew: [Book]) -> () in
+                print("DonateBookVC>> callback")
+                self.books.append(contentsOf: booksNew)
+                
+                // update UITableView with new batch of items on main thread after query finishes
+                DispatchQueue.main.async {
+                    // reload the table view
+                    self.tableView.reloadData()
+                    // check if this was the last of the data
+                    if booksNew.count == 0 {
+                        self.reachedEndOfItems = true
+                        print("reached end of data. ")
+                    }
+                }
+            })
+        }
+    }
 
     
     // MARK: - Navigation
