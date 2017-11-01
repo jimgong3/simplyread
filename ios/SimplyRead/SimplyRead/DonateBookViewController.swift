@@ -226,7 +226,7 @@ class DonateBookViewController: UIViewController, UITableViewDataSource, UITable
         print("DonateBookViewController>> simulate scan complete")
         
         //prepare dummy data
-        var code = "7300226531"
+        let code = "7300226531"
         searchAddBook(isbn: code, completion: {(book: Book) -> () in
             print("DonateBookViewController>> callback, book: ")
             print(book.title)

@@ -46,7 +46,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         // Pass the selected object to the new view controller.
         super.prepare(for: segue, sender: sender)
         
-        print ("LoginViewController>> prepare")
+//        print ("LoginViewController>> prepare")
 //        var username = usernameText.text
 //        var password = passwordText.text
 //        login(username: username!, password: password!, completion: {(user: User) -> () in
@@ -68,9 +68,9 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         let username = usernameText.text
         let password = passwordText.text
         login3(username: username!, password: password!, completion: {(user: User) -> () in
-            print("LoginViewController>> callback, username: ")
+            print("LoginViewController>> callback, username: \(user.username)")
 //            self.user = user
-            print(user.username)
+//            print(user.username)
             
             if user.username == "" {
                 print("Login: login fail")

@@ -40,12 +40,12 @@ class BookTableViewController: UIViewController, UITableViewDataSource, UITableV
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        print("BookTabelViewControler>> start loadBooks")
+//        print("BookTabelViewControler>> start loadBooks")
         if(idleBooksFromUser != nil){
             self.title = idleBooksFromUser! + "的書架"
         }
         
-        print("BookTableVC>> load all books")
+        print("BookTableVC>> load books start...")
         loadBooks(hold_by: idleBooksFromUser, isIdle: "Yes", completion: {(books: [Book]) -> () in
             print("BookTableViewController>> callback")
             self.books = books

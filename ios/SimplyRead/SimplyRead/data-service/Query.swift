@@ -90,10 +90,10 @@ func login3(username: String, password: String, completion: @escaping (_ user: U
     var urlStr: String?
     urlStr = "http://" + SERVER_IP + ":" + PORT + "/login"
     let url = URL(string: urlStr!)
-    print("Query>> url: ")
-    print(url)
+    print("Query>> url: \(url!)")
+//    print(url!)
     
-    var password2 = password.sha1
+    let password2 = password.sha1
     print("original password: " + password + ", encrypted password: " + password2!)
     let parameters: Parameters = [
         "username": username,
@@ -101,17 +101,18 @@ func login3(username: String, password: String, completion: @escaping (_ user: U
     ]
     
     Alamofire.request(url!, method: .post, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
-        print("Query>> Request: \(String(describing: response.request))")   // original url request
-        print("Query>> Response: \(String(describing: response.response))") // http url response
-        print("Query>> Result: \(response.result)")                         // response serialization result
+//        print("Query>> Request: \(String(describing: response.request))")   // original url request
+//        print("Query>> Response: \(String(describing: response.response))") // http url response
+//        print("Query>> Result: \(response.result)")                         // response serialization result
 
         if let json = response.result.value {
-            print("JSON: \(json)") // serialized json response
+//            print("JSON: \(json)") // serialized json response
             
             if let array = json as? [Any] {
                 if array.count>0 {
-                    var userJson = array[0] as? [String: Any]
+                    let userJson = array[0] as? [String: Any]
                     let u = User(json: userJson!)
+                    print("Query>> username: \(String(describing: u!.username))")
                     completion(u!)
                 }
                 else{
@@ -504,8 +505,8 @@ func searchAddBook(isbn: String, completion: @escaping (_ book: Book) -> ()){
     var urlStr: String?
     urlStr = "http://" + SERVER_IP + ":" + PORT + "/searchAddbook?isbn=" + isbn
     let url = URL(string: urlStr!)
-    print("Query>> load book, url")
-    print(url)
+    print("Query>> searchAddBook url: \(String(describing: url))")
+//    print(url)
     
     Alamofire.request(url!).responseJSON { response in
                 print("Query>> Request: \(String(describing: response.request))")   // original url request
@@ -515,11 +516,11 @@ func searchAddBook(isbn: String, completion: @escaping (_ book: Book) -> ()){
         if let json = response.result.value {
 //            print("JSON: \(json)") // serialized json response
             
-            var books = [Book]()
+//            var books = [Book]()
             if let array = json as? [Any] {
                 if array.count>0 {
                     print("Query>> book found in database, return book details")
-                    var bookJson = array[0] as? [String: Any]
+                    let bookJson = array[0] as? [String: Any]
 //                    print("Query>> bookJson: ")
 //                    print(bookJson)
                     let b = Book(json: bookJson!)
@@ -541,8 +542,8 @@ func searchBook(isbn: String, completion: @escaping (_ book: Book) -> ()){
     var urlStr: String?
     urlStr = "http://" + SERVER_IP + ":" + PORT + "/searchBook?isbn=" + isbn
     let url = URL(string: urlStr!)
-    print("Query>> url")
-    print(url)
+    print("Query>> searchBook url: \(String(describing: url))")
+//    print(url)
     
     Alamofire.request(url!).responseJSON { response in
         print("Query>> Request: \(String(describing: response.request))")   // original url request
@@ -552,11 +553,11 @@ func searchBook(isbn: String, completion: @escaping (_ book: Book) -> ()){
         if let json = response.result.value {
             //            print("JSON: \(json)") // serialized json response
             
-            var books = [Book]()
+//            var books = [Book]()
             if let array = json as? [Any] {
                 if array.count>0 {
                     print("Query>> book found in database, return book details")
-                    var bookJson = array[0] as? [String: Any]
+                    let bookJson = array[0] as? [String: Any]
                     //                    print("Query>> bookJson: ")
                     //                    print(bookJson)
                     let b = Book(json: bookJson!)
@@ -602,8 +603,8 @@ func addNewBook2(title: String, author: String, isbn: String, completion: @escap
     var urlStr: String?
     urlStr = "http://" + SERVER_IP + ":" + PORT + "/addNewbook"
     let url = URL(string: urlStr!)
-    print("Query>> add new book, url (POST)")
-    print(url)
+    print("Query>> add new book, url (POST): \(String(describing: url))")
+//    print(url)
     
     let parameters: Parameters = [
         "title": title,
@@ -626,8 +627,8 @@ func addNewBook2(title: String, author: String, isbn: String, completion: @escap
 func addNewBookImage(isbn: String, image: UIImage, completion: @escaping (_ book: Book) -> ()){
     
     let url = URL(string: "http://" + SERVER_IP + ":" + PORT + "/upload")
-    print("Query>> add new book image, url")
-    print(url)
+    print("Query>> add new book image, url: \(String(describing: url))")
+//    print(url)
     
     let imageData = UIImageJPEGRepresentation(image, 0.8)
     let fileName = isbn + ".jpeg"
@@ -659,8 +660,8 @@ func addBookByIsbn(isbn: String, title: String, category: String, owner: String,
     var urlStr: String?
     urlStr = "http://" + SERVER_IP + ":" + PORT + "/addBook"
     let url = URL(string: urlStr!)
-    print("Query>> add new book, url (POST)")
-    print(url)
+    print("Query>> add new book, url (POST): \(String(describing: url))")
+//    print(url)
     
     let parameters: Parameters = [
         "isbn": isbn,
@@ -678,11 +679,11 @@ func addBookByIsbn(isbn: String, title: String, category: String, owner: String,
         
         if let json = response.result.value {
             print("JSON: \(json)") // serialized json response
-            var books = [Book]()
+//            var books = [Book]()
             if let array = json as? [Any] {
                 if array.count>0 {
                     print("Query>> book found in database, return book details")
-                    var bookJson = array[0] as? [String: Any]
+                    let bookJson = array[0] as? [String: Any]
                     //                    print("Query>> bookJson: ")
                     //                    print(bookJson)
                     let b = Book(json: bookJson!)
@@ -714,7 +715,7 @@ func queryHotTags(n: Int, completion: @escaping (_ tags: [Tag]) -> ()){
     urlStr = "http://" + SERVER_IP + ":" + PORT + "/hotTags?n=" + String(n)
     let url = URL(string: urlStr!)
     print("Query>> query hot tag url: ")
-    print(url)
+    print(url!)
     
     Alamofire.request(url!).responseJSON { response in
         print("Request: \(String(describing: response.request))")   // original url request
@@ -728,7 +729,7 @@ func queryHotTags(n: Int, completion: @escaping (_ tags: [Tag]) -> ()){
             if let array = json as? [Any] {
                 if array.count>0 {
                     for i in 0...array.count-1 {
-                        var tagJson = array[i] as? [String: Any]
+                        let tagJson = array[i] as? [String: Any]
                         let t = Tag(json: tagJson!)
                         tags.append(t!)
                     }
@@ -750,7 +751,7 @@ func queryCategories(completion: @escaping (_ categories: [Category]) -> ()){
     urlStr = "http://" + SERVER_IP + ":" + PORT + "/categories"
     let url = URL(string: urlStr!)
     print("Query>> url: ")
-    print(url)
+    print(url!)
     
     Alamofire.request(url!).responseJSON { response in
         print("Request: \(String(describing: response.request))")   // original url request
@@ -764,7 +765,7 @@ func queryCategories(completion: @escaping (_ categories: [Category]) -> ()){
             if let array = json as? [Any] {
                 if array.count>0 {
                     for i in 0...array.count-1 {
-                        var catJson = array[i] as? [String: Any]
+                        let catJson = array[i] as? [String: Any]
                         let c = Category(json: catJson!)
                         categories.append(c!)
                     }
@@ -787,9 +788,9 @@ func updateUserProfile(username: String, password: String, fullname: String, ema
     urlStr = "http://" + SERVER_IP + ":" + PORT + "/updateUserProfile"
     let url = URL(string: urlStr!)
     print("Query>> url: ")
-    print(url)
+    print(url!)
     
-    var password2 = password.sha1
+    let password2 = password.sha1
     print("original password: " + password + ", encrypted password: " + password2!)
     let parameters: Parameters = [
         "username": username,
@@ -836,34 +837,38 @@ func queryCashTxns(username: String, completion: @escaping (_ cashTxns: [CashTxn
     
     var urlStr: String?
     urlStr = "http://" + SERVER_IP + ":" + PORT + "/cashbook?username=" + username
-    let url = URL(string: urlStr!)
-    print("Query>> url: ")
-    print(url)
+//    let url = URL(string: urlStr!)
+//    print("Query>> url: \(url!)")
+//    print(url)
     
-    Alamofire.request(url!).responseJSON { response in
-        print("Request: \(String(describing: response.request))")   // original url request
-        print("Response: \(String(describing: response.response))") // http url response
-        print("Result: \(response.result)")                         // response serialization result
-        
-        if let json = response.result.value {
-            print("JSON: \(json)") // serialized json response
+    if let encoded = urlStr?.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed), let url = URL(string: encoded) {
+        print("Query>> queryCashTxn url: \(url)")
+        Alamofire.request(url).responseJSON { response in
             
-            var cashTxns = [CashTxn]()
-            if let array = json as? [Any] {
-                if array.count>0 {
-                    for i in 0...array.count-1 {
-                        var json = array[i] as? [String: Any]
-                        let c = CashTxn(json: json!)
-                        cashTxns.append(c!)
+    //        print("Request: \(String(describing: response.request))")   // original url request
+    //        print("Response: \(String(describing: response.response))") // http url response
+    //        print("Result: \(response.result)")                         // response serialization result
+            
+            if let json = response.result.value {
+    //            print("JSON: \(json)") // serialized json response
+                
+                var cashTxns = [CashTxn]()
+                if let array = json as? [Any] {
+                    if array.count>0 {
+                        for i in 0...array.count-1 {
+                            let json = array[i] as? [String: Any]
+                            let c = CashTxn(json: json!)
+                            cashTxns.append(c!)
+                        }
+                    }
+                    else{
+                        print("Query>> oops, no cash txn is found")
                     }
                 }
-                else{
-                    print("Query>> oops, no cash txn is found")
-                }
+                //now everything loaded
+                print ("Query>> \(cashTxns.count)" + " cash txn loaded, callback completion")
+                completion(cashTxns)
             }
-            //now everything loaded
-            print ("Query>> \(cashTxns.count)" + " cash txn loaded, callback completion")
-            completion(cashTxns)
         }
     }
 }
@@ -872,34 +877,37 @@ func queryBuyOrders(username: String, completion: @escaping (_ orders: [Order]) 
     
     var urlStr: String?
     urlStr = "http://" + SERVER_IP + ":" + PORT + "/orders?username=" + username
-    let url = URL(string: urlStr!)
-    print("Query>> url: ")
-    print(url)
+//    let url = URL(string: urlStr!)
+//    print("Query>> url: ")
+//    print(url)
     
-    Alamofire.request(url!).responseJSON { response in
-        print("Request: \(String(describing: response.request))")   // original url request
-        print("Response: \(String(describing: response.response))") // http url response
-        print("Result: \(response.result)")                         // response serialization result
-        
-        if let json = response.result.value {
-            print("JSON: \(json)") // serialized json response
+    if let encoded = urlStr?.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed), let url = URL(string: encoded) {
+        print("Query>> queryBuyOrders url: \(url)")
+        Alamofire.request(url).responseJSON { response in
+//            print("Request: \(String(describing: response.request))")   // original url request
+//            print("Response: \(String(describing: response.response))") // http url response
+//            print("Result: \(response.result)")                         // response serialization result
             
-            var orders = [Order]()
-            if let array = json as? [Any] {
-                if array.count>0 {
-                    for i in 0...array.count-1 {
-                        var json = array[i] as? [String: Any]
-                        let o = Order(json: json!)
-                        orders.append(o!)
+            if let json = response.result.value {
+//                print("JSON: \(json)") // serialized json response
+                
+                var orders = [Order]()
+                if let array = json as? [Any] {
+                    if array.count>0 {
+                        for i in 0...array.count-1 {
+                            let json = array[i] as? [String: Any]
+                            let o = Order(json: json!)
+                            orders.append(o!)
+                        }
+                    }
+                    else{
+                        print("Query>> oops, no order is found")
                     }
                 }
-                else{
-                    print("Query>> oops, no order is found")
-                }
+                //now everything loaded
+                print ("Query>> \(orders.count)" + " order loaded, callback completion")
+                completion(orders)
             }
-            //now everything loaded
-            print ("Query>> \(orders.count)" + " order loaded, callback completion")
-            completion(orders)
         }
     }
 }
@@ -908,34 +916,37 @@ func queryDeliverOrders(hold_by: String, completion: @escaping (_ orders: [Order
     
     var urlStr: String?
     urlStr = "http://" + SERVER_IP + ":" + PORT + "/orders?hold_by=" + hold_by
-    let url = URL(string: urlStr!)
-    print("Query>> url: ")
-    print(url)
+//    let url = URL(string: urlStr!)
+//    print("Query>> url: ")
+//    print(url)
     
-    Alamofire.request(url!).responseJSON { response in
-        print("Request: \(String(describing: response.request))")   // original url request
-        print("Response: \(String(describing: response.response))") // http url response
-        print("Result: \(response.result)")                         // response serialization result
-        
-        if let json = response.result.value {
-            print("JSON: \(json)") // serialized json response
+    if let encoded = urlStr?.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed), let url = URL(string: encoded) {
+        print("Query>> queryDeliverOrders url: \(url)")
+        Alamofire.request(url).responseJSON { response in
+            print("Request: \(String(describing: response.request))")   // original url request
+            print("Response: \(String(describing: response.response))") // http url response
+            print("Result: \(response.result)")                         // response serialization result
             
-            var orders = [Order]()
-            if let array = json as? [Any] {
-                if array.count>0 {
-                    for i in 0...array.count-1 {
-                        var json = array[i] as? [String: Any]
-                        let o = Order(json: json!)
-                        orders.append(o!)
+            if let json = response.result.value {
+                print("JSON: \(json)") // serialized json response
+                
+                var orders = [Order]()
+                if let array = json as? [Any] {
+                    if array.count>0 {
+                        for i in 0...array.count-1 {
+                            let json = array[i] as? [String: Any]
+                            let o = Order(json: json!)
+                            orders.append(o!)
+                        }
+                    }
+                    else{
+                        print("Query>> oops, no order is found")
                     }
                 }
-                else{
-                    print("Query>> oops, no order is found")
-                }
+                //now everything loaded
+                print ("Query>> \(orders.count)" + " order loaded, callback completion")
+                completion(orders)
             }
-            //now everything loaded
-            print ("Query>> \(orders.count)" + " order loaded, callback completion")
-            completion(orders)
         }
     }
 }
@@ -963,7 +974,7 @@ func submitOrder(details: String, completion: @escaping (_ result: String) -> ()
         if let json = response.result.value {
             print("JSON: \(json)") // serialized json response
             
-            var result = "result"
+            let result = "result"
             completion(result)
         }
     }
@@ -992,7 +1003,7 @@ func confirmOrderDelivered(orderId: String, completion: @escaping (_ result: Str
         if let json = response.result.value {
             print("JSON: \(json)") // serialized json response
             
-            var result = "result"
+            let result = "result"
             completion(result)
         }
     }
@@ -1019,7 +1030,7 @@ func confirmOrderReceived(orderId: String, completion: @escaping (_ result: Stri
         if let json = response.result.value {
             print("JSON: \(json)") // serialized json response
             
-            var result = "result"
+            let result = "result"
             completion(result)
         }
     }
@@ -1046,7 +1057,7 @@ func confirmOrderClosed(orderId: String, completion: @escaping (_ result: String
         if let json = response.result.value {
             print("JSON: \(json)") // serialized json response
             
-            var result = "result"
+            let result = "result"
             completion(result)
         }
     }

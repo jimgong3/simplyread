@@ -35,21 +35,21 @@ class MyCashbookViewController: UIViewController, UITableViewDataSource, UITable
 		
 		print("MyCashBookVC>> login again to get the latest balance... ")
 		login3(username: username!, password: password!, completion: {(user: User) -> () in
-            print("MyCashBookVC>> callback, username: ")
-            print(user.username)
+            print("MyCashBookVC>> callback, username: \(user.username)")
+//            print(user.username)
             if user.username == "" {
                 print("MyCashBookVC>> login fail")                
             } else {
                 Me.sharedInstance.user = user
                 // set attributes
-					self.balanceText.text = user.balance?.description
-					queryCashTxns(username: (user.username), completion: {(cashTxns: [CashTxn]) -> () in
-						print("MyCashbookViewController>> callback")
-						self.cashTxns = cashTxns
-						DispatchQueue.main.async{
-							self.tableView.reloadData()
-						}
-					})
+                self.balanceText.text = user.balance?.description
+                queryCashTxns(username: (user.username), completion: {(cashTxns: [CashTxn]) -> () in
+                    print("MyCashbookViewController>> callback")
+                    self.cashTxns = cashTxns
+                    DispatchQueue.main.async{
+                        self.tableView.reloadData()
+                    }
+                })
             }
         })
     }
