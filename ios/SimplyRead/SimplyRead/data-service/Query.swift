@@ -216,56 +216,60 @@ func loadBooks(bottomBookId: String? = nil, topBookId: String? = nil, owner: Str
         }
     }
     
-    let url = URL(string: urlStr)
+//    let urlStr = URL(string: urlStr)
     print("Query>> load books url: ")
-    print(url)
+    print(urlStr)
     
-    Alamofire.request(url!).responseJSON { response in
-//        print("Request: \(String(describing: response.request))")   // original url request
-//        print("Response: \(String(describing: response.response))") // http url response
-//        print("Result: \(response.result)")                         // response serialization result
-        
-        if let json = response.result.value {
-//            print("JSON: \(json)") // serialized json response
-            
-                        var books = [Book]()
-                        if let array = json as? [Any] {
-                            if array.count>0 {
-                                for i in 0...array.count-1 {
-                                    var bookJson = array[i] as? [String: Any]
-    //                                var title = bookJson?["title"]
-                //                    print ("Query>> receive book json:\n " + "\(bookJson)")
-                //                    guard let b = Book(title:title as! String) else {
-                //                        fatalError("unable to initiate book")
-                //                    }
-                                    let b = Book(json: bookJson!)
-                                    books.append(b!)
-//                                    if let count = b?.num_copies {
-//                                        for k in 0...count-1 {
-//                                            let bb = Book(json: bookJson!)
-//                                            bb?.currentCopy = bb?.bookCopies?[k]
-//                                            books.append(bb!)
-//                                        }
-//                                    }
-                //                    print ("book loaded:\n " + "\(b?.title)")
-                                }
-                            }
-                            else{
-                                print("Query>> oops, no book is found")
-                            }
-                        }
-                        //now all books loaded
-                        print ("Query>> \(books.count)" + " books loaded, callback completion")
-//                        var books2 = generateBookCopies(books: books)
-                        completion(books)
+	var url: URL?   //handle possible special charctor in tag
+	if let encoded = urlStr.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed), let url = URL(string: encoded) {
+	
+		Alamofire.request(url!).responseJSON { response in
+	//        print("Request: \(String(describing: response.request))")   // original url request
+	//        print("Response: \(String(describing: response.response))") // http url response
+	//        print("Result: \(response.result)")                         // response serialization result
+			
+			if let json = response.result.value {
+	//            print("JSON: \(json)") // serialized json response
+				
+							var books = [Book]()
+							if let array = json as? [Any] {
+								if array.count>0 {
+									for i in 0...array.count-1 {
+										var bookJson = array[i] as? [String: Any]
+		//                                var title = bookJson?["title"]
+					//                    print ("Query>> receive book json:\n " + "\(bookJson)")
+					//                    guard let b = Book(title:title as! String) else {
+					//                        fatalError("unable to initiate book")
+					//                    }
+										let b = Book(json: bookJson!)
+										books.append(b!)
+	//                                    if let count = b?.num_copies {
+	//                                        for k in 0...count-1 {
+	//                                            let bb = Book(json: bookJson!)
+	//                                            bb?.currentCopy = bb?.bookCopies?[k]
+	//                                            books.append(bb!)
+	//                                        }
+	//                                    }
+					//                    print ("book loaded:\n " + "\(b?.title)")
+									}
+								}
+								else{
+									print("Query>> oops, no book is found")
+								}
+							}
+							//now all books loaded
+							print ("Query>> \(books.count)" + " books loaded, callback completion")
+	//                        var books2 = generateBookCopies(books: books)
+							completion(books)
 
-        }
-        
-//        if let data = response.data, let utf8Text = String(data: data, encoding: .utf8) {
-//            print("Data: \(utf8Text)") // original server data as UTF8 string
-//        }
-    }
-    //end
+			}
+			
+	//        if let data = response.data, let utf8Text = String(data: data, encoding: .utf8) {
+	//            print("Data: \(utf8Text)") // original server data as UTF8 string
+	//        }
+		}
+		//end
+	}
 }
 
 func search(keyword: String? = nil, completion: @escaping (_ books: [Book]) -> ()){
