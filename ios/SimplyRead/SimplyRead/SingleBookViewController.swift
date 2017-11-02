@@ -59,6 +59,7 @@ class SingleBookViewController: UIViewController {
                 image_url = book.image_url
             }
             if (image_url != nil) {
+                print("SingleBookVC>> book image: \(String(describing: image_url))")
                 let url = URL(string: image_url!)
                 getDataFromUrl(url: url!) { (data, response, error) in
                     guard let data = data, error == nil else { return }

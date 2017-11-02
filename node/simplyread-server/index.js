@@ -27,10 +27,9 @@ var logger = new (winston.Logger)({
   ]
 });
 
-var port = 3001
-
+var port = 3001;
 var host = "localhost"
-// var host = "52.221.212.21"
+var httpHost = "52.221.212.21"
 var httpPort = "8080"
 
 var db
@@ -325,7 +324,7 @@ app.post('/addNewBook', function (req, res) {
 // by users manually via POST request
 app.post('/addNewBook2', function (req, res) {
 	logger.info("index>> POST /addNewBook2 start...");
-	booksUtil.addNewBook(req, db, host, port, function(docs){
+	booksUtil.addNewBook(req, db, httpHost, httpPort, function(docs){
 		logger.info("index>> callback from booksUtil...");
 		res.json(docs);
 		logger.info("index>> addNewBook2 done");

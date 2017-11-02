@@ -738,6 +738,7 @@ exports.bookshelves = function(req, db, callback){
 //	category
 //	price (must)
 //	deposit (must)
+//  summary
 exports.addNewBook = function(req, db, host, port, callback){
 	logger.info("bookUtil>> addBook start...");
 	var bookJson = {};
@@ -796,10 +797,12 @@ exports.addNewBook = function(req, db, host, port, callback){
 		return;
 	}
 
-  bookJson["status"] = "可借閱";
+  var summary = req.body.summary;
+  if (summary != null && summary != "") {
+    bookJson["summary"] = summary;
+  }
 
-	var imageUrl = "http://"+host+":"+port+"/images/"+isbn+".jpeg";
-	bookJson["image"] = imageUrl;
+  bookJson["status"] = "可借閱";
 
 	var datetime = new Date()
 	bookJson["add_date"] = datetime;
@@ -809,10 +812,22 @@ exports.addNewBook = function(req, db, host, port, callback){
 	var collection = db.collection('books');
 	collection.insertOne(bookJson, function(err, docs){
 		logger.info("booksUtil>> 1 book inserted to database")
-		var result = [];
-		result.push(bookJson);
-		logger.info("booksUtil>> result: " + JSON.stringify(result));
-		callback(result);
-//		logger.info("booksUtil>> add new book done");
+
+    var bookId = bookJson["_id"];
+    var imageUrl = "http://"+host+":"+port+"/images/"+bookId+".jpeg";
+    bookJson["image"] = imageUrl;
+
+    var query = {"_id": bookId};
+    var update = {$set: {"_id": bookId, "image": imageUrl}};
+    logger.info("booksUtil>> update: " + JSON.stringify(update));
+
+    collection.update(query, update, function(err, docs){
+      logger.info("booksUtil>> 1 document updated");
+      var result = [];
+  		result.push(bookJson);
+  		// logger.info("booksUtil>> result: " + JSON.stringify(result));
+  		callback(result);
+  //		logger.info("booksUtil>> add new book done");
+    })
 	});
 }

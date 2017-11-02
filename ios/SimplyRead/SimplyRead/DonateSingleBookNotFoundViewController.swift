@@ -23,7 +23,8 @@ class DonateSingleBookNotFoundViewController: UIViewController,
     @IBOutlet weak internal var isbnText: UITextField!
     @IBOutlet weak var depositText: UITextField!
     @IBOutlet weak var priceText: UITextField!
-
+    @IBOutlet weak var summaryText: UITextField!
+    
     @IBOutlet weak var categoryPicker: UIPickerView!
     let categoryData = [
         "未分類",
@@ -53,6 +54,8 @@ class DonateSingleBookNotFoundViewController: UIViewController,
         isbnText.delegate = self
         depositText.delegate = self
         priceText.delegate = self
+        summaryText.delegate = self
+        
         categoryPicker.delegate = self
         categoryPicker.dataSource = self
         
@@ -106,9 +109,10 @@ class DonateSingleBookNotFoundViewController: UIViewController,
     func selectImage2() {
 //        print("DonateSingleBookNotFound>> select image")
         
-        titleText.resignFirstResponder()
-        authorText.resignFirstResponder()
-        isbnText.resignFirstResponder()
+//        titleText.resignFirstResponder()
+//        authorText.resignFirstResponder()
+//        isbnText.resignFirstResponder()
+//        
         
         let imagePickerController = UIImagePickerController()
         
@@ -194,8 +198,9 @@ class DonateSingleBookNotFoundViewController: UIViewController,
 		let authors = authorText.text
 		let isbn = isbnText.text
         let category = self.category
-        let price = Int(priceText.text)
-        let deposit = Int(depositText.text)
+        let price = Int(priceText.text!)
+        let deposit = Int(depositText.text!)
+        let summary = summaryText.text
         let user = Me.sharedInstance.user;
 		
         if user == nil || user?.username == "" {
@@ -219,16 +224,18 @@ class DonateSingleBookNotFoundViewController: UIViewController,
 		} else {
             print("DonateSingleBookNotFoundVC>> send requet to server to add new book...")
             addNewBook2(title: title!, author: authors, isbn: isbn,
-                        username: user?.username!, 
+                        username: (user?.username)!, 
 						category: category,
                         price: price!, deposit: deposit!,
+                        summary: summary,
 						completion: {(book: Book) -> () in
                 
 				print("addNewBook2>> callback")
-				if book.title != "" {		
+				if book.title != "" {
 					print("DonateSingleBookNotFoundVC>> book upload success, upload image...")				
-				    addNewBookImage(isbn: (book.isbn)!, image: (book.photo)!,
-									completion: {(book: Book) -> () in
+				    addNewBookImage(mongoObjectId: book.mongoObjectId!,
+                                    image: self.photoImageView.image!,
+                                    completion: {(book: Book) -> () in
 						print("DonateSingleBookNotFoundVC>> callback")
 						//anything else...
 					})
@@ -258,6 +265,7 @@ class DonateSingleBookNotFoundViewController: UIViewController,
         isbnText.resignFirstResponder()
         depositText.resignFirstResponder()
         priceText.resignFirstResponder()
+        summaryText.resignFirstResponder()
         return true
     }
     

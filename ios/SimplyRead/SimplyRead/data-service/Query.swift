@@ -603,6 +603,7 @@ func searchBook(isbn: String, completion: @escaping (_ book: Book) -> ()){
 func addNewBook2(title: String, author: String? = nil, isbn: String? = nil, 
 					username: String, category: String? = nil,
 					price: Int, deposit: Int,
+					summary: String? = nil,
 					completion: @escaping (_ book: Book) -> ()){
     
     print("Query>> addNewBook2 start...")
@@ -646,21 +647,14 @@ func addNewBook2(title: String, author: String? = nil, isbn: String? = nil,
 	
 	if category != nil && category != "" {
 		parameters["category"] = category!
-	} 
-	
-	if price != "" {
-		parameters["price"] = price
-	} else {
-		hasError = true
-		errorMsg = "請指定借閱價。"
 	}
+    
+    if summary != nil && summary != "" {
+        parameters["summary"] = summary!
+    }
 	
-	if deposit != "" {
-		parameters["deposit"] = deposit
-    } else {
-		hasError = true
-		errorMsg = "請指定按金。"
-	}
+    parameters["price"] = price
+    parameters["deposit"] = deposit
 
 	if hasError {
         print("Query>> has error, cannot upload: \(errorMsg)")
@@ -695,14 +689,18 @@ func addNewBook2(title: String, author: String? = nil, isbn: String? = nil,
 }
 
 
-func addNewBookImage(isbn: String, image: UIImage, completion: @escaping (_ book: Book) -> ()){
+func addNewBookImage(
+                    isbn: String? = nil,    //Obsolete
+                     mongoObjectId: String,
+                     image: UIImage,
+                     completion: @escaping (_ book: Book) -> ()){
     
     let url = URL(string: "http://" + SERVER_IP + ":" + PORT + "/upload")
     print("Query>> add new book image, url: \(String(describing: url))")
 //    print(url)
     
     let imageData = UIImageJPEGRepresentation(image, 1.0)
-    let fileName = isbn + ".jpeg"
+    let fileName = mongoObjectId + ".jpeg"
     
     Alamofire.upload(
         multipartFormData: { multipartFormData in
