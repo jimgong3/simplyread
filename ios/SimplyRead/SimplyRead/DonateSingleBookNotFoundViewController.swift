@@ -194,35 +194,44 @@ class DonateSingleBookNotFoundViewController: UIViewController,
 		let authors = authorText.text
 		let isbn = isbnText.text
         let category = self.category
-        let price = priceText.text
-        let deposit = depositText.text
-        
+        let price = Int(priceText.text)
+        let deposit = Int(depositText.text)
         let user = Me.sharedInstance.user;
+		
         if user == nil || user?.username == "" {
             let alert = UIAlertController(title: "提示", message: "請先登錄。", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: NSLocalizedString("好", comment: "Default action"), style: .`default`, handler: { _ in
                 NSLog("The \"OK\" alert occured.")
             }))
             self.present(alert, animated: true, completion: nil)
-        }
-            //... handle other data errors
-        else {
-            //send requet to server: add new book
-			let username = user?.username;
-			
+        } else if title == nil || title == "" {
+            let alert = UIAlertController(title: "提示", message: "圖書標題不能留空。", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: NSLocalizedString("好", comment: "Default action"), style: .`default`, handler: { _ in
+                NSLog("The \"OK\" alert occured.")
+            }))
+            self.present(alert, animated: true, completion: nil)
+		} else if deposit == nil || price == nil {
+			let alert = UIAlertController(title: "提示", message: "按金和借閱價須為整數。", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: NSLocalizedString("好", comment: "Default action"), style: .`default`, handler: { _ in
+                NSLog("The \"OK\" alert occured.")
+            }))
+            self.present(alert, animated: true, completion: nil)
+		} else {
+            print("DonateSingleBookNotFoundVC>> send requet to server to add new book...")
             addNewBook2(title: title!, author: authors, isbn: isbn,
-                        username: username!, category: category,
+                        username: user?.username!, 
+						category: category,
                         price: price!, deposit: deposit!,
 						completion: {(book: Book) -> () in
                 
 				print("addNewBook2>> callback")
 				if book.title != "" {		
-					print("addNewBook2>> book upload success")				
-//				    addNewBookImage(isbn: (book.isbn)!, image: (book.photo)!,
-//									completion: {(book: Book) -> () in
-//						print("addNewBook>> callback")
+					print("DonateSingleBookNotFoundVC>> book upload success, upload image...")				
+				    addNewBookImage(isbn: (book.isbn)!, image: (book.photo)!,
+									completion: {(book: Book) -> () in
+						print("DonateSingleBookNotFoundVC>> callback")
 						//anything else...
-//					})
+					})
 
 					//show notification
 					let alert = UIAlertController(title: "提示", message: "圖書上傳成功。", preferredStyle: .alert)

@@ -330,33 +330,38 @@ app.post('/addNewBook2', function (req, res) {
 		res.json(docs);
 		logger.info("index>> addNewBook2 done");
 	});
-
 });
 
-// This function handles the POST request which upload the book images
-// to server
+// Handles the POST request for uploading book images to server
 app.post('/upload', function(req, res) {
-	logger.info("app>> upload");
-  	logger.info("app>> req body: ")
+	logger.info("index>> upload");
+  	logger.info("index>> req body: ")
   	logger.info(req.body);
-  	logger.info("app>> req files: ")
+  	logger.info("index>> req files: ")
   	logger.info(req.files);
 
     var form = new multiparty.Form();
     form.parse(req, function(err, fields, files) {
-      var image = files.image;  //hardcode!!! multipartform data key: "image"
-      var file = image[0];
-      var srcFilePath = file.path;
-      var destFilePath = './images/'+file.originalFilename;
+		if (files == null) {
+			logger.error("index>> cannot parse files from req")
+			res.json({"result": "cannot parse files from req"});
+		} else {
+			  var image = files.image;  //hardcode!!! multipartform data key: "image"
+			  var file = image[0];
+			  var srcFilePath = file.path;
+			  var destFilePath = './images/'+file.originalFilename;
 
-      fs.rename(srcFilePath, destFilePath, function (err) {
-        if (err) throw err;
-        console.log('renamed complete');
-      });
+			  logger.info("index>> rename saved file, src: " + srcFilePath + ", dest: " + destFilePath);
+			  fs.rename(srcFilePath, destFilePath, function (err) {
+				if (err) throw err;
+		//        console.log('renamed complete');
+				logger.info("index>> renamed and saved complete");
+			  });
 
-      res.writeHead(200, {'content-type': 'text/plain'});
-      res.write('received upload:\n\n');
-      res.end(util.inspect({fields: fields, files: files}));
+			  res.writeHead(200, {'content-type': 'text/plain'});
+			  res.write('received upload:\n\n');
+			  res.end(util.inspect({fields: fields, files: files}));
+		}
     });
 
 });

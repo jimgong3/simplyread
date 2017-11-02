@@ -602,7 +602,7 @@ func searchBook(isbn: String, completion: @escaping (_ book: Book) -> ()){
 // Book details are manually input by user
 func addNewBook2(title: String, author: String? = nil, isbn: String? = nil, 
 					username: String, category: String? = nil,
-					price: String, deposit: String,
+					price: Int, deposit: Int,
 					completion: @escaping (_ book: Book) -> ()){
     
     print("Query>> addNewBook2 start...")
@@ -701,12 +701,15 @@ func addNewBookImage(isbn: String, image: UIImage, completion: @escaping (_ book
     print("Query>> add new book image, url: \(String(describing: url))")
 //    print(url)
     
-    let imageData = UIImageJPEGRepresentation(image, 0.8)
+    let imageData = UIImageJPEGRepresentation(image, 1.0)
     let fileName = isbn + ".jpeg"
     
     Alamofire.upload(
         multipartFormData: { multipartFormData in
-            multipartFormData.append(imageData!, withName: "image", fileName: fileName, mimeType: "image/jpeg")},
+            multipartFormData.append(imageData!, 
+										withName: "image", 
+										fileName: fileName, 
+										mimeType: "image/jpeg")},
         to: url!,
         encodingCompletion: { encodingResult in
             switch encodingResult {
