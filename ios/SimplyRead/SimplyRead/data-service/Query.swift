@@ -618,56 +618,52 @@ func addNewBook2(title: String, author: String? = nil, isbn: String? = nil,
 //        "author": author,
 //        "isbn": isbn
  //   ]
-	var parameters: [String] = []
+    var parameters = [String: Any]()
 	var hasError = false
 	var errorMsg = ""
 	
-	if title != nil && title != "" {
-		parameters.append("title: " + title)
+	if title != "" {
+		parameters["title"] = title
 	} else {
 		hasError = true
 		errorMsg = "書名不能留空。"
 	}
 	
 	if author != nil && author != "" {
-		parameters.append("author: " + author)
+		parameters["author"] = author!
 	}
 	
 	if isbn != nil && isbn != "" {
-		parameters.append("isbn: " + isbn)
+		parameters["isbn"] = isbn!
 	}
 	
-	if username != nil && username != "" {
-		parameters.append("username: " + username)
+	if username != "" {
+		parameters["username"] = username
 	} else {
 		hasError = true
 		errorMsg = "請先登錄。"
 	}
 	
 	if category != nil && category != "" {
-		parameters.append("category: " + category)
+		parameters["category"] = category!
 	} 
 	
-	if price != nil && price != "" {
-		parameters.append("price: " + price)
+	if price != "" {
+		parameters["price"] = price
 	} else {
 		hasError = true
 		errorMsg = "請指定借閱價。"
 	}
 	
-	if deposit != nil && deposit != "" {
-		parameters.append("deposit: " + deposit)
-	} else {
+	if deposit != "" {
+		parameters["deposit"] = deposit
+    } else {
 		hasError = true
 		errorMsg = "請指定按金。"
 	}
 
 	if hasError {
-		let alert = UIAlertController(title: "提示", message: errorMsg, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: NSLocalizedString("好", comment: "Default action"), style: .`default`, handler: { _ in
-			NSLog("The \"OK\" alert occured.")
-		}))
-        self.present(alert, animated: true, completion: nil)
+        print("Query>> has error, cannot upload: \(errorMsg)")
     } else {
 		print("Query>> send request to server...")
 		Alamofire.request(url!, method: .post, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in

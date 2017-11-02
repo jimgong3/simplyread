@@ -334,7 +334,7 @@ function createBookJsonFromDoubanResponse(body, category, owner, price, deposit)
   bookJson["owner"] = owner;
   bookJson["sr_price"] = price;
   bookJson["hold_by"] = owner;
-  bookJson["status"] = "idle";
+  bookJson["status"] = "可借閱";
   if (deposit != null)
   	bookJson["sr_deposit"] = deposit;
   else
@@ -731,9 +731,9 @@ exports.bookshelves = function(req, db, callback){
 // CLIENT FACING FUNCTION
 // Used when user manually upload a book whose ISBN is NOT found in database or web
 // Parameter:
-//	title (must)		
+//	title (must)
 //	author
-//	isbn 
+//	isbn
 //	username (must)
 //	category
 //	price (must)
@@ -744,25 +744,25 @@ exports.addNewBook = function(req, db, host, port, callback){
 
 	var title = req.body.title;
 	if (title != null && title != "") {
-		bookJson["title"] = title;		
+		bookJson["title"] = title;
 	} else {
 		logger.error("booksUtil>> title is blank, skip this book...")
 		callback([]);
 		return;
 	}
-	
+
 	var author = req.body.author;
 	if (author != null) {
 		var authors = [];
 		authors.push(author);
 		bookJson["author"] = authors;
 	}
-	
+
 	var isbn = req.body.isbn;
 	if (isbn != null) {
 		bookJson["isbn"] = isbn;
-	} 
-	
+	}
+
 	var username = req.body.username;
 	if (username != null && username != "") {
 		bookJson["owner"] = username;
@@ -770,32 +770,34 @@ exports.addNewBook = function(req, db, host, port, callback){
 	} else {
 		logger.error("booksUtil>> username is blank, skip this book...")
 		callback([]);
-		return;		
+		return;
 	}
-	
+
 	var category = req.body.category;
 	if (category != null && category != "") {
 		bookJson["category"] = category;
-	} 
-	
+	}
+
 	var price = req.body.price;
 	if (price != null && price != "") {
 		bookJson["sr_price"] = price;
 	} else {
 		logger.error("booksUtil>> price is blank, skip this book...")
 		callback([]);
-		return;		
+		return;
 	}
-	
+
 	var deposit = req.body.deposit;
 	if (deposit != null && deposit != "") {
 		bookJson["sr_deposit"] = deposit;
 	} else {
 		logger.error("booksUtil>> deposit is blank, skip this book...")
 		callback([]);
-		return;		
+		return;
 	}
-	
+
+  bookJson["status"] = "可借閱";
+
 	var imageUrl = "http://"+host+":"+port+"/images/"+isbn+".jpeg";
 	bookJson["image"] = imageUrl;
 
@@ -814,5 +816,3 @@ exports.addNewBook = function(req, db, host, port, callback){
 //		logger.info("booksUtil>> add new book done");
 	});
 }
-
-

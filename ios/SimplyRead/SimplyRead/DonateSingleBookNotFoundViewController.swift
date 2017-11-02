@@ -10,9 +10,9 @@ import UIKit
 //import BarcodeScanner
 
 class DonateSingleBookNotFoundViewController: UIViewController,
-        UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
+        UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate {
 
-    var isbn: String?
+    var isbn: String?   //set via scan, if possible
     var book: Book?
     var user: User?
     
@@ -21,7 +21,24 @@ class DonateSingleBookNotFoundViewController: UIViewController,
     @IBOutlet weak internal var titleText: UITextField!
     @IBOutlet weak internal var authorText: UITextField!
     @IBOutlet weak internal var isbnText: UITextField!
+    @IBOutlet weak var depositText: UITextField!
+    @IBOutlet weak var priceText: UITextField!
 
+    @IBOutlet weak var categoryPicker: UIPickerView!
+    let categoryData = [
+        "未分類",
+        "商管理財",
+        "流行文學",
+        "心理勵志",
+        "飲食文化",
+        "旅遊地理",
+        "生活趣味",
+        "養生保健",
+        "親子教育",
+        "宗教哲學",
+        "兒童圖書"
+    ]
+    var category: String?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,11 +51,36 @@ class DonateSingleBookNotFoundViewController: UIViewController,
         titleText.delegate = self
         authorText.delegate = self
         isbnText.delegate = self
+        depositText.delegate = self
+        priceText.delegate = self
+        categoryPicker.delegate = self
+        categoryPicker.dataSource = self
         
         if isbn != nil {
             isbnText.text = isbn
         }
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        // set default category
+//        let cat = book?.category
+        let row = 0
+//        if cat != nil {
+//            for i in 0...categoryData.count-1 {
+//                if categoryData[i] == cat {
+//                    row = i
+//                    break
+//                }
+//            }
+//        }
+        categoryPicker.selectRow(row, inComponent: 0, animated: true)
+        if row != 0 {
+            self.category = categoryData[row]
+        }
+    }
+
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -124,14 +166,14 @@ class DonateSingleBookNotFoundViewController: UIViewController,
         self.present(alert, animated: true, completion: nil)
         
         //send requet to server: add new book
-        addNewBook2(title: (book?.title)!, author: (book?.authorsText)!, isbn: (book?.isbn)!, completion: {(book: Book) -> () in
-            print("addNewBook2>> callback")
+//        addNewBook2(title: (book?.title)!, author: (book?.authorsText)!, isbn: (book?.isbn)!, completion: {(book: Book) -> () in
+//            print("addNewBook2>> callback")
             //anything else
-        })
-        addNewBookImage(isbn: (book?.isbn)!, image: (book?.photo)!, completion: {(book: Book) -> () in
-            print("addNewBook>> callback")
+//        })
+//        addNewBookImage(isbn: (book?.isbn)!, image: (book?.photo)!, completion: {(book: Book) -> () in
+//            print("addNewBook>> callback")
             //anything else
-        })
+//        })
 
     }
     
@@ -139,6 +181,7 @@ class DonateSingleBookNotFoundViewController: UIViewController,
         print("DonateSingleBookViewController>> choose complete, start upload... ")
 //        self.performSegue(withIdentifier: "donateSelectComplete2", sender: self)
         
+/*
         //construct the book object
         let book = Book(title: titleText.text!)
         book?.authors = [String]()
@@ -146,13 +189,13 @@ class DonateSingleBookNotFoundViewController: UIViewController,
         book?.authorsText = authorText.text!
         book?.isbn = isbnText.text
         book?.photo = photoImageView.image
-		
+*/		
 		let title = titleText.text
 		let authors = authorText.text
 		let isbn = isbnText.text
-        //category?
-        //price?
-        //deposit?
+        let category = self.category
+        let price = priceText.text
+        let deposit = depositText.text
         
         let user = Me.sharedInstance.user;
         if user == nil || user?.username == "" {
@@ -162,21 +205,24 @@ class DonateSingleBookNotFoundViewController: UIViewController,
             }))
             self.present(alert, animated: true, completion: nil)
         }
+            //... handle other data errors
         else {
             //send requet to server: add new book
-			let username = user.username;
+			let username = user?.username;
 			
-            addNewBook2(title: title, author: authors, isbn: isbn, 
+            addNewBook2(title: title!, author: authors, isbn: isbn,
+                        username: username!, category: category,
+                        price: price!, deposit: deposit!,
 						completion: {(book: Book) -> () in
                 
 				print("addNewBook2>> callback")
 				if book.title != "" {		
 					print("addNewBook2>> book upload success")				
-				    addNewBookImage(isbn: (book?.isbn)!, image: (book?.photo)!, 
-									completion: {(book: Book) -> () in
-						print("addNewBook>> callback")
+//				    addNewBookImage(isbn: (book.isbn)!, image: (book.photo)!,
+//									completion: {(book: Book) -> () in
+//						print("addNewBook>> callback")
 						//anything else...
-					})
+//					})
 
 					//show notification
 					let alert = UIAlertController(title: "提示", message: "圖書上傳成功。", preferredStyle: .alert)
@@ -201,8 +247,31 @@ class DonateSingleBookNotFoundViewController: UIViewController,
         titleText.resignFirstResponder()
         authorText.resignFirstResponder()
         isbnText.resignFirstResponder()
+        depositText.resignFirstResponder()
+        priceText.resignFirstResponder()
         return true
     }
+    
+    // set picker view
+    // The number of columns of data
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    // The number of rows of data
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return categoryData.count
+    }
+    
+    // The data to return for the row and component (column) that's being passed in
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return categoryData[row]
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        self.category = categoryData[row]
+    }
+
 
 }
 

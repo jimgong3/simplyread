@@ -78,8 +78,11 @@ class SingleBookViewController: UIViewController {
             publisherLabel.text = publisherStr
             
             // show prices
-            priceLabel.text = "原價 " + book.price!
-//            ourPriceLabel.text = book.our_price_hkd?.description
+            if book.price != nil {
+                priceLabel.text = "原價 " + book.price!
+            } else {
+                print("SingleBookVC>> original price not fund")
+            }
             ourPriceLabel.text = book.sr_price!
             
             //show deposit
