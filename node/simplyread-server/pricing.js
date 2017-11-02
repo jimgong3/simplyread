@@ -12,6 +12,11 @@ exports.getDeposit = function(originalPrice, callback){
   logger.info("pricing>> get deposit, original price: " + originalPrice);
 
   var deposit = "100";  //default deposit
+  
+  if(originalPrice == null) {
+	  logger.error("pricing>> originalPrice is null, return default deposit");
+	  return deposit;
+  }
 
   //get original ccy
   var originalCcy = "HKD";  //default HKD
