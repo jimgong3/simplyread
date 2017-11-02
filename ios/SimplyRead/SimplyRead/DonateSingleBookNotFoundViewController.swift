@@ -146,11 +146,13 @@ class DonateSingleBookNotFoundViewController: UIViewController,
         book?.authorsText = authorText.text!
         book?.isbn = isbnText.text
         book?.photo = photoImageView.image
-        //sr_price?
-        //sr_deposit?
-        //owner?
-        //hold_by?
+		
+		let title = titleText.text
+		let authors = authorText.text
+		let isbn = isbnText.text
         //category?
+        //price?
+        //deposit?
         
         let user = Me.sharedInstance.user;
         if user == nil || user?.username == "" {
@@ -162,25 +164,38 @@ class DonateSingleBookNotFoundViewController: UIViewController,
         }
         else {
             //send requet to server: add new book
-            addNewBook2(title: (book?.title)!, author: (book?.authorsText)!, isbn: (book?.isbn)!, completion: {(book: Book) -> () in
-                print("addNewBook2>> callback")
+			let username = user.username;
+			
+            addNewBook2(title: title, author: authors, isbn: isbn, 
+						completion: {(book: Book) -> () in
                 
-                //show notification
-                let alert = UIAlertController(title: "提示", message: "圖書上傳成功。", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: NSLocalizedString("好", comment: "Default action"), style: .`default`, handler: { _ in
-                    NSLog("The \"OK\" alert occured.")
-                }))
-                self.present(alert, animated: true, completion: nil)
+				print("addNewBook2>> callback")
+				if book.title != "" {		
+					print("addNewBook2>> book upload success")				
+				    addNewBookImage(isbn: (book?.isbn)!, image: (book?.photo)!, 
+									completion: {(book: Book) -> () in
+						print("addNewBook>> callback")
+						//anything else...
+					})
 
-                //anything else
-            })
-            addNewBookImage(isbn: (book?.isbn)!, image: (book?.photo)!, completion: {(book: Book) -> () in
-                print("addNewBook>> callback")
-                //anything else
+					//show notification
+					let alert = UIAlertController(title: "提示", message: "圖書上傳成功。", preferredStyle: .alert)
+					alert.addAction(UIAlertAction(title: NSLocalizedString("好", comment: "Default action"), style: .`default`, handler: { _ in
+						NSLog("The \"OK\" alert occured.")
+					}))
+					self.present(alert, animated: true, completion: nil)
+				} else {
+					print("addNewBook2>> book upload fail")				
+					//show notification
+					let alert = UIAlertController(title: "提示", message: "上傳不成功，請檢查圖書資料。", preferredStyle: .alert)
+					alert.addAction(UIAlertAction(title: NSLocalizedString("好", comment: "Default action"), style: .`default`, handler: { _ in
+						NSLog("The \"OK\" alert occured.")
+					}))
+					self.present(alert, animated: true, completion: nil)
+				}
             })
         }
-        //...
-    }
+    }	
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         titleText.resignFirstResponder()

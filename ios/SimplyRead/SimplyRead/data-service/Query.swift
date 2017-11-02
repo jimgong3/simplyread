@@ -576,7 +576,7 @@ func searchBook(isbn: String, completion: @escaping (_ book: Book) -> ()){
     }
 }
 
-// This function is replaced by addNewBook2
+// Obsolete, replaced by addNewBook2
 //func addNewBook(title: String, author: String, isbn: String, completion: @escaping (_ book: Book) -> ()){
 //    
 //    print("add new book, title: " + title + ", author: " + author + ", isbn: " + isbn)
@@ -600,32 +600,104 @@ func searchBook(isbn: String, completion: @escaping (_ book: Book) -> ()){
 
 // Add a new book whose information CANNOT be found in database or web,
 // Book details are manually input by user
-func addNewBook2(title: String, author: String, isbn: String, completion: @escaping (_ book: Book) -> ()){
+func addNewBook2(title: String, author: String? = nil, isbn: String? = nil, 
+					username: String, category: String? = nil,
+					price: String, deposit: String,
+					completion: @escaping (_ book: Book) -> ()){
     
-    print("add new book, title: " + title + ", author: " + author + ", isbn: " + isbn)
+    print("Query>> addNewBook2 start...")
+	
     var urlStr: String?
-    urlStr = "http://" + SERVER_IP + ":" + PORT + "/addNewbook"
+    urlStr = "http://" + SERVER_IP + ":" + PORT + "/addNewbook2"
     let url = URL(string: urlStr!)
     print("Query>> add new book, url (POST): \(String(describing: url))")
 //    print(url)
     
-    let parameters: Parameters = [
-        "title": title,
-        "author": author,
-        "isbn": isbn
-    ]
-    
-    Alamofire.request(url!, method: .post, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
-        print("Query>> Request: \(String(describing: response.request))")   // original url request
-        print("Query>> Response: \(String(describing: response.response))") // http url response
-        print("Query>> Result: \(response.result)")                         // response serialization result
-        
-        if let json = response.result.value {
-            print("JSON: \(json)") // serialized json response
-            //anything else
-        }
-    }
+//    let parameters: Parameters = [
+//        "title": title,
+//        "author": author,
+//        "isbn": isbn
+ //   ]
+	var parameters: [String] = []
+	var hasError = false
+	var errorMsg = ""
+	
+	if title != nil && title != "" {
+		parameters.append("title: " + title)
+	} else {
+		hasError = true
+		errorMsg = "書名不能留空。"
+	}
+	
+	if author != nil && author != "" {
+		parameters.append("author: " + author)
+	}
+	
+	if isbn != nil && isbn != "" {
+		parameters.append("isbn: " + isbn)
+	}
+	
+	if username != nil && username != "" {
+		parameters.append("username: " + username)
+	} else {
+		hasError = true
+		errorMsg = "請先登錄。"
+	}
+	
+	if category != nil && category != "" {
+		parameters.append("category: " + category)
+	} 
+	
+	if price != nil && price != "" {
+		parameters.append("price: " + price)
+	} else {
+		hasError = true
+		errorMsg = "請指定借閱價。"
+	}
+	
+	if deposit != nil && deposit != "" {
+		parameters.append("deposit: " + deposit)
+	} else {
+		hasError = true
+		errorMsg = "請指定按金。"
+	}
+
+	if hasError {
+		let alert = UIAlertController(title: "提示", message: errorMsg, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: NSLocalizedString("好", comment: "Default action"), style: .`default`, handler: { _ in
+			NSLog("The \"OK\" alert occured.")
+		}))
+        self.present(alert, animated: true, completion: nil)
+    } else {
+		print("Query>> send request to server...")
+		Alamofire.request(url!, method: .post, parameters: parameters, encoding: URLEncoding.default).responseJSON { response in
+			print("Query>> Request: \(String(describing: response.request))")   // original url request
+			print("Query>> Response: \(String(describing: response.response))") // http url response
+			print("Query>> Result: \(response.result)")                         // response serialization result
+			
+			 if let json = response.result.value {
+					print("JSON: \(json)") // serialized json response
+		//            var books = [Book]()
+					if let array = json as? [Any] {
+						if array.count>0 {
+							print("Query>> book added success")
+							let bookJson = array[0] as? [String: Any]
+							//                    print("Query>> bookJson: ")
+							//                    print(bookJson)
+							let b = Book(json: bookJson!)
+							completion(b!)
+						}
+						else{
+							print("Query>> book add failure")
+							let b = Book(title: "")     //meaning book not found
+							completion(b!)
+						}
+					}
+				}
+		}
+	}
 }
+
 
 func addNewBookImage(isbn: String, image: UIImage, completion: @escaping (_ book: Book) -> ()){
     
@@ -653,7 +725,8 @@ func addNewBookImage(isbn: String, image: UIImage, completion: @escaping (_ book
     )
 }
 
-// Add book by isbn, book details can be found through isbn in database or web
+// Add book by isbn, book details MUST be able to be found through isbn in database or web
+// (otherwise, use addNewBook2)
 func addBookByIsbn(isbn: String, title: String, category: String, owner: String, price: Int, deposit: Int, completion: @escaping (_ book: Book) -> ()){
     
     print("add new book, isbn: " + isbn + ", title: " + title)

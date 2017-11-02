@@ -151,6 +151,8 @@ exports.search = function(req, db, callback){
 
 // CLIENT FACING FUNCTION
 // Used when user upload a book, add book info with copies info to database
+// Note: the book info MUST be able to be found from database or Internet
+// (otherwise, use POST /addNewBook)
 exports.addBook = function(req, db, callback){
 	logger.info("bookUtil>> addBook start...");
 
@@ -725,3 +727,92 @@ exports.bookshelves = function(req, db, callback){
 // 		}
 // 	});
 // }
+
+// CLIENT FACING FUNCTION
+// Used when user manually upload a book whose ISBN is NOT found in database or web
+// Parameter:
+//	title (must)		
+//	author
+//	isbn 
+//	username (must)
+//	category
+//	price (must)
+//	deposit (must)
+exports.addNewBook = function(req, db, host, port, callback){
+	logger.info("bookUtil>> addBook start...");
+	var bookJson = {};
+
+	var title = req.body.title;
+	if (title != null && title != "") {
+		bookJson["title"] = title;		
+	} else {
+		logger.error("booksUtil>> title is blank, skip this book...")
+		callback([]);
+		return;
+	}
+	
+	var author = req.body.author;
+	if (author != null) {
+		var authors = [];
+		authors.push(author);
+		bookJson["author"] = authors;
+	}
+	
+	var isbn = req.body.isbn;
+	if (isbn != null) {
+		bookJson["isbn"] = isbn;
+	} 
+	
+	var username = req.body.username;
+	if (username != null && username != "") {
+		bookJson["owner"] = username;
+		bookJson["hold_by"] = username;
+	} else {
+		logger.error("booksUtil>> username is blank, skip this book...")
+		callback([]);
+		return;		
+	}
+	
+	var category = req.body.category;
+	if (category != null && category != "") {
+		bookJson["category"] = category;
+	} 
+	
+	var price = req.body.price;
+	if (price != null && price != "") {
+		bookJson["sr_price"] = price;
+	} else {
+		logger.error("booksUtil>> price is blank, skip this book...")
+		callback([]);
+		return;		
+	}
+	
+	var deposit = req.body.deposit;
+	if (deposit != null && deposit != "") {
+		bookJson["sr_deposit"] = deposit;
+	} else {
+		logger.error("booksUtil>> deposit is blank, skip this book...")
+		callback([]);
+		return;		
+	}
+	
+	var imageUrl = "http://"+host+":"+port+"/images/"+isbn+".jpeg";
+	bookJson["image"] = imageUrl;
+
+	var datetime = new Date()
+	bookJson["add_date"] = datetime;
+
+	logger.info("booksUtil>> bookJson: " + JSON.stringify(bookJson));
+
+	var collection = db.collection('books');
+	collection.insertOne(bookJson, function(err, docs){
+		logger.info("booksUtil>> 1 book inserted to database")
+		var result = [];
+		result.push(bookJson);
+		logger.info("booksUtil>> result: " + JSON.stringify(result));
+		callback(result);
+//		logger.info("booksUtil>> add new book done");
+	});
+}
+
+

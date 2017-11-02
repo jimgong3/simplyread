@@ -241,8 +241,7 @@ app.get('/searchBook', function (req, res) {
 	});
 })
 
-// Below function shall be obsolete,
-// replaced by POST addNewBook
+// Obsolete, replaced by POST /addNewBook
 app.get('/addNewBook', function (req, res) {
 	logger.info("app>> add new book");
 
@@ -281,8 +280,8 @@ app.get('/addNewBook', function (req, res) {
 	});
 });
 
-// This function handles the addition of new book whose isbn data
-// cannot be found in Douban, the book details has to be provided
+// Obsolete, replaced by POST /addNewBook2
+// Add new book whose isbn CANNOT  be found in Douban, the book details are provided
 // by users manually via POST request
 app.post('/addNewBook', function (req, res) {
 	logger.info("app>> add new book");
@@ -319,6 +318,19 @@ app.post('/addNewBook', function (req, res) {
 		logger.info("app>> return result: " + result);
 		logger.info("app>> add new book done");
 	});
+});
+
+
+// Add new book whose isbn CANNOT  be found in Douban, the book details are provided
+// by users manually via POST request
+app.post('/addNewBook2', function (req, res) {
+	logger.info("index>> POST /addNewBook2 start...");
+	booksUtil.addNewBook(req, db, host, port, function(docs){
+		logger.info("index>> callback from booksUtil...");
+		res.json(docs);
+		logger.info("index>> addNewBook2 done");
+	});
+
 });
 
 // This function handles the POST request which upload the book images
