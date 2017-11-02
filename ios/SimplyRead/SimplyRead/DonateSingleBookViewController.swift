@@ -189,7 +189,8 @@ class DonateSingleBookViewController: UIViewController, UITextFieldDelegate, UIP
             }))
             self.present(alert, animated: true, completion: nil)
         } else {
-            addBookByIsbn(isbn: isbn!, title: "", category: category, owner: owner!, price: price!, deposit: deposit!,
+            addBookByIsbn(isbn: isbn!, title: "", category: category, owner: owner!,
+                          price: price!, deposit: deposit!,
                           completion: {(book: Book) -> () in
                 print("DonateSingleBookViewController>> callback, book: ")
                 print(book.title)

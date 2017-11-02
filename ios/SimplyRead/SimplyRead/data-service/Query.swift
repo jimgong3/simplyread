@@ -598,7 +598,7 @@ func searchBook(isbn: String, completion: @escaping (_ book: Book) -> ()){
 //    }
 //}
 
-// Add a new book whose information cannot be found in database or web,
+// Add a new book whose information CANNOT be found in database or web,
 // Book details are manually input by user
 func addNewBook2(title: String, author: String, isbn: String, completion: @escaping (_ book: Book) -> ()){
     

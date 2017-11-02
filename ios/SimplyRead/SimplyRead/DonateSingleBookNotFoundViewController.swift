@@ -102,7 +102,7 @@ class DonateSingleBookNotFoundViewController: UIViewController,
     }
     */
     
-    
+    // Obsolete
     @IBAction func addToCart(_ sender: Any) {
         print("DonateSingleBookNotFoundViewController>> add to donate book cart ")
         
@@ -136,8 +136,50 @@ class DonateSingleBookNotFoundViewController: UIViewController,
     }
     
     @IBAction func complete(_ sender: Any) {
-        print("DonateSingleBookViewController>> choose complete ")
-        self.performSegue(withIdentifier: "donateSelectComplete2", sender: self)
+        print("DonateSingleBookViewController>> choose complete, start upload... ")
+//        self.performSegue(withIdentifier: "donateSelectComplete2", sender: self)
+        
+        //construct the book object
+        let book = Book(title: titleText.text!)
+        book?.authors = [String]()
+        book?.authors?.append(authorText.text!)
+        book?.authorsText = authorText.text!
+        book?.isbn = isbnText.text
+        book?.photo = photoImageView.image
+        //sr_price?
+        //sr_deposit?
+        //owner?
+        //hold_by?
+        //category?
+        
+        let user = Me.sharedInstance.user;
+        if user == nil || user?.username == "" {
+            let alert = UIAlertController(title: "提示", message: "請先登錄。", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: NSLocalizedString("好", comment: "Default action"), style: .`default`, handler: { _ in
+                NSLog("The \"OK\" alert occured.")
+            }))
+            self.present(alert, animated: true, completion: nil)
+        }
+        else {
+            //send requet to server: add new book
+            addNewBook2(title: (book?.title)!, author: (book?.authorsText)!, isbn: (book?.isbn)!, completion: {(book: Book) -> () in
+                print("addNewBook2>> callback")
+                
+                //show notification
+                let alert = UIAlertController(title: "提示", message: "圖書上傳成功。", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: NSLocalizedString("好", comment: "Default action"), style: .`default`, handler: { _ in
+                    NSLog("The \"OK\" alert occured.")
+                }))
+                self.present(alert, animated: true, completion: nil)
+
+                //anything else
+            })
+            addNewBookImage(isbn: (book?.isbn)!, image: (book?.photo)!, completion: {(book: Book) -> () in
+                print("addNewBook>> callback")
+                //anything else
+            })
+        }
+        //...
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
