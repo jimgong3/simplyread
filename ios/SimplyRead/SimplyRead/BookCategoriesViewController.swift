@@ -78,7 +78,8 @@ class BookCategoriesViewController: UIViewController, UITableViewDataSource, UIT
         
         // set name
         var textStr = String()
-        textStr = category.name + " (" + (category.num_books?.description)! + ")"
+//        textStr = category.name + " (" + (category.num_books?.description)! + ")"
+        textStr = category.name
         cell.nameLabel.text = textStr
         
         return cell
