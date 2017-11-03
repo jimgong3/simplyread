@@ -91,10 +91,11 @@ class BookTableViewController: UIViewController, UITableViewDataSource, UITableV
         
         //do something here...
 //        if(idleBooksFromUser == nil){   //only need refresh when load all books (instead of from a specific user)
+        if topBookId != nil {
             self.loadLatest(topBookId: topBookId!)
-//        } else {
-//            refreshControl.endRefreshing()
-//        }
+        } else {
+            refreshControl.endRefreshing()
+        }
     }
     
     func loadLatest(topBookId: String){

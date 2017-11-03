@@ -67,8 +67,11 @@ class DonateBookViewController: UIViewController, UITableViewDataSource, UITable
         // Code to refresh table view
         print("DonateBookVC>> refresh...")
         
-        self.loadLatest(topBookId: topBookId!)
-        refreshControl.endRefreshing()
+        if topBookId != nil {
+            self.loadLatest(topBookId: topBookId!)
+        } else {
+            refreshControl.endRefreshing()
+        }
     }
     
     func loadLatest(topBookId: String){
