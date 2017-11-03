@@ -30,28 +30,34 @@ class MyCashbookViewController: UIViewController, UITableViewDataSource, UITable
         tableView.delegate = self
         tableView.dataSource = self
         
-		let username = UserDefaults.standard.string(forKey: "username")
-        let password = UserDefaults.standard.string(forKey: "password")
+//		let username = UserDefaults.standard.string(forKey: "username")
+//      let password = UserDefaults.standard.string(forKey: "password")
+        let username = Me.sharedInstance.user?.username
+        let password = Me.sharedInstance.user?.password
 		
-		print("MyCashBookVC>> login again to get the latest balance... ")
-		login3(username: username!, password: password!, completion: {(user: User) -> () in
-            print("MyCashBookVC>> callback, username: \(user.username)")
-//            print(user.username)
-            if user.username == "" {
-                print("MyCashBookVC>> login fail")                
-            } else {
-                Me.sharedInstance.user = user
-                // set attributes
-                self.balanceText.text = user.balance?.description
-                queryCashTxns(username: (user.username), completion: {(cashTxns: [CashTxn]) -> () in
-                    print("MyCashbookViewController>> callback")
-                    self.cashTxns = cashTxns
-                    DispatchQueue.main.async{
-                        self.tableView.reloadData()
-                    }
-                })
-            }
-        })
+        if username == nil || password == nil {
+            print("MyCashBookVC>> not logged in, canot check cash txn")
+        } else {
+            print("MyCashBookVC>> login again to get the latest balance... ")
+            login3(username: username!, password: password!, completion: {(user: User) -> () in
+                print("MyCashBookVC>> callback, username: \(user.username)")
+    //            print(user.username)
+                if user.username == "" {
+                    print("MyCashBookVC>> login fail")                
+                } else {
+                    Me.sharedInstance.user = user
+                    // set attributes
+                    self.balanceText.text = user.balance?.description
+                    queryCashTxns(username: (user.username), completion: {(cashTxns: [CashTxn]) -> () in
+                        print("MyCashbookViewController>> callback")
+                        self.cashTxns = cashTxns
+                        DispatchQueue.main.async{
+                            self.tableView.reloadData()
+                        }
+                    })
+                }
+            })
+        }
     }
 
     override func didReceiveMemoryWarning() {
