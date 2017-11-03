@@ -81,7 +81,7 @@ class BooksForTagViewController: UIViewController, UITableViewDataSource, UITabl
         // set summary
         cell.summaryLabel.text = book.summary
         // set our price
-        cell.ourPriceLabel.text = book.our_price_hkd
+        cell.ourPriceLabel.text = book.sr_price
        
         //set holder
         cell.holderLabel.text = book.hold_by
