@@ -133,6 +133,7 @@ class DonateSingleBookNotFoundViewController: UIViewController,
         guard let selectedImage = info[UIImagePickerControllerOriginalImage] as? UIImage else {
             fatalError("Expected a dictionary containing an image, but was provided the following: \(info)")
         }
+        
         photoImageView.image = selectedImage
         dismiss(animated: true, completion: nil)
 
@@ -232,9 +233,11 @@ class DonateSingleBookNotFoundViewController: UIViewController,
                 
 				print("addNewBook2>> callback")
 				if book.title != "" {
-					print("DonateSingleBookNotFoundVC>> book upload success, upload image...")				
+					print("DonateSingleBookNotFoundVC>> book upload success, upload image...")
+                    let resizedImage = self.resizeImage(image: self.photoImageView.image!, newWidth: 200)   //resize to width=200
+                    
 				    addNewBookImage(mongoObjectId: book.mongoObjectId!,
-                                    image: self.photoImageView.image!,
+                                    image: resizedImage!,
                                     completion: {(book: Book) -> () in
 						print("DonateSingleBookNotFoundVC>> callback")
 						//anything else...
@@ -257,7 +260,18 @@ class DonateSingleBookNotFoundViewController: UIViewController,
 				}
             })
         }
-    }	
+    }
+    
+
+    func resizeImage(image: UIImage, newWidth: CGFloat) -> UIImage? {
+        let scale = newWidth / image.size.width
+        let newHeight = image.size.height * scale
+        UIGraphicsBeginImageContext(CGSize(width: newWidth, height: newHeight))
+        image.draw(in: CGRect(x: 0, y: 0, width: newWidth, height: newHeight))
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return newImage
+    }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         titleText.resignFirstResponder()
